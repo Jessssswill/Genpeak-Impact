@@ -13,18 +13,188 @@ datasource db {
   provider = "mysql"
 }
 
-model User { 
-  id    Int     @id @default(autoincrement()) 
-  email String  @unique
-  name  String?
-  posts Post[]
+// model User { 
+//   id    Int     @id @default(autoincrement()) 
+//   email String  @unique
+//   name  String?
+//   posts Post[]
+// }
+
+// model Post { 
+//   id        Int     @id @default(autoincrement()) 
+//   title     String
+//   content   String? @db.Text
+//   published Boolean @default(false) 
+//   author    User    @relation(fields: [authorId], references: [id]) 
+//   authorId  Int
+// }
+
+model MsUser {
+  userId      String @id @map("UserID") @db.VarChar(255)
+  email       String @unique @map("Email")
+  name        String @map("Name") @db.VarChar(50)
+  password    String @map("Password") @db.VarChar(255)
+  deviceToken String @map("DeviceToken") @db.VarChar(255)
+  role        String
+
+  createdAt DateTime @map("CreatedAt")
+  createdBy String?  @map("CreatedBy") @db.VarChar(255)
+
+  updatedAt DateTime @map("UpdatedAt")
+  updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
+
+  trPurchases   TrPurchase[]
+  trBattles     TrBattle[]
+  trInventories TrInventory[]
+  msWeapons     MsWeapon[]
+  msArtifacts   MsArtifact[]
+  trPlayerStats TrPlayerStats[]
+
+  @@map("MsUser")
 }
 
-model Post { 
-  id        Int     @id @default(autoincrement()) 
-  title     String
-  content   String? @db.Text
-  published Boolean @default(false) 
-  author    User    @relation(fields: [authorId], references: [id]) 
-  authorId  Int
-} 
+model TrPlayerStats {
+  playerStatsId  Int     @id @default(autoincrement()) @map("PlayerStatsID")
+  userId         String  @map("UserID") @db.VarChar(255)
+  hp             Int     @map("HP")
+  damage         Int     @map("Damage")
+  criticalChance Decimal @map("CriticalChance")
+  criticalDamage Decimal @map("CriticalDamage")
+  money          Decimal @map("Money")
+
+  createdAt DateTime @map("CreatedAt")
+  createdBy String?  @map("CreatedBy") @db.VarChar(255)
+
+  updatedAt DateTime @map("UpdatedAt")
+  updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
+
+  user MsUser @relation(fields: [userId], references: [userId])
+}
+
+model TrBattle {
+  battleId Int     @id @default(autoincrement()) @map("BattleID")
+  userId   String  @map("UserID") @db.VarChar(255)
+  enemyId  Int     @map("EnemyID")
+  money    Decimal @map("Money")
+
+  createdAt DateTime @map("CreatedAt")
+  createdBy String?  @map("CreatedBy") @db.VarChar(255)
+
+  updatedAt DateTime @map("UpdatedAt")
+  updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
+
+  user  MsUser  @relation(fields: [userId], references: [userId])
+  enemy MsEnemy @relation(fields: [enemyId], references: [enemyId])
+}
+
+model TrInventory {
+  inventoryId Int    @id @default(autoincrement()) @map("InventoryID")
+  userId      String @map("UserID") @db.VarChar(255)
+  itemId      Int    @map("ItemID")
+  itemType    String @map("ItemType")
+
+  createdAt DateTime @map("CreatedAt")
+  createdBy String?  @map("CreatedBy") @db.VarChar(255)
+
+  updatedAt DateTime @map("UpdatedAt")
+  updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
+
+  user MsUser @relation(fields: [userId], references: [userId])
+}
+
+model TrPurchase {
+  purchaseId Int     @id @default(autoincrement()) @map("PurchaseID")
+  userId     String  @map("UserID") @db.VarChar(255)
+  itemId     Int     @map("ItemID")
+  money      Decimal @map("Money")
+  itemType   String  @map("ItemType")
+
+  createdAt DateTime @map("CreatedAt")
+  createdBy String?  @map("CreatedBy") @db.VarChar(255)
+
+  updatedAt DateTime @map("UpdatedAt")
+  updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
+
+  user MsUser @relation(fields: [userId], references: [userId])
+}
+
+model MsEnemy {
+  enemyId   Int    @id @default(autoincrement()) @map("EnemyID")
+  elementId Int    @map("ElementID")
+  name      String @map("Name") @db.VarChar(255)
+  type      String @map("Type") @db.VarChar(30)
+  imageUrl  String @map("ImageURL")
+  hp        Int    @map("HP") @db.Int
+  damage    Int    @map("Damage") @db.Int
+
+  createdAt DateTime @map("CreatedAt")
+  createdBy String?  @map("CreatedBy") @db.VarChar(255)
+
+  updatedAt DateTime @map("UpdatedAt")
+  updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
+
+  element   MsElement  @relation(fields: [elementId], references: [elementId])
+  trBattles TrBattle[]
+}
+
+model MsWeapon {
+  weaponId    Int     @id @default(autoincrement()) @map("WeaponID")
+  userId      String? @map("UserID") @db.VarChar(255)
+  elementId   Int     @map("ElementID")
+  name        String  @map("Name") @db.VarChar(50)
+  type        String  @map("Type") @db.VarChar(30)
+  description String  @map("Description") @db.VarChar(255)
+  stock       Int     @map("Stock") @db.Int
+  imageUrl    String  @map("ImageURL")
+  price       Decimal @map("Price")
+  damage      Int     @map("Damage") @db.Int
+
+  createdAt DateTime @map("CreatedAt")
+  createdBy String?  @map("CreatedBy") @db.VarChar(255)
+
+  updatedAt DateTime @map("UpdatedAt")
+  updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
+
+  user    MsUser?   @relation(fields: [userId], references: [userId])
+  element MsElement @relation(fields: [elementId], references: [elementId])
+}
+
+model MsArtifact {
+  artifactId    Int     @id @default(autoincrement()) @map("ArtifactID")
+  userId        String? @map("UserID") @db.VarChar(255)
+  elementId     Int     @map("ElementID")
+  name          String  @map("Name") @db.VarChar(50)
+  type          String  @map("Type") @db.VarChar(30)
+  description   String  @map("Description") @db.VarChar(255)
+  stock         Int     @map("Stock") @db.Int
+  imageUrl      String  @map("ImageURL")
+  price         Decimal @map("Price")
+  primaryStat   Decimal @map("PrimaryStat")
+  secondaryStat Decimal @map("SecondaryStat")
+
+  createdAt DateTime @map("CreatedAt")
+  createdBy String?  @map("CreatedBy") @db.VarChar(255)
+
+  updatedAt DateTime @map("UpdatedAt")
+  updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
+
+  user    MsUser?   @relation(fields: [userId], references: [userId])
+  element MsElement @relation(fields: [elementId], references: [elementId])
+}
+
+model MsElement {
+  elementId Int    @id @default(autoincrement()) @map("ElementID")
+  name      String @map("Name") @db.VarChar(255)
+  type      String @unique @map("Type") @db.VarChar(50)
+  imageUrl  String @map("ImageURL")
+
+  createdAt DateTime @map("CreatedAt")
+  createdBy String?  @map("CreatedBy") @db.VarChar(255)
+
+  updatedAt DateTime @map("UpdatedAt")
+  updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
+
+  weapons   MsWeapon[]
+  artifacts MsArtifact[]
+  enemies   MsEnemy[]
+}
