@@ -14,11 +14,10 @@ datasource db {
 }
 
 model MsUser {
-  userId      String @id @map("UserID") @db.VarChar(255)
+  userId      String @id @map("UserID") @default(uuid())
   email       String @unique @map("Email")
   name        String @map("Name") @db.VarChar(50)
   password    String @map("Password") @db.VarChar(255)
-  deviceToken String @map("DeviceToken") @db.VarChar(255)
   role        String
 
   createdAt DateTime @map("CreatedAt")
@@ -53,6 +52,8 @@ model TrPlayerStats {
   updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
 
   user MsUser @relation(fields: [userId], references: [userId])
+
+  @@map("TrPlayerStats")
 }
 
 model TrBattle {
@@ -69,6 +70,8 @@ model TrBattle {
 
   user  MsUser  @relation(fields: [userId], references: [userId])
   enemy MsEnemy @relation(fields: [enemyId], references: [enemyId])
+
+  @@map("TrBattle")
 }
 
 model TrInventory {
@@ -84,6 +87,8 @@ model TrInventory {
   updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
 
   user MsUser @relation(fields: [userId], references: [userId])
+
+  @@map("TrInventory")
 }
 
 model TrPurchase {
@@ -100,6 +105,8 @@ model TrPurchase {
   updatedBy String?  @map("UpdatedBy") @db.VarChar(255)
 
   user MsUser @relation(fields: [userId], references: [userId])
+
+  @@map("TrPurchase")
 }
 
 model MsEnemy {
@@ -119,6 +126,8 @@ model MsEnemy {
 
   element   MsElement  @relation(fields: [elementId], references: [elementId])
   trBattles TrBattle[]
+
+  @@map("MsEnemy")
 }
 
 model MsWeapon {
@@ -141,6 +150,8 @@ model MsWeapon {
 
   user    MsUser?   @relation(fields: [userId], references: [userId])
   element MsElement @relation(fields: [elementId], references: [elementId])
+
+  @@map("MsWeapon")
 }
 
 model MsArtifact {
@@ -164,6 +175,8 @@ model MsArtifact {
 
   user    MsUser?   @relation(fields: [userId], references: [userId])
   element MsElement @relation(fields: [elementId], references: [elementId])
+
+  @@map("MsArtifact")
 }
 
 model MsElement {
@@ -181,4 +194,6 @@ model MsElement {
   weapons   MsWeapon[]
   artifacts MsArtifact[]
   enemies   MsEnemy[]
+
+  @@map("MsElement")
 }
