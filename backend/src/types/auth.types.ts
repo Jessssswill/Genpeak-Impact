@@ -22,8 +22,8 @@ export interface SearchUserInput{
 }
 
 export interface SafeUserDataDTO{
-    userId: string,
-    email: string,
-    name: string,
+    userId: string
+    email: string
+    name: string
     role: string
 }
