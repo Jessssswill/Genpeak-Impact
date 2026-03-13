@@ -2,8 +2,8 @@ import express from "express";
 import cors from 'cors';
 import dotenv from 'dotenv'
 
-import userRegisterRoutes from "./routes/userRegister.route"
-import userLoginRoutes from "./routes/userLogin.route"
+import authRoutes from "./routes/auth.route"
+
 
 dotenv.config()
 
@@ -13,8 +13,7 @@ const port = 5000
 app.use(cors());
 app.use(express.json());
 
-app.get('/api', userRegisterRoutes)
-app.get('/api', userLoginRoutes)
+app.get('/api/auth', authRoutes)
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`)
