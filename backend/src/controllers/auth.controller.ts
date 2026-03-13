@@ -16,7 +16,7 @@ class AuthController{
             const user = await authService.login(userData)
 
             if (!user.data) {
-                return res.status(401).json({
+                return res.status(409).json({
                     status: 'fail',
                     message: user.message,
                     data: null,
@@ -25,7 +25,7 @@ class AuthController{
             }
 
             const responseData : SafeUserDataDTO = {
-                userId: user.data.userId,
+                id: user.data.userId,
                 email: user.data.email,
                 name: user.data.name,
                 role: user.data.role
@@ -46,7 +46,7 @@ class AuthController{
             console.log('Error logging in user: ', err)
             res.status(500).json({
                 status: 'error',
-                message: 'failed to login user',
+                message: 'Failed to login user',
                 data: null,
                 error: err.message
             })
@@ -74,7 +74,7 @@ class AuthController{
             }
 
             const responseData : SafeUserDataDTO = {
-                userId: user.data.userId,
+                id: user.data.userId,
                 email: user.data.email,
                 name: user.data.name,
                 role: user.data.role
@@ -92,7 +92,7 @@ class AuthController{
             console.log('Error registering user: ', err)
             res.status(500).json({
                 status: 'error',
-                message: 'failed to register user',
+                message: 'Failed to register user',
                 data: null,
                 error: err.message
             });

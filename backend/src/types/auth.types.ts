@@ -22,7 +22,7 @@ export interface SearchUserInput{
 }
 
 export interface SafeUserDataDTO{
-    userId: string
+    id: string
     email: string
     name: string
     role: string
