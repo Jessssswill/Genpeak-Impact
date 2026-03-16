@@ -118,3 +118,38 @@ password: string
     "error": "Database connection refused"
 }
 ```
+
+### `POST /api/user/shop/:id`
+
+buy item
+
+### `GET /api/user/shop`
+
+view all item in shop
+
+### `GET /api/user/inventory`
+
+view item in inventory
+
+### `GET /api/admin/shop`
+
+view all item in admin panel
+
+### `POST /api/admin/shop/item`
+
+create new item in admin panel
+
+### `PUT /api/admin/shop/item/:id`
+
+update an item status on admin panel
+
+### `DELETE /api/admin/shop/item/:id`
+
+delete an item status on admin panel
+
+
+<!-- ### `GET /api/user/inventory/:id`
+
+view detailed item attributes after clicking the item when on inventory -->
+
+<!-- ### `POST /api/user/equip/:id` -->
