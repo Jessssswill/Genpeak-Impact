@@ -5,6 +5,10 @@ import PlayerStatsRepository from "../repository/playerStats.repository";
 import { ItemTransactionParams } from "../types/item.types";
 import { ServiceResponse } from "../types/response.types";
 import { PurchaseResult } from "../types/shop.types";
+<<<<<<< HEAD
+=======
+import { generateInitialSubstats } from "../utils/rng.util";
+>>>>>>> 6b12a73 (update)
 
 class ShopService {
     async getAllItems() {
@@ -13,9 +17,17 @@ class ShopService {
 
         const weaponItems = weapons.map(weapon => ({
             id: weapon.weaponId,
+<<<<<<< HEAD
             name: weapon.name,
             type: weapon.type,
             description: weapon.description,
+=======
+            itemType: 'Weapon',
+            name: weapon.name,
+            type: weapon.type,
+            description: weapon.description,
+            elementId: weapon.elementId,
+>>>>>>> 6b12a73 (update)
             element: weapon.element?.type || null,
             stock: weapon.stock,
             imageUrl: weapon.imageUrl,
@@ -25,9 +37,18 @@ class ShopService {
 
         const artifactItems = artifacts.map(artifact => ({
             id: artifact.artifactId,
+<<<<<<< HEAD
             name: artifact.name,
             type: artifact.type,
             description: artifact.description,
+=======
+            itemType: 'Artifact',
+            name: artifact.name,
+            setName: artifact.setName,
+            type: artifact.type,
+            description: artifact.description,
+            elementId: artifact.elementId,
+>>>>>>> 6b12a73 (update)
             element: artifact.element?.type || null,
             stock: artifact.stock,
             imageUrl: artifact.imageUrl,
@@ -104,8 +125,27 @@ class ShopService {
 
         const purchase = await PurchaseRepository.createPurchase({ userId, itemId, itemType, money: price, createdBy: userId });
 
+<<<<<<< HEAD
 
         await InventoryRepository.createInventoryItem({ userId, itemId, itemType, createdBy: userId });
+=======
+        let initialSubstats = null;
+        let initialMainStat = null;
+        if (itemType === 'Artifact') {
+            initialSubstats = generateInitialSubstats(item.type);
+            initialMainStat = Number(item.primaryStat);
+        }
+
+        await InventoryRepository.createInventoryItem({ 
+            userId, 
+            itemId, 
+            itemType, 
+            createdBy: userId,
+            level: 0,
+            mainStatValue: initialMainStat,
+            substats: initialSubstats
+        });
+>>>>>>> 6b12a73 (update)
 
         return {
             data: {
@@ -121,4 +161,8 @@ class ShopService {
     }
 }
 
+<<<<<<< HEAD
 export default new ShopService();
+=======
+export default new ShopService();
+>>>>>>> 6b12a73 (update)

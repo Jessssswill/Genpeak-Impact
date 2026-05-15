@@ -16,6 +16,12 @@ class InventoryRepository {
                 userId: params.userId,
                 itemId: params.itemId,
                 itemType: params.itemType,
+<<<<<<< HEAD
+=======
+                level: params.level ?? 0,
+                mainStatValue: params.mainStatValue ?? null,
+                substats: params.substats ?? null,
+>>>>>>> 6b12a73 (update)
                 createdAt: new Date(),
                 createdBy: params.createdBy,
                 updatedAt: new Date(),
@@ -25,6 +31,32 @@ class InventoryRepository {
 
         return inventoryItem;
     }
+<<<<<<< HEAD
 }
 
 export default new InventoryRepository();
+=======
+
+    async findInventoryItemById(inventoryId: number) {
+        return await prisma.trInventory.findUnique({
+            where: { inventoryId }
+        });
+    }
+
+    async updateInventoryItem(inventoryId: number, data: any) {
+        return await prisma.trInventory.update({
+            where: { inventoryId },
+            data: {
+                ...data,
+                updatedAt: new Date()
+            }
+        });
+    }
+
+    async deleteInventoryItem(inventoryId: number) {
+        return await prisma.trInventory.delete({ where: { inventoryId } });
+    }
+}
+
+export default new InventoryRepository();
+>>>>>>> 6b12a73 (update)

@@ -79,6 +79,11 @@ model TrInventory {
   userId      String @map("UserID") @db.VarChar(255)
   itemId      Int    @map("ItemID")
   itemType    String @map("ItemType")
+  
+  level          Int      @default(0) @map("Level")
+  reinforceLevel Int      @default(0) @map("ReinforceLevel")
+  mainStatValue  Decimal? @map("MainStatValue")
+  substats       Json?    @map("Substats")
 
   createdAt DateTime @map("CreatedAt")
   createdBy String?  @map("CreatedBy") @db.VarChar(255)
@@ -114,7 +119,7 @@ model MsEnemy {
   elementId Int    @map("ElementID")
   name      String @map("Name") @db.VarChar(255)
   type      String @map("Type") @db.VarChar(30)
-  imageUrl  String @map("ImageURL")
+  imageUrl  String @map("ImageURL") @db.LongText
   hp        Int    @map("HP") @db.Int
   damage    Int    @map("Damage") @db.Int
 
@@ -138,7 +143,7 @@ model MsWeapon {
   type        String  @map("Type") @db.VarChar(30)
   description String  @map("Description") @db.VarChar(255)
   stock       Int     @map("Stock") @db.Int
-  imageUrl    String  @map("ImageURL")
+  imageUrl    String  @map("ImageURL") @db.LongText
   price       Decimal @map("Price")
   damage      Int     @map("Damage") @db.Int
 
@@ -158,11 +163,12 @@ model MsArtifact {
   artifactId    Int     @id @default(autoincrement()) @map("ArtifactID")
   userId        String? @map("UserID") @db.VarChar(255)
   elementId     Int     @map("ElementID")
-  name          String  @map("Name") @db.VarChar(50)
+  name          String  @map("Name") @db.VarChar(100)
+  setName       String  @map("SetName") @db.VarChar(50)
   type          String  @map("Type") @db.VarChar(30)
   description   String  @map("Description") @db.VarChar(255)
   stock         Int     @map("Stock") @db.Int
-  imageUrl      String  @map("ImageURL")
+  imageUrl      String  @map("ImageURL") @db.LongText
   price         Decimal @map("Price")
   primaryStat   Decimal @map("PrimaryStat")
   secondaryStat Decimal @map("SecondaryStat")
@@ -183,7 +189,7 @@ model MsElement {
   elementId Int    @id @default(autoincrement()) @map("ElementID")
   name      String @map("Name") @db.VarChar(255)
   type      String @unique @map("Type") @db.VarChar(50)
-  imageUrl  String @map("ImageURL")
+  imageUrl  String @map("ImageURL") @db.LongText
 
   createdAt DateTime @map("CreatedAt")
   createdBy String?  @map("CreatedBy") @db.VarChar(255)

@@ -9,8 +9,8 @@ class AuthController{
         try {
             
             const userData = {
-                email: req.user!.email,
-                password: req.user!.password
+                email: req.body.email,
+                password: req.body.password
             }
 
             const user = await authService.login(userData)
@@ -56,9 +56,9 @@ class AuthController{
     async register(req: Request, res: Response): Promise<any>{
         try {
             const userData = {
-                email: req.user!.email,
-                name: req.user!.name,
-                password: req.user!.password
+                email: req.body.email,
+                name: req.body.name,
+                password: req.body.password
             }
 
             const user = await authService.register(userData)
@@ -96,6 +96,38 @@ class AuthController{
                 data: null,
                 error: err.message
             });
+        }
+    }
+
+    async googleLogin(req: Request, res: Response): Promise<any> {
+        try {
+            const { idToken } = req.body;
+            if (!idToken) {
+                return res.status(400).json({ status: 'fail', message: 'idToken is required', data: null, error: null });
+            }
+
+            const result = await authService.googleLogin(idToken);
+
+            if (!result.data) {
+                return res.status(401).json({ status: 'fail', message: result.message, data: null, error: null });
+            }
+
+            const responseData: SafeUserDataDTO = {
+                id: result.data.userId,
+                email: result.data.email,
+                name: result.data.name,
+                role: result.data.role,
+            };
+
+            res.status(200).json({
+                status: 'success',
+                message: result.message,
+                data: { user: responseData, token: result.token },
+                error: null,
+            });
+        } catch (error) {
+            const err = handleError(error);
+            res.status(500).json({ status: 'error', message: 'Google login failed', data: null, error: err.message });
         }
     }
 }

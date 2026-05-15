@@ -1,4 +1,8 @@
 import ShopRepository from "../repository/shop.repository";
+<<<<<<< HEAD
+=======
+import { prisma } from "../config/db";
+>>>>>>> 6b12a73 (update)
 
 import { CreateWeaponInput, CreateArtifactInput, UpdateWeaponInput, UpdateArtifactInput } from "../types/shop.types";
 import { ServiceResponse } from "../types/response.types";
@@ -13,6 +17,10 @@ class AdminService {
             name: weapon.name,
             type: weapon.type,
             description: weapon.description,
+<<<<<<< HEAD
+=======
+            elementId: weapon.elementId,
+>>>>>>> 6b12a73 (update)
             element: weapon.element?.type || null,
             stock: weapon.stock,
             imageUrl: weapon.imageUrl,
@@ -27,8 +35,15 @@ class AdminService {
         const artifactItems = artifacts.map(artifact => ({
             id: artifact.artifactId,
             name: artifact.name,
+<<<<<<< HEAD
             type: artifact.type,
             description: artifact.description,
+=======
+            setName: artifact.setName,
+            type: artifact.type,
+            description: artifact.description,
+            elementId: artifact.elementId,
+>>>>>>> 6b12a73 (update)
             element: artifact.element?.type || null,
             stock: artifact.stock,
             imageUrl: artifact.imageUrl,
@@ -262,6 +277,87 @@ class AdminService {
             statusCode: 200
         };
     }
+<<<<<<< HEAD
 }
 
 export default new AdminService();
+=======
+
+    // ── Enemy CRUD ────────────────────────────────────────────────────────────
+
+    async getAllEnemies() {
+        const enemies = await prisma.msEnemy.findMany({
+            include: { element: true },
+            orderBy: { enemyId: 'asc' }
+        });
+        return enemies.map(e => ({
+            enemyId: e.enemyId,
+            elementId: e.elementId,
+            element: e.element?.type || null,
+            name: e.name,
+            type: e.type,
+            imageUrl: e.imageUrl,
+            hp: e.hp,
+            damage: e.damage
+        }));
+    }
+
+    async createEnemy(data: any, createdBy: string): Promise<ServiceResponse> {
+        if (!data.name || !data.type || !data.elementId || data.hp === undefined || data.damage === undefined) {
+            return { data: null, message: 'Invalid enemy data', statusCode: 400 };
+        }
+        const enemy = await prisma.msEnemy.create({
+            data: {
+                elementId: Number(data.elementId),
+                name: data.name,
+                type: data.type,
+                imageUrl: data.imageUrl || '',
+                hp: Number(data.hp),
+                damage: Number(data.damage),
+                createdAt: new Date(),
+                createdBy,
+                updatedAt: new Date(),
+                updatedBy: createdBy
+            }
+        });
+        return {
+            data: { enemyId: enemy.enemyId, elementId: enemy.elementId, name: enemy.name, type: enemy.type, imageUrl: enemy.imageUrl, hp: enemy.hp, damage: enemy.damage },
+            message: 'Enemy created successfully',
+            statusCode: 200
+        };
+    }
+
+    async updateEnemy(id: number, data: any, updatedBy: string): Promise<ServiceResponse> {
+        const existing = await prisma.msEnemy.findUnique({ where: { enemyId: id } });
+        if (!existing) return { data: null, message: 'Enemy not found', statusCode: 404 };
+
+        const enemy = await prisma.msEnemy.update({
+            where: { enemyId: id },
+            data: {
+                ...(data.elementId !== undefined && { elementId: Number(data.elementId) }),
+                ...(data.name !== undefined && { name: data.name }),
+                ...(data.type !== undefined && { type: data.type }),
+                ...(data.imageUrl !== undefined && { imageUrl: data.imageUrl }),
+                ...(data.hp !== undefined && { hp: Number(data.hp) }),
+                ...(data.damage !== undefined && { damage: Number(data.damage) }),
+                updatedAt: new Date(),
+                updatedBy
+            }
+        });
+        return {
+            data: { enemyId: enemy.enemyId, elementId: enemy.elementId, name: enemy.name, type: enemy.type, imageUrl: enemy.imageUrl, hp: enemy.hp, damage: enemy.damage },
+            message: 'Enemy updated successfully',
+            statusCode: 200
+        };
+    }
+
+    async deleteEnemy(id: number): Promise<ServiceResponse> {
+        const existing = await prisma.msEnemy.findUnique({ where: { enemyId: id } });
+        if (!existing) return { message: 'Enemy not found', statusCode: 404 };
+        await prisma.msEnemy.delete({ where: { enemyId: id } });
+        return { message: 'Enemy deleted successfully', statusCode: 200 };
+    }
+}
+
+export default new AdminService();
+>>>>>>> 6b12a73 (update)

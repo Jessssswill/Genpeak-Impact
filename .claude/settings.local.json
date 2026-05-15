@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npx kill-port 5000)"
+    ]
+  }
+}

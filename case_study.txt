@@ -1,0 +1,392 @@
+Project Case
+COSC6094001
+Mobile Hybrid Solution
+Computer Science
+E262-COSC6094-
+VD
+0
+1
+-00
+Valid on
+ 
+Even
+ 
+Semester
+ 
+Year 2025/2026
+Revision
+ 00
+K
+elompok tidak diperkenankan untuk:
+Members of the group are prohibited from:
+Me
+lihat
+ 
+sebagian
+ atau 
+seluruh
+ 
+jawaban
+ kelompok lain
+,
+Seeing a part or the whole answer from other groups,
+Menyadur
+ 
+sebagian
+ atau 
+seluruh
+ 
+jawaban
+ 
+dari
+ 
+buku
+, 
+catatan
+, video, dan 
+jenis
+ 
+referensi
+ 
+lainnya
+,
+Retell a part or the whole answer from books, notes, videos, and other references,
+Menyadur
+ sebagian 
+atau
+ seluruh 
+jawaban dari internet
+,
+Retell a part or the whole answer from the internet,
+Mengumpulkan jawaban yang tidak sesuai dengan tema soal,
+Submitting an answer with a different theme from the given case,
+Melakukan
+ 
+tindakan
+ 
+yang menyebabkan 
+jawaban
+ 
+dicontek oleh orang lain 
+atau 
+kelompok lain
+, baik 
+disengaja
+ 
+maupun
+ 
+tidak
+ 
+disengaja
+,
+Doing action that could result the answer being copied by someone or other groups, intentionally or unintentionally,
+Melakukan tindakan kecurangan lainnya
+.
+Committing other dishonest actions.
+Jika kelompok terbukti melakukan 
+tindakan
+ seperti yang 
+dicantumkan
+ pada
+ butir 
+ke-
+1, maka nilai 
+mahasiswa
+ dan/atau 
+kelompok yang melakukan kecurangan
+, baik 
+menyontek 
+atau 
+dicontek
+,
+ akan di
+nol
+kan
+ 
+sesuai
+ 
+dengan
+ 
+peraturan
+ yang 
+berlaku
+.
+If it has been proven that a group has committed dishonest actions outlined in point 1 above, the 
+whole  groups
+ related to the incident, regardless of which one copies or has their answer copied, will be issued a score of 
+zero
+ according to the regulation.
+Jawaban
+ yang 
+dapat
+ 
+diterima
+ dan 
+dinilai
+ 
+adalah
+ 
+jawaban
+ yang 
+dikumpulkan
+ 
+sebelum
+ batas 
+waktu
+ yang 
+telah
+ 
+ditentukan
+.
+The answer must be submitted before the designated deadline to be accepted and graded
+,
+Jawaban akan dinilai berdasarkan teknik atau metode yang diajarkan pada kelas praktikum dengan menggunakan software yang sudah ditentukan.
+The scoring will be based on the materials taught during the practicum classes using the designated software
+. Using different software than requested may result in your answer not being graded.
+Jika
+ Anda tidak membaca peraturan ini, maka Anda dianggap 
+sudah 
+membaca dan menyetujuinya
+.
+By taking this exam, you agree to these regulations, regardless of whether you have read it or not.
+Persentase penilaian untuk matakuliah in
+i
+ adalah sebagai berikut
+:
+The score will be distributed as follows:
+Tugas 
+Mandiri
+Assignment
+Proyek
+Project
+UAP
+Final Exam
+-
+100%
+-
+Perangkat lunak
+ yang digunakan 
+pada matakuliah ini adalah sebagai berikut:
+This course uses the following software:
+Software
+Software
+Android SDK API 35
+Android Studio Meerkat Feature Drop 2024.3.2 Patch 1
+Flutter SDK 3.32.2
+NodeJS 22.16.0
+XAMPP 8.2.12
+Ekstensi file yang 
+harus
+ dikumpulkan untuk matakuliah ini adalah sebagai berikut:
+Your answers must be in the following file extensions:
+Tugas 
+Mandiri
+Assignment
+Proyek
+Project
+UAP
+Final Exam
+-
+Flutter Folder Project (DART, Asset Files)
+-
+File yang 
+harus
+ 
+dikumpulkan
+ 
+adalah
+ 
+keseluruhan
+ 
+jawaban
+ 
+beserta
+ 
+dengan
+ 
+aset
+ yang 
+digunakan
+ (
+gambar
+, audio, video, 
+dll
+) dan 
+dokumentasi
+ 
+proyek
+ yang 
+berisikan
+ link 
+referensi
+ 
+aset
+ dan 
+penjelasan
+ 
+mengenai
+ 
+aplikasi
+ yang 
+dibuat
+ (
+terlampir
+ 
+bersama
+ 
+dengan
+ 
+soal
+).
+Include other files that can support your project, such as: all files in your project, other files (image, audio, video, etc.) used in your project, *.doc file (documentation of your project) that contains all pages in your project, reference links of additional files (image, audio, video, etc.) used in your project, the description about how to use your application, etc.
+GachaMerch
+You are an employee of 
+GachaMerch
+ who wants to make a flutter application. One day, your company would like to start some flutter application project. You are asked by the company to work on one of those projects
+:
+No
+Project Name
+Project Description
+1
+Honkai
+ Star Retail
+Honkai
+ Star Retail is an application that provides numerous galactic resources and light cones which the user can buy in the application. There are 2 roles in the application. The admin can insert, update, and delete resource. The user can view 
+resource
+ and buy 
+resource
+ in 
+the 
+Honkai
+ Star Retail. The resource must have id, name, type, description, stock, image, and price. 
+User
+ can buy as many 
+of the resource
+ as they want to.
+2
+Genshin Import
+Genshin Import is an application that provides numerous 
+Teyvat
+ weapons and artifacts which the user can buy in the application. There are 2 roles in the application. The admin can insert, update, and delete 
+weapon
+. The user can view 
+weapon
+ and buy 
+weapon
+ in 
+the Genshin
+ Import. The weapon must have id, name, type, description, stock, image, and price. 
+User
+ can buy as many 
+of the weapon
+ as they want to
+.
+3
+Wuthering Wares
+Wuthering Wares is an application that provides numerous resonator equipment and terminal supplies which the user can buy in the application. There are 2 roles in the application. The admin can insert, update, and delete equipment. The user can view equipment and buy equipment in the Wuthering Wares. The equipment must have id, name, type, description, stock, image, and price. 
+User
+ can buy as 
+many of the
+ equipment as they want to.
+All these applications have the same 
+general requirements
+ as follows:
+Database (MySQL)
+The application must perform at least one 
+create
+, 
+one 
+retrieve, 
+one 
+update
+, and one 
+delete
+.
+Front-End (Flutter Mobile App)
+The application 
+must 
+have at least 
+5
+ 
+kinds
+ of 
+UI
+ 
+components
+.
+The application 
+must 
+have at least 
+5 pages 
+in the application.
+The application must have at least 
+3 kinds 
+of data validations.
+If any validation
+ fails,
+ the application will 
+show an error message
+ according to the failure.
+Back-End (Node.js, express)
+There are at least 
+2 GET requests
+ and 
+1 POST / PUT / PATCH / DELETE request
+ in the application.
+Authentication
+Successfully 
+logged
+ 
+in
+ using the 
+user
+ in the 
+DB
+.
+Successfully 
+logged in
+ using 
+External OAuth
+ (Google, Facebook, Twitter, 
+etc
+).
+Generate
+ 
+bearer
+ 
+token
+. The token should have at least 
+20 characters
+ and 
+alphanumeric
+.
+Example: n8x7wfqtsrvxnvsm8dcz
+Example: n8x7wfqtsrvxnvsm8dcz
+There is at least 
+bearer 
+token
+ verification
+ in 
+1 request
+.
+UI Design
+The application should be themed and 
+involves
+ changing 2 - 4 properties, such as font size, font family, font color, background color, tint, alpha, content mode, etc.
+All customizations should be 
+visible
+ in the application and 
+noted 
+in the documentation.
+The application should be usable, the design 
+should not hamper usability
+ of the application (e.g., font color and background color should have sufficient contrast, colors should not clash with each other).
+External Documentation
+You must 
+include
+ external documentation
+ which explains the 
+feature details
+ and 
+creativity
+ in the application.

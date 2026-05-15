@@ -1,0 +1,422 @@
+[
+  {
+    "folder": "A Day Carved From Rising Winds",
+    "pieceFiles": [
+      "Item_Windborne_Flower's_Spruchdichtung.webp",
+      "Item_Dawn's_Brilliant_Oath.webp",
+      "Item_A_Note_in_Spring's_Leich.webp",
+      "Item_Heldenepos's_Unspoken_Tale.webp",
+      "Item_Minnesang_of_Love_and_Lament.webp"
+    ]
+  },
+  {
+    "folder": "Archaic Petra",
+    "pieceFiles": [
+      "Item_Flower_of_Creviced_Cliff.webp",
+      "Item_Feather_of_Jagged_Peaks.webp",
+      "Item_Sundial_of_Enduring_Jade.webp",
+      "Item_Goblet_of_Chiseled_Crag.webp",
+      "Item_Mask_of_Solitude_Basalt.webp"
+    ]
+  },
+  {
+    "folder": "Aubade of Morningstar and Moon",
+    "pieceFiles": [
+      "Item_Moonlit_Offering's_Opulent_Dream.webp",
+      "Item_Moonlit_Offering's_Parting_Light.webp",
+      "Item_Moonlit_Offering's_Final_Hour.webp",
+      "Item_Moonlit_Offering's_Libation.webp",
+      "Item_Moonlit_Offering's_Silver_Crown.webp"
+    ]
+  },
+  {
+    "folder": "Blizzard Strayer",
+    "pieceFiles": [
+      "Item_Snowswept_Memory.webp",
+      "Item_Icebreaker's_Resolve.webp",
+      "Item_Frozen_Homeland's_Demise.webp",
+      "Item_Frost-Weaved_Dignity.webp",
+      "Item_Broken_Rime's_Echo.webp"
+    ]
+  },
+  {
+    "folder": "Bloodstained Chivalry",
+    "pieceFiles": [
+      "Item_Bloodstained_Flower_of_Iron.webp",
+      "Item_Bloodstained_Black_Plume.webp",
+      "Item_Bloodstained_Final_Hour.webp",
+      "Item_Bloodstained_Chevalier's_Goblet.webp",
+      "Item_Bloodstained_Iron_Mask.webp"
+    ]
+  },
+  {
+    "folder": "Crimson Witch of Flames",
+    "pieceFiles": [
+      "Item_Witch's_Flower_of_Blaze.webp",
+      "Item_Witch's_Ever-Burning_Plume.webp",
+      "Item_Witch's_End_Time.webp",
+      "Item_Witch's_Heart_Flames.webp",
+      "Item_Witch's_Scorching_Hat.webp"
+    ]
+  },
+  {
+    "folder": "Deepwood Memories",
+    "pieceFiles": [
+      "Item_Labyrinth_Wayfarer.webp",
+      "Item_Scholar_of_Vines.webp",
+      "Item_A_Time_of_Insight.webp",
+      "Item_Lamp_of_the_Lost.webp",
+      "Item_Laurel_Coronet.webp"
+    ]
+  },
+  {
+    "folder": "Desert Pavilion Chronicle",
+    "pieceFiles": [
+      "Item_The_First_Days_of_the_City_of_Kings.webp",
+      "Item_End_of_the_Golden_Realm.webp",
+      "Item_Timepiece_of_the_Lost_Path.webp",
+      "Item_Defender_of_the_Enchanting_Dream.webp",
+      "Item_Legacy_of_the_Desert_High-Born.webp"
+    ]
+  },
+  {
+    "folder": "Echoes of an Offering",
+    "pieceFiles": [
+      "Item_Soulscent_Bloom.webp",
+      "Item_Jade_Leaf.webp",
+      "Item_Symbol_of_Felicitation.webp",
+      "Item_Chalice_of_the_Font.webp",
+      "Item_Flowing_Rings.webp"
+    ]
+  },
+  {
+    "folder": "Emblem of Severed Fate",
+    "pieceFiles": [
+      "Item_Magnificent_Tsuba.webp",
+      "Item_Sundered_Feather.webp",
+      "Item_Storm_Cage.webp",
+      "Item_Scarlet_Vessel.webp",
+      "Item_Ornate_Kabuto.webp"
+    ]
+  },
+  {
+    "folder": "Finale of the Deep Galleries",
+    "pieceFiles": [
+      "Item_Deep_Gallery's_Echoing_Song.webp",
+      "Item_Deep_Gallery's_Distant_Pact.webp",
+      "Item_Deep_Gallery's_Moment_of_Oblivion.webp",
+      "Item_Deep_Gallery's_Bestowed_Banquet.webp",
+      "Item_Deep_Gallery's_Lost_Crown.webp"
+    ]
+  },
+  {
+    "folder": "Flower of Paradiese lost",
+    "pieceFiles": [
+      "Item_Ay-Khanoum's_Myriad.webp",
+      "Item_Wilting_Feast.webp",
+      "Item_A_Moment_Congealed.webp",
+      "Item_Secret-Keeper's_Magic_Bottle.webp",
+      "Item_Amethyst_Crown.webp"
+    ]
+  },
+  {
+    "folder": "Fragment of Harmonic Whimsy",
+    "pieceFiles": [
+      "Item_Harmonious_Symphony_Prelude.webp",
+      "Item_Ancient_Sea's_Nocturnal_Musing.webp",
+      "Item_The_Grand_Jape_of_the_Turning_of_Fate.webp",
+      "Item_Ichor_Shower_Rhapsody.webp",
+      "Item_Whimsical_Dance_of_the_Withered.webp"
+    ]
+  },
+  {
+    "folder": "Gilded Dreams",
+    "pieceFiles": [
+      "Item_Dreaming_Steelbloom.webp",
+      "Item_Feather_of_Judgment.webp",
+      "Item_The_Sunken_Years.webp",
+      "Item_Honeyed_Final_Feast.webp",
+      "Item_Shadow_of_the_Sand_King.webp"
+    ]
+  },
+  {
+    "folder": "Gladiator",
+    "pieceFiles": [
+      "Item_Gladiator's_Nostalgia.webp",
+      "Item_Gladiator's_Destiny.webp",
+      "Item_Gladiator's_Longing.webp",
+      "Item_Gladiator's_Intoxication.webp",
+      "Item_Gladiator's_Triumphus.webp"
+    ]
+  },
+  {
+    "folder": "Golden Troupe",
+    "pieceFiles": [
+      "Item_Golden_Song's_Variation.webp",
+      "Item_Golden_Bird's_Shedding.webp",
+      "Item_Golden_Era's_Prelude.webp",
+      "Item_Golden_Night's_Bustle.webp",
+      "Item_Golden_Troupe's_Reward.webp"
+    ]
+  },
+  {
+    "folder": "Hearth of Depth",
+    "pieceFiles": [
+      "Item_Gilded_Corsage.webp",
+      "Item_Gust_of_Nostalgia.webp",
+      "Item_Copper_Compass.webp",
+      "Item_Goblet_of_Thundering_Deep.webp",
+      "Item_Wine-Stained_Tricorne.webp"
+    ]
+  },
+  {
+    "folder": "Husk of Opulent Dreams",
+    "pieceFiles": [
+      "Item_Bloom_Times.webp",
+      "Item_Plume_of_Luxury.webp",
+      "Item_Song_of_Life.webp",
+      "Item_Calabash_of_Awakening.webp",
+      "Item_Skeletal_Hat.webp"
+    ]
+  },
+  {
+    "folder": "Lavawalker",
+    "pieceFiles": [
+      "Item_Lavawalker's_Resolution.webp",
+      "Item_Lavawalker's_Salvation.webp",
+      "Item_Lavawalker's_Torment.webp",
+      "Item_Lavawalker's_Epiphany.webp",
+      "Item_Lavawalker's_Wisdom.webp"
+    ]
+  },
+  {
+    "folder": "Long Night's Oath",
+    "pieceFiles": [
+      "Item_Lightkeeper's_Pledge.webp",
+      "Item_Nightingale's_Tail_Feather.webp",
+      "Item_Undying_One's_Mourning_Bell.webp",
+      "Item_A_Horn_Unwinded.webp",
+      "Item_Dyed_Tassel.webp"
+    ]
+  },
+  {
+    "folder": "Maiden",
+    "pieceFiles": [
+      "Item_Maiden's_Distant_Love.webp",
+      "Item_Maiden's_Heart-Stricken_Infatuation.webp",
+      "Item_Maiden's_Passing_Youth.webp",
+      "Item_Maiden's_Fleeting_Leisure.webp",
+      "Item_Maiden's_Fading_Beauty.webp"
+    ]
+  },
+  {
+    "folder": "Marechaussee Hunter",
+    "pieceFiles": [
+      "Item_Hunter's_Brooch.webp",
+      "Item_Masterpiece's_Overture.webp",
+      "Item_Moment_of_Judgment.webp",
+      "Item_Forgotten_Vessel.webp",
+      "Item_Veteran's_Visage.webp"
+    ]
+  },
+  {
+    "folder": "Night of the Sky's Unveiling",
+    "pieceFiles": [
+      "Item_Bloom_of_the_Mind's_Desire.webp",
+      "Item_Feather_of_Indelible_Sin.webp",
+      "Item_Revelation's_Toll.webp",
+      "Item_Vessel_of_Plenty.webp",
+      "Item_Crown_of_the_Befallen.webp"
+    ]
+  },
+  {
+    "folder": "Nighttime Whispers in the Echoing Woods",
+    "pieceFiles": [
+      "Item_Selfless_Floral_Accessory.webp",
+      "Item_Honest_Quill.webp",
+      "Item_Faithful_Hourglass.webp",
+      "Item_Magnanimous_Ink_Bottle.webp",
+      "Item_Compassionate_Ladies'_Hat.webp"
+    ]
+  },
+  {
+    "folder": "Noblesse Oblige",
+    "pieceFiles": [
+      "Item_Royal_Flora.webp",
+      "Item_Royal_Plume.webp",
+      "Item_Royal_Pocket_Watch.webp",
+      "Item_Royal_Silver_Urn.webp",
+      "Item_Royal_Masque.webp"
+    ]
+  },
+  {
+    "folder": "Nymph's Dream",
+    "pieceFiles": [
+      "Item_Odyssean_Flower.webp",
+      "Item_Wicked_Mage's_Plumule.webp",
+      "Item_Nymph's_Constancy.webp",
+      "Item_Heroes'_Tea_Party.webp",
+      "Item_Fell_Dragon's_Monocle.webp"
+    ]
+  },
+  {
+    "folder": "Obsidian Codex",
+    "pieceFiles": [
+      "Item_Reckoning_of_the_Xenogenic.webp",
+      "Item_Root_of_the_Spirit-Marrow.webp",
+      "Item_Myths_of_the_Night_Realm.webp",
+      "Item_Pre-Banquet_of_the_Contenders.webp",
+      "Item_Crown_of_the_Saints.webp"
+    ]
+  },
+  {
+    "folder": "Ocean-Hued Clam",
+    "pieceFiles": [
+      "Item_Sea-Dyed_Blossom.webp",
+      "Item_Deep_Palace's_Plume.webp",
+      "Item_Cowry_of_Parting.webp",
+      "Item_Pearl_Cage.webp",
+      "Item_Crown_of_Watatsumi.webp"
+    ]
+  },
+  {
+    "folder": "Pale Flame",
+    "pieceFiles": [
+      "Item_Stainless_Bloom.webp",
+      "Item_Wise_Doctor's_Pinion.webp",
+      "Item_Moment_of_Cessation.webp",
+      "Item_Surpassing_Cup.webp",
+      "Item_Mocking_Mask.webp"
+    ]
+  },
+  {
+    "folder": "Retracing Bolide",
+    "pieceFiles": [
+      "Item_Summer_Night's_Bloom.webp",
+      "Item_Summer_Night's_Finale.webp",
+      "Item_Summer_Night's_Moment.webp",
+      "Item_Summer_Night's_Waterballoon.webp",
+      "Item_Summer_Night's_Mask.webp"
+    ]
+  },
+  {
+    "folder": "Scroll of the Hero of Cinder City",
+    "pieceFiles": [
+      "Item_Beast_Tamer's_Talisman.webp",
+      "Item_Mountain_Ranger's_Marker.webp",
+      "Item_Mystic's_Gold_Dial.webp",
+      "Item_Wandering_Scholar's_Claw_Cup.webp",
+      "Item_Demon-Warrior's_Feather_Mask.webp"
+    ]
+  },
+  {
+    "folder": "Shimenawa's Reminiscence",
+    "pieceFiles": [
+      "Item_Entangling_Bloom.webp",
+      "Item_Shaft_of_Remembrance.webp",
+      "Item_Morning_Dew's_Moment.webp",
+      "Item_Hopeful_Heart.webp",
+      "Item_Capricious_Visage.webp"
+    ]
+  },
+  {
+    "folder": "Silken Moon's Serenade",
+    "pieceFiles": [
+      "Item_Crystal_Tear_of_the_Wanderer.webp",
+      "Item_Pristine_Plume_of_the_Blessed.webp",
+      "Item_Frost_Devotee's_Delirium.webp",
+      "Item_Joyous_Glory_of_the_Pure.webp",
+      "Item_Holy_Crown_of_the_Believer.webp"
+    ]
+  },
+  {
+    "folder": "Song of Days Past",
+    "pieceFiles": [
+      "Item_Forgotten_Oath_of_Days_Past.webp",
+      "Item_Recollection_of_Days_Past.webp",
+      "Item_Echoing_Sound_From_Days_Past.webp",
+      "Item_Promised_Dream_of_Days_Past.webp",
+      "Item_Poetry_of_Days_Past.webp"
+    ]
+  },
+  {
+    "folder": "Tenacity of the Millelith",
+    "pieceFiles": [
+      "Item_Flower_of_Accolades.webp",
+      "Item_Ceremonial_War-Plume.webp",
+      "Item_Orichalceous_Time-Dial.webp",
+      "Item_Noble's_Pledging_Vessel.webp",
+      "Item_General's_Ancient_Helm.webp"
+    ]
+  },
+  {
+    "folder": "Thunder Soother",
+    "pieceFiles": [
+      "Item_Thundersoother's_Heart.webp",
+      "Item_Thundersoother's_Plume.webp",
+      "Item_Hour_of_Soothing_Thunder.webp",
+      "Item_Thundersoother's_Goblet.webp",
+      "Item_Thundersoother's_Diadem.webp"
+    ]
+  },
+  {
+    "folder": "Thundering Fury",
+    "pieceFiles": [
+      "Item_Thunderbird's_Mercy.webp",
+      "Item_Survivor_of_Catastrophe.webp",
+      "Item_Hourglass_of_Thunder.webp",
+      "Item_Omen_of_Thunderstorm.webp",
+      "Item_Thunder_Summoner's_Crown.webp"
+    ]
+  },
+  {
+    "folder": "Unfinished Reverie",
+    "pieceFiles": [
+      "Item_Dark_Fruit_of_Bright_Flowers.webp",
+      "Item_Faded_Emerald_Tail.webp",
+      "Item_Moment_of_Attainment.webp",
+      "Item_The_Wine-Flask_Over_Which_the_Plan_Was_Hatched.webp",
+      "Item_Crownless_Crown.webp"
+    ]
+  },
+  {
+    "folder": "Vermellion Hereafter",
+    "pieceFiles": [
+      "Item_Flowering_Life.webp",
+      "Item_Feather_of_Nascent_Light.webp",
+      "Item_Solar_Relic.webp",
+      "Item_Moment_of_the_Pact.webp",
+      "Item_Thundering_Poise.webp"
+    ]
+  },
+  {
+    "folder": "Viridescent Venerer",
+    "pieceFiles": [
+      "Item_In_Remembrance_of_Viridescent_Fields.webp",
+      "Item_Viridescent_Arrow_Feather.webp",
+      "Item_Viridescent_Venerer's_Determination.webp",
+      "Item_Viridescent_Venerer's_Vessel.webp",
+      "Item_Viridescent_Venerer's_Diadem.webp"
+    ]
+  },
+  {
+    "folder": "Vourukasha's Glow",
+    "pieceFiles": [
+      "Item_Stamen_of_Khvarena's_Origin.webp",
+      "Item_Vibrant_Pinion.webp",
+      "Item_Ancient_Abscission.webp",
+      "Item_Feast_of_Boundless_Joy.webp",
+      "Item_Heart_of_Khvarena's_Brilliance.webp"
+    ]
+  },
+  {
+    "folder": "Wanderer's Troupe",
+    "pieceFiles": [
+      "Item_Troupe's_Dawnlight.webp",
+      "Item_Bard's_Arrow_Feather.webp",
+      "Item_Concert's_Final_Hour.webp",
+      "Item_Wanderer's_String-Kettle.webp",
+      "Item_Conductor's_Top_Hat.webp"
+    ]
+  }
+]

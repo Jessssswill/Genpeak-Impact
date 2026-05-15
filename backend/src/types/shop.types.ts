@@ -87,10 +87,22 @@ export interface UpdateArtifactInput {
 
 export interface InventoryItem {
     inventoryId: number
+<<<<<<< HEAD
     itemId: number
     itemType: string
     name: string
     imageUrl: string
+=======
+    itemId?: number
+    itemType?: string
+    itemCategory?: string
+    name: string
+    imageUrl: string
+    level?: number
+    mainStatValue?: number | null
+    substats?: any
+    [key: string]: any
+>>>>>>> 6b12a73 (update)
 }
 
 export interface PurchaseResult {
@@ -99,4 +111,8 @@ export interface PurchaseResult {
     itemId: number
     itemType: string
     money: number | string
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 6b12a73 (update)

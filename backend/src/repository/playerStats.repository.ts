@@ -21,6 +21,30 @@ class PlayerStatsRepository {
 
         return updated;
     }
+<<<<<<< HEAD
 }
 
 export default new PlayerStatsRepository();
+=======
+
+    async createPlayerStats(userId: string, createdBy: string) {
+        const stats = await prisma.trPlayerStats.create({
+            data: {
+                userId: userId,
+                hp: 20000,
+                damage: 1500,
+                criticalChance: 5.0,
+                criticalDamage: 50.0,
+                money: 500000,
+                createdAt: new Date(),
+                createdBy: createdBy,
+                updatedAt: new Date(),
+                updatedBy: createdBy
+            }
+        });
+        return stats;
+    }
+}
+
+export default new PlayerStatsRepository();
+>>>>>>> 6b12a73 (update)
