@@ -3,3 +3,9 @@
 # Keep current commits as-is for academic record
 artifacts/
 backend/public/images/artifacts/
+
+# IDE / tool config
+.claude/
+
+# Logs
+backend/dev.log
