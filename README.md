@@ -1,6 +1,8 @@
 # GenPeak-Impact
 
-GenPeak-Impact is an application that provides numerous Teyvat weapons and artifacts which the user can buy in the application.
+GenPeak-Impact is a mobile RPG shop & inventory app inspired by elemental RPG mechanics. Users can collect weapons and artifact sets, upgrade them, and equip them to a character profile.
+
+> **Disclaimer:** This project is an independent academic exercise. It is not affiliated with, endorsed by, or associated with HoYoverse / miHoYo or the Genshin Impact game. Weapon and artifact asset images used locally for development purposes are property of their respective owners and are not redistributed.
 
 ## Roles & Features
 
