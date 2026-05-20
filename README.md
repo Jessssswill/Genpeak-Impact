@@ -2,6 +2,8 @@
 
 GenPeak-Impact is an application that provides numerous Teyvat weapons and artifacts which the user can buy in the application.
 
+> Note: Artifact assets used are Genshin Impact-inspired placeholders for academic prototyping only. Not affiliated with Hoyoverse.
+
 ## Roles & Features
 
 There are 2 roles in the application:
