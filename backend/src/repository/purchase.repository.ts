@@ -20,8 +20,4 @@ class PurchaseRepository {
     }
 }
 
-<<<<<<< HEAD
 export default new PurchaseRepository();
-=======
-export default new PurchaseRepository();
->>>>>>> 6b12a73 (update)

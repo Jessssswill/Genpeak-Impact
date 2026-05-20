@@ -21,11 +21,6 @@ class PlayerStatsRepository {
 
         return updated;
     }
-<<<<<<< HEAD
-}
-
-export default new PlayerStatsRepository();
-=======
 
     async createPlayerStats(userId: string, createdBy: string) {
         const stats = await prisma.trPlayerStats.create({
@@ -47,4 +42,3 @@ export default new PlayerStatsRepository();
 }
 
 export default new PlayerStatsRepository();
->>>>>>> 6b12a73 (update)

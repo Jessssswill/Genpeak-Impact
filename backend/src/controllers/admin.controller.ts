@@ -107,8 +107,6 @@ class AdminController {
         }
     }
 
-<<<<<<< HEAD
-=======
     async getEnemies(req: Request, res: Response): Promise<any> {
         try {
             const enemies = await adminService.getAllEnemies();
@@ -158,7 +156,6 @@ class AdminController {
         }
     }
 
->>>>>>> 6b12a73 (update)
     async deleteItem(req: Request, res: Response): Promise<any> {
         try {
             const id = parseInt(req.params.id as string);
@@ -204,8 +201,4 @@ class AdminController {
     }
 }
 
-<<<<<<< HEAD
 export default new AdminController();
-=======
-export default new AdminController();
->>>>>>> 6b12a73 (update)

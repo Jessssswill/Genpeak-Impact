@@ -1,8 +1,5 @@
 import ShopRepository from "../repository/shop.repository";
-<<<<<<< HEAD
-=======
 import { prisma } from "../config/db";
->>>>>>> 6b12a73 (update)
 
 import { CreateWeaponInput, CreateArtifactInput, UpdateWeaponInput, UpdateArtifactInput } from "../types/shop.types";
 import { ServiceResponse } from "../types/response.types";
@@ -17,10 +14,7 @@ class AdminService {
             name: weapon.name,
             type: weapon.type,
             description: weapon.description,
-<<<<<<< HEAD
-=======
             elementId: weapon.elementId,
->>>>>>> 6b12a73 (update)
             element: weapon.element?.type || null,
             stock: weapon.stock,
             imageUrl: weapon.imageUrl,
@@ -35,15 +29,10 @@ class AdminService {
         const artifactItems = artifacts.map(artifact => ({
             id: artifact.artifactId,
             name: artifact.name,
-<<<<<<< HEAD
-            type: artifact.type,
-            description: artifact.description,
-=======
             setName: artifact.setName,
             type: artifact.type,
             description: artifact.description,
             elementId: artifact.elementId,
->>>>>>> 6b12a73 (update)
             element: artifact.element?.type || null,
             stock: artifact.stock,
             imageUrl: artifact.imageUrl,
@@ -60,7 +49,7 @@ class AdminService {
     }
 
     async createItem(data: any, createdBy: string): Promise<ServiceResponse> {
-        if (!data.name || !data.type || !data.description || !data.elementId || 
+        if (!data.name || !data.type || !data.description || !data.elementId ||
             data.stock === undefined || !data.imageUrl || data.price === undefined) {
             return {
                 data: null,
@@ -277,11 +266,6 @@ class AdminService {
             statusCode: 200
         };
     }
-<<<<<<< HEAD
-}
-
-export default new AdminService();
-=======
 
     // ── Enemy CRUD ────────────────────────────────────────────────────────────
 
@@ -360,4 +344,3 @@ export default new AdminService();
 }
 
 export default new AdminService();
->>>>>>> 6b12a73 (update)

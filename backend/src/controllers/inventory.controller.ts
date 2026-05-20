@@ -1,11 +1,6 @@
 import { Request, Response } from 'express';
 
 import inventoryService from '../services/inventory.service';
-<<<<<<< HEAD
-import { handleError } from '../utils/request.util';
-
-class InventoryController {
-=======
 import PlayerStatsRepository from '../repository/playerStats.repository';
 import { handleError } from '../utils/request.util';
 
@@ -37,7 +32,6 @@ class InventoryController {
         }
     }
 
->>>>>>> 6b12a73 (update)
     async getInventory(req: Request, res: Response): Promise<any> {
         try {
             const userId = req.jwtPayload!.id;
@@ -62,11 +56,6 @@ class InventoryController {
             });
         }
     }
-<<<<<<< HEAD
-}
-
-export default new InventoryController();
-=======
 
     async claimBattleReward(req: Request, res: Response): Promise<any> {
         try {
@@ -139,4 +128,3 @@ export default new InventoryController();
 }
 
 export default new InventoryController();
->>>>>>> 6b12a73 (update)

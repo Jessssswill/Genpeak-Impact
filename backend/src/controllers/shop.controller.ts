@@ -73,8 +73,4 @@ class ShopController {
     }
 }
 
-<<<<<<< HEAD
 export default new ShopController();
-=======
-export default new ShopController();
->>>>>>> 6b12a73 (update)

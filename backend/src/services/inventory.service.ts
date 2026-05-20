@@ -1,10 +1,7 @@
 import InventoryRepository from "../repository/inventory.repository";
 import ShopRepository from "../repository/shop.repository";
-<<<<<<< HEAD
-=======
 import PlayerStatsRepository from "../repository/playerStats.repository";
 import { upgradeSubstats } from "../utils/rng.util";
->>>>>>> 6b12a73 (update)
 
 import { InventoryItem } from "../types/shop.types";
 
@@ -18,27 +15,6 @@ class InventoryService {
         const enrichedItems: InventoryItem[] = [];
 
         for (const item of inventoryItems) {
-<<<<<<< HEAD
-            let name = '';
-            let imageUrl = '';
-
-            if (item.itemType === 'Weapon') {
-                const weapon = await ShopRepository.findWeaponById(item.itemId);
-                name = weapon?.name || '';
-                imageUrl = weapon?.imageUrl || '';
-            } else if (item.itemType === 'Artifact') {
-                const artifact = await ShopRepository.findArtifactById(item.itemId);
-                name = artifact?.name || '';
-                imageUrl = artifact?.imageUrl || '';
-            }
-
-            enrichedItems.push({
-                inventoryId: item.inventoryId,
-                itemId: item.itemId,
-                itemType: item.itemType,
-                name: name,
-                imageUrl: imageUrl
-=======
             let fullItem: any = {};
 
             if (item.itemType === 'Weapon') {
@@ -97,7 +73,6 @@ class InventoryService {
                     ? Number(item.mainStatValue)
                     : Number(fullItem.primaryStat ?? fullItem.damage ?? 0),
                 substats: parsedSubstats.slice(0, maxSubstats)
->>>>>>> 6b12a73 (update)
             });
         }
 
@@ -106,8 +81,6 @@ class InventoryService {
             message: 'Inventory fetched successfully'
         };
     }
-<<<<<<< HEAD
-=======
 
     // ─── Artifact upgrade: +1 level, max 20, cost 3 000 Mora ─────────────────
     async upgradeArtifact(userId: string, inventoryId: number): Promise<any> {
@@ -315,7 +288,6 @@ class InventoryService {
             statusCode: 200
         };
     }
->>>>>>> 6b12a73 (update)
 }
 
 export default new InventoryService();

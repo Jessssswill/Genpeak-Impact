@@ -4,19 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
     "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "seed": "tsx prisma/seed.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:push": "npx prisma db push",
     "prisma:seed": "npx prisma db seed"
-=======
-    "dev": "tsx src/index.ts",
-    "start": "tsx src/index.ts",
-    "seed": "tsx prisma/seed.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
->>>>>>> 6b12a73 (update)
   },
   "keywords": [],
   "author": "",
@@ -26,27 +21,16 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.6",
     "@types/node": "^25.3.5",
-<<<<<<< HEAD
-    "prisma": "^7.4.2",
-    "tsx": "^4.19.0"
-=======
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
-    "prisma": "^7.4.2"
->>>>>>> 6b12a73 (update)
+    "prisma": "^7.4.2",
+    "tsx": "^4.21.0"
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.4.2",
     "@prisma/client": "^7.4.2",
     "@types/cors": "^2.8.19",
     "@types/jsonwebtoken": "^9.0.10",
-<<<<<<< HEAD
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "dotenv": "^17.3.1",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
-=======
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
@@ -55,8 +39,6 @@
     "google-auth-library": "^10.6.2",
     "jsonwebtoken": "^9.0.3",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1",
-    "tsx": "^4.21.0"
->>>>>>> 6b12a73 (update)
+    "swagger-ui-express": "^5.0.1"
   }
 }

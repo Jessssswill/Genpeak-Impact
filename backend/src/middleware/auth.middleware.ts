@@ -51,8 +51,4 @@ export function authorizeAdmin(req: Request, res: Response, next: NextFunction):
     }
 
     next();
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6b12a73 (update)

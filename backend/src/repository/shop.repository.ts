@@ -66,10 +66,7 @@ class ShopRepository {
         const artifact = await prisma.msArtifact.create({
             data: {
                 name: data.name,
-<<<<<<< HEAD
-=======
-                setName: data.name, // Fallback to name if not provided
->>>>>>> 6b12a73 (update)
+                setName: data.name,
                 type: data.type,
                 description: data.description,
                 elementId: data.elementId,

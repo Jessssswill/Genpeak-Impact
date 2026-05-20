@@ -16,12 +16,9 @@ class InventoryRepository {
                 userId: params.userId,
                 itemId: params.itemId,
                 itemType: params.itemType,
-<<<<<<< HEAD
-=======
                 level: params.level ?? 0,
                 mainStatValue: params.mainStatValue ?? null,
                 substats: params.substats ?? null,
->>>>>>> 6b12a73 (update)
                 createdAt: new Date(),
                 createdBy: params.createdBy,
                 updatedAt: new Date(),
@@ -31,11 +28,6 @@ class InventoryRepository {
 
         return inventoryItem;
     }
-<<<<<<< HEAD
-}
-
-export default new InventoryRepository();
-=======
 
     async findInventoryItemById(inventoryId: number) {
         return await prisma.trInventory.findUnique({
@@ -59,4 +51,3 @@ export default new InventoryRepository();
 }
 
 export default new InventoryRepository();
->>>>>>> 6b12a73 (update)
