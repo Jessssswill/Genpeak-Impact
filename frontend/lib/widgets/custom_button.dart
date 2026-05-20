@@ -31,7 +31,7 @@ class PrimaryButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: btnColor,
           foregroundColor: Colors.white,
-          disabledBackgroundColor: btnColor.withValues(alpha: 0.4),
+          disabledBackgroundColor: btnColor.withOpacity(0.4),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
@@ -84,7 +84,7 @@ class SecondaryButton extends StatelessWidget {
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
           foregroundColor: btnColor,
-          side: BorderSide(color: btnColor.withValues(alpha: 0.5)),
+          side: BorderSide(color: btnColor.withOpacity(0.5)),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
@@ -176,13 +176,13 @@ class _GoldButtonState extends State<GoldButton> with SingleTickerProviderStateM
                 borderRadius: BorderRadius.circular(AppRadius.button),
                 border: Border.all(
                   color: _enabled
-                      ? AppColors.primary.withValues(alpha: 0.5)
+                      ? AppColors.primary.withOpacity(0.5)
                       : AppColors.divider,
                 ),
                 boxShadow: _enabled && !_pressed
                     ? [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.14 + glow * 0.24),
+                          color: AppColors.primary.withOpacity(0.14 + glow * 0.24),
                           blurRadius: 12 + glow * 16,
                           offset: Offset(0, 4 + glow * 2),
                           spreadRadius: glow * 2.5,
@@ -205,8 +205,8 @@ class _GoldButtonState extends State<GoldButton> with SingleTickerProviderStateM
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.button)),
                       gradient: LinearGradient(colors: [
-                        Colors.white.withValues(alpha: 0.22),
-                        Colors.white.withValues(alpha: 0.05),
+                        Colors.white.withOpacity(0.22),
+                        Colors.white.withOpacity(0.05),
                       ]),
                     ),
                   ),
@@ -217,7 +217,7 @@ class _GoldButtonState extends State<GoldButton> with SingleTickerProviderStateM
                       height: 20, width: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: Colors.white.withOpacity(0.9),
                       ),
                     )
                   : Row(

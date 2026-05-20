@@ -60,10 +60,10 @@ class GlassmorphicContainer extends StatelessWidget {
         child: Container(
           padding: padding,
           decoration: BoxDecoration(
-            color: tint.withValues(alpha: fillAlpha),
+            color: tint.withOpacity(fillAlpha),
             borderRadius: BorderRadius.circular(borderRadius),
             border: Border.all(
-              color: borderColor ?? Colors.white.withValues(alpha: borderAlpha),
+              color: borderColor ?? Colors.white.withOpacity(borderAlpha),
             ),
             boxShadow: boxShadow,
           ),

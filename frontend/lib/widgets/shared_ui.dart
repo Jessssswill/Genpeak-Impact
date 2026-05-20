@@ -23,10 +23,10 @@ class GlassCard extends StatelessWidget {
     return Container(
       padding: padding ?? const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surfaceCard.withValues(alpha: 0.85),
+        color: AppColors.surfaceCard.withOpacity(0.85),
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: borderColor ?? AppColors.cardBorder.withValues(alpha: 0.6),
+          color: borderColor ?? AppColors.cardBorder.withOpacity(0.6),
         ),
       ),
       child: child,
@@ -85,9 +85,9 @@ class MoraBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.secondary.withValues(alpha: 0.1),
+        color: AppColors.secondary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(AppRadius.badge),
-        border: Border.all(color: AppColors.secondary.withValues(alpha: 0.25)),
+        border: Border.all(color: AppColors.secondary.withOpacity(0.25)),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         Image.asset('assets/images/currency/Item_Mora.webp', width: 18, height: 18, fit: BoxFit.contain,

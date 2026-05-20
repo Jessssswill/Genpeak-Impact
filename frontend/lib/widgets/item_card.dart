@@ -48,19 +48,19 @@ class _ItemCardState extends State<ItemCard> {
             borderRadius: BorderRadius.circular(AppRadius.card),
             border: Border.all(
               color: _pressed
-                  ? elementColor.withValues(alpha: 0.35)
-                  : elementColor.withValues(alpha: 0.18),
+                  ? elementColor.withOpacity(0.35)
+                  : elementColor.withOpacity(0.18),
             ),
             boxShadow: _pressed
                 ? []
                 : [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.28),
+                      color: Colors.black.withOpacity(0.28),
                       blurRadius: 14,
                       offset: const Offset(0, 5),
                     ),
                     BoxShadow(
-                      color: elementColor.withValues(alpha: 0.06),
+                      color: elementColor.withOpacity(0.06),
                       blurRadius: 20,
                       offset: const Offset(0, 4),
                     ),
@@ -71,7 +71,6 @@ class _ItemCardState extends State<ItemCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── Image section ──
                 Expanded(
                   flex: 3,
                   child: Container(
@@ -82,7 +81,7 @@ class _ItemCardState extends State<ItemCard> {
                         end: Alignment.bottomCenter,
                         stops: const [0.0, 1.0],
                         colors: [
-                          elementColor.withValues(alpha: 0.14),
+                          elementColor.withOpacity(0.14),
                           AppColors.surface,
                         ],
                       ),
@@ -102,7 +101,7 @@ class _ItemCardState extends State<ItemCard> {
                                           ? Icons.gavel_rounded
                                           : Icons.diamond_rounded,
                                       size: 34,
-                                      color: elementColor.withValues(alpha: 0.45),
+                                      color: elementColor.withOpacity(0.45),
                                     ),
                                     loadingBuilder:
                                         (context, child, progress) {
@@ -114,7 +113,7 @@ class _ItemCardState extends State<ItemCard> {
                                           child: CircularProgressIndicator(
                                             strokeWidth: 1.5,
                                             color: elementColor
-                                                .withValues(alpha: 0.4),
+                                                .withOpacity(0.4),
                                           ),
                                         ),
                                       );
@@ -126,11 +125,11 @@ class _ItemCardState extends State<ItemCard> {
                                       ? Icons.gavel_rounded
                                       : Icons.diamond_rounded,
                                   size: 34,
-                                  color: elementColor.withValues(alpha: 0.45),
+                                  color: elementColor.withOpacity(0.45),
                                 ),
                         ),
 
-                        // Element badge — top left
+                        // badge element kiri atas
                         if (widget.elementType != null)
                           Positioned(
                             top: 7,
@@ -142,7 +141,7 @@ class _ItemCardState extends State<ItemCard> {
                             ),
                           ),
 
-                        // Stock badge — top right
+                        // stok badge kanan atas
                         Positioned(
                           top: 7,
                           right: 7,
@@ -156,13 +155,12 @@ class _ItemCardState extends State<ItemCard> {
                       )
                       .shimmer(
                         duration: 1400.ms,
-                        color: elementColor.withValues(alpha: 0.18),
+                        color: elementColor.withOpacity(0.18),
                         angle: 0.4,
                       )
                       .then(delay: 2600.ms),
                 ),
 
-                // ── Info section ──
                 Expanded(
                   flex: 2,
                   child: Container(
@@ -171,7 +169,7 @@ class _ItemCardState extends State<ItemCard> {
                     decoration: BoxDecoration(
                       border: Border(
                         top: BorderSide(
-                          color: elementColor.withValues(alpha: 0.12),
+                          color: elementColor.withOpacity(0.12),
                         ),
                       ),
                     ),
@@ -215,7 +213,7 @@ class _ItemCardState extends State<ItemCard> {
                             Icon(
                               Icons.monetization_on_rounded,
                               size: 12,
-                              color: AppColors.secondary.withValues(alpha: 0.85),
+                              color: AppColors.secondary.withOpacity(0.85),
                             ),
                             const SizedBox(width: 3),
                             Text(
@@ -260,9 +258,9 @@ class _StockPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.14),
+        color: color.withOpacity(0.14),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: color.withValues(alpha: 0.28)),
+        border: Border.all(color: color.withOpacity(0.28)),
       ),
       child: Text(
         inStock ? '×$stock' : 'Sold',

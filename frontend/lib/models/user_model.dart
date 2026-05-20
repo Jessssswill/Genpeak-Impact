@@ -96,7 +96,6 @@ class PlayerStatsModel {
   }
 }
 
-// ─── Dummy Player Stats ───
 final PlayerStatsModel dummyPlayerStats = PlayerStatsModel(
   id: 0,
   userId: '',

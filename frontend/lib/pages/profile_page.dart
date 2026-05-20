@@ -99,7 +99,6 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               const SizedBox(height: 10),
 
-              // ── Avatar & Info ──
               Stack(
                 alignment: Alignment.bottomRight,
                 children: [
@@ -109,8 +108,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: 80, height: 80,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.primary.withValues(alpha: 0.15),
-                        border: Border.all(color: AppColors.primary.withValues(alpha: 0.3), width: 2),
+                        color: AppColors.primary.withOpacity(0.15),
+                        border: Border.all(color: AppColors.primary.withOpacity(0.3), width: 2),
                       ),
                       child: ClipOval(
                         child: _avatarBase64 != null
@@ -144,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(width: 8),
                 GestureDetector(
                   onTap: _showUsernameDialog,
-                  child: Icon(Icons.edit_rounded, size: 16, color: AppColors.primary.withValues(alpha: 0.7)),
+                  child: Icon(Icons.edit_rounded, size: 16, color: AppColors.primary.withOpacity(0.7)),
                 ),
               ]),
               const SizedBox(height: 4),
@@ -153,14 +152,13 @@ class _ProfilePageState extends State<ProfilePage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                 decoration: BoxDecoration(
-                  color: (auth.isAdmin ? AppColors.secondary : AppColors.primary).withValues(alpha: 0.1),
+                  color: (auth.isAdmin ? AppColors.secondary : AppColors.primary).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(AppRadius.badge),
                 ),
                 child: Text(user?.role ?? 'USER', style: TextStyle(color: auth.isAdmin ? AppColors.secondary : AppColors.primary, fontSize: 10, fontWeight: FontWeight.w600, letterSpacing: 1)),
               ),
               const SizedBox(height: 28),
 
-              // ── Edit Profile button ──
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
@@ -169,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   label: const Text('Change Username'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.primary,
-                    side: BorderSide(color: AppColors.primary.withValues(alpha: 0.3)),
+                    side: BorderSide(color: AppColors.primary.withOpacity(0.3)),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
                   ),
@@ -177,7 +175,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 16),
 
-              // ── Theme Settings ──
               GlassCard(
                 padding: const EdgeInsets.all(18),
                 child: Column(
@@ -223,7 +220,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 16),
 
-              // ── Sign Out ──
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
@@ -235,7 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   label: const Text('Sign Out'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.danger,
-                    side: BorderSide(color: AppColors.danger.withValues(alpha: 0.3)),
+                    side: BorderSide(color: AppColors.danger.withOpacity(0.3)),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
                   ),
@@ -249,8 +245,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-// ── Theme option card ─────────────────────────────────────────────────────────
 
 class _ThemeOption extends StatelessWidget {
   final AppThemeMode mode;
@@ -282,10 +276,10 @@ class _ThemeOption extends StatelessWidget {
           curve: Curves.easeInOut,
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.primary.withValues(alpha: 0.08) : AppColors.surfaceCard,
+            color: isSelected ? AppColors.primary.withOpacity(0.08) : AppColors.surfaceCard,
             borderRadius: BorderRadius.circular(AppRadius.card),
             border: Border.all(
-              color: isSelected ? AppColors.primary.withValues(alpha: 0.5) : AppColors.cardBorder,
+              color: isSelected ? AppColors.primary.withOpacity(0.5) : AppColors.cardBorder,
               width: isSelected ? 1.5 : 1,
             ),
           ),
@@ -296,7 +290,7 @@ class _ThemeOption extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: previewBg,
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                  border: Border.all(color: Colors.white.withOpacity(0.08)),
                 ),
                 child: Stack(
                   children: [
@@ -313,7 +307,7 @@ class _ThemeOption extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Center(child: Icon(icon, size: 16, color: AppColors.primary.withValues(alpha: 0.8))),
+                    Center(child: Icon(icon, size: 16, color: AppColors.primary.withOpacity(0.8))),
                   ],
                 ),
               ),

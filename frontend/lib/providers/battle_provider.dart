@@ -201,7 +201,6 @@ class BattleProvider extends ChangeNotifier {
     for (int t = 0; t < 30; t++) {
       if (currentEnemyHp <= 0 || currentPlayerHp <= 0) break;
 
-      // ── Player turn ──
       final playerCrit = random.nextDouble() < (playerCritChance / 100);
       final playerCritMult = playerCrit ? (playerCritDamage / 100) : 1.0;
       final rawPlayerDmg = (playerDamage * eleMult * playerCritMult).round();
@@ -220,7 +219,6 @@ class BattleProvider extends ChangeNotifier {
         break;
       }
 
-      // ── Enemy turn ──
       final enemyCrit = random.nextDouble() < enemyCritChance;
       final enemyCritMult = enemyCrit ? enemyCritDamageMult : 1.0;
       // Enemy advantage is inverse of player's element mult

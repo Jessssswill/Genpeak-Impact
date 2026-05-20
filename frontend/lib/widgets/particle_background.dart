@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../theme/app_theme.dart';
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Public widget
-// ─────────────────────────────────────────────────────────────────────────────
 
 class ParticleBackground extends StatefulWidget {
   /// Number of particles. Reduce for lower-end devices.
@@ -24,9 +22,7 @@ class ParticleBackground extends StatefulWidget {
   State<ParticleBackground> createState() => _ParticleBackgroundState();
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // State
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _ParticleBackgroundState extends State<ParticleBackground>
     with SingleTickerProviderStateMixin {
@@ -83,9 +79,7 @@ class _ParticleBackgroundState extends State<ParticleBackground>
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Particle system  (ChangeNotifier drives CustomPainter via `repaint:`)
-// ─────────────────────────────────────────────────────────────────────────────
+// Particle system
 
 class _ParticleSystem extends ChangeNotifier {
   final _rng = Random();
@@ -108,9 +102,7 @@ class _ParticleSystem extends ChangeNotifier {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Particle data
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _Particle {
   double x, y, vx, vy;
@@ -162,9 +154,7 @@ class _Particle {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Painter
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _ParticlePainter extends CustomPainter {
   final _ParticleSystem system;
@@ -186,8 +176,7 @@ class _ParticlePainter extends CustomPainter {
     final pts = system.particles;
     if (pts.isEmpty) return;
 
-    // ── Connection lines ─────────────────────────────────────────────────────
-    // O(n²) but n ≤ 35, so ≤ 595 pairs — negligible
+    // sambungin garis antar partikel — O(n²) tapi n ≤ 35 jadi fine
     for (int i = 0; i < pts.length - 1; i++) {
       final a = pts[i];
       for (int j = i + 1; j < pts.length; j++) {
@@ -200,14 +189,14 @@ class _ParticlePainter extends CustomPainter {
         // Fade line opacity with distance
         final t = 1.0 - distSq / _linkDistSq;
         _linePaint.color =
-            AppColors.primary.withValues(alpha: t * t * 0.14);
+            AppColors.primary.withOpacity(t * t * 0.14);
         canvas.drawLine(Offset(a.x, a.y), Offset(b.x, b.y), _linePaint);
       }
     }
 
-    // ── Dots ─────────────────────────────────────────────────────────────────
+    // gambar titik
     for (final p in pts) {
-      _dotPaint.color = AppColors.primary.withValues(alpha: p.opacity);
+      _dotPaint.color = AppColors.primary.withOpacity(p.opacity);
       canvas.drawCircle(Offset(p.x, p.y), p.radius, _dotPaint);
     }
   }

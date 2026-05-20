@@ -31,9 +31,9 @@ class ElementBadge extends StatelessWidget {
         vertical: compact ? 2 : AppSpacing.xs,
       ),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
+        color: color.withOpacity(0.15),
         borderRadius: BorderRadius.circular(AppRadius.badge),
-        border: Border.all(color: color.withValues(alpha: 0.3), width: 1),
+        border: Border.all(color: color.withOpacity(0.3), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -90,7 +90,7 @@ class ElementFilterChip extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? color.withValues(alpha: 0.2) : AppColors.surface,
+          color: isSelected ? color.withOpacity(0.2) : AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.badge),
           border: Border.all(
             color: isSelected ? color : AppColors.divider,
@@ -99,7 +99,7 @@ class ElementFilterChip extends StatelessWidget {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: color.withValues(alpha: 0.2),
+                    color: color.withOpacity(0.2),
                     blurRadius: 8,
                     spreadRadius: -2,
                   ),

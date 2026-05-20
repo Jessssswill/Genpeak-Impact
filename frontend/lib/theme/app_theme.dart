@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 enum AppThemeMode { dark, gray, light }
 
-// ── Internal color scheme data ────────────────────────────────────────────────
-
 class _ColorSchemeData {
   const _ColorSchemeData({
     required this.background,
@@ -70,10 +68,7 @@ class _ColorSchemeData {
   );
 }
 
-// ── AppColors ─────────────────────────────────────────────────────────────────
-
 class AppColors {
-  // ── Dynamic (theme-sensitive) ──
   static _ColorSchemeData _scheme = _ColorSchemeData.dark;
 
   static void applyMode(AppThemeMode mode) {
@@ -95,23 +90,19 @@ class AppColors {
   static Color get cardBorder    => _scheme.cardBorder;
   static Color get overlay       => _scheme.overlay;
 
-  // ── Primary: Muted Teal (static) ──
   static const Color primary      = Color(0xFF6BA89A);
   static const Color primaryLight = Color(0xFF8CC4B6);
   static const Color primaryDark  = Color(0xFF4E8A7C);
 
-  // ── Secondary: Soft Gold (static) ──
   static const Color secondary      = Color(0xFFBFA76A);
   static const Color secondaryLight = Color(0xFFD4C08E);
   static const Color secondaryDark  = Color(0xFF9E8A50);
 
-  // ── Semantic (static) ──
   static const Color danger  = Color(0xFFCF6B6B);
   static const Color success = Color(0xFF6BAF8D);
   static const Color warning = Color(0xFFCFB86B);
   static const Color info    = Color(0xFF6B96CF);
 
-  // ── Element Colors (static) ──
   static const Color pyro    = Color(0xFFD47A3E);
   static const Color hydro   = Color(0xFF4EAAD4);
   static const Color electro = Color(0xFF9E72C4);
@@ -133,13 +124,10 @@ class AppColors {
     }
   }
 
-  // ── Rarity Colors (static) ──
   static const Color rarity5 = Color(0xFFCF9A3E);
   static const Color rarity4 = Color(0xFF9E72C4);
   static const Color rarity3 = Color(0xFF4EAAD4);
 }
-
-// ── AppSpacing / AppRadius ────────────────────────────────────────────────────
 
 class AppSpacing {
   static const double xs  = 4;
@@ -161,8 +149,6 @@ class AppRadius {
   static const double xl     = 20;
   static const double full   = 999;
 }
-
-// ── AppTheme ──────────────────────────────────────────────────────────────────
 
 class AppTheme {
   static ThemeData themeFor(AppThemeMode mode) {

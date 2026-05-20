@@ -34,8 +34,6 @@ class AuthProvider extends ChangeNotifier {
   ArtifactModel? equippedArtifactInSlot(String type) => _equippedArtifacts[type];
   int get equippedArtifactCount => _equippedArtifacts.values.where((a) => a != null).length;
 
-  // ── Effective stats (base + all equipped bonuses) ──────────────────────────
-
   /// HP = base + Flower mainStatValue (upgraded flat HP, falls back to primaryStat)
   int get effectiveHp {
     int hp = _playerStats.hp;

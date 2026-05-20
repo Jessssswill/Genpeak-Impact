@@ -40,12 +40,10 @@ class _SplashPageState extends State<SplashPage> {
         color: AppColors.background,
         child: Stack(
           children: [
-            // ── Particle network (Three.js-style, 30 fps capped) ─────────
             const Positioned.fill(
               child: ParticleBackground(particleCount: 28, targetFps: 30),
             ),
 
-            // ── Background glow orbs ──────────────────────────────────────
             _GlowOrb(
               color: AppColors.primary,
               size: 340,
@@ -71,7 +69,6 @@ class _SplashPageState extends State<SplashPage> {
               initialDelay: 1200,
             ),
 
-            // ── Main content ──────────────────────────────────────────────
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -84,19 +81,19 @@ class _SplashPageState extends State<SplashPage> {
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          AppColors.primary.withValues(alpha: 0.22),
-                          AppColors.primary.withValues(alpha: 0.07),
+                          AppColors.primary.withOpacity(0.22),
+                          AppColors.primary.withOpacity(0.07),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.6, 1.0],
                       ),
                       border: Border.all(
-                        color: AppColors.primary.withValues(alpha: 0.38),
+                        color: AppColors.primary.withOpacity(0.38),
                         width: 1.5,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.18),
+                          color: AppColors.primary.withOpacity(0.18),
                           blurRadius: 32,
                           spreadRadius: 4,
                         ),
@@ -139,7 +136,7 @@ class _SplashPageState extends State<SplashPage> {
                       .shimmer(
                         delay: 200.ms,
                         duration: 1200.ms,
-                        color: AppColors.primaryLight.withValues(alpha: 0.55),
+                        color: AppColors.primaryLight.withOpacity(0.55),
                       ),
 
                   const SizedBox(height: 8),
@@ -152,21 +149,12 @@ class _SplashPageState extends State<SplashPage> {
                       fontSize: 13,
                       letterSpacing: 3,
                     ),
-                  )
-                      .animate(delay: 580.ms)
-                      .fadeIn(duration: 500.ms)
-                      .slideY(
-                        begin: 0.35,
-                        duration: 500.ms,
-                        curve: Curves.easeOutCubic,
-                      ),
+                  ),
 
                   const SizedBox(height: 60),
 
                   // Bouncing dots
-                  const _BouncingDots()
-                      .animate(delay: 900.ms)
-                      .fadeIn(duration: 400.ms),
+                  const _BouncingDots(),
                 ],
               ),
             ),
@@ -176,8 +164,6 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 }
-
-// ── Animated background glow orb ─────────────────────────────────────────────
 
 class _GlowOrb extends StatelessWidget {
   final Color color;
@@ -211,34 +197,17 @@ class _GlowOrb extends StatelessWidget {
           shape: BoxShape.circle,
           gradient: RadialGradient(
             colors: [
-              color.withValues(alpha: 0.13),
-              color.withValues(alpha: 0.04),
+              color.withOpacity(0.13),
+              color.withOpacity(0.04),
               Colors.transparent,
             ],
             stops: const [0.0, 0.55, 1.0],
           ),
         ),
-      )
-          .animate(
-            onPlay: (c) => c.repeat(reverse: true),
-            delay: Duration(milliseconds: initialDelay),
-          )
-          .scaleXY(
-            begin: 0.82,
-            end: 1.16,
-            duration: Duration(milliseconds: pulseDuration),
-            curve: Curves.easeInOut,
-          )
-          .fadeIn(
-            begin: 0.45,
-            duration: Duration(milliseconds: pulseDuration),
-            curve: Curves.easeInOut,
-          ),
+      ),
     );
   }
 }
-
-// ── 3 staggered bouncing dots ─────────────────────────────────────────────────
 
 class _BouncingDots extends StatelessWidget {
   const _BouncingDots();
@@ -253,21 +222,10 @@ class _BouncingDots extends StatelessWidget {
           height: 7,
           margin: const EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.65),
+            color: AppColors.primary.withOpacity(0.65),
             shape: BoxShape.circle,
           ),
-        )
-            .animate(
-              onPlay: (c) => c.repeat(reverse: true),
-              delay: Duration(milliseconds: 180 * i),
-            )
-            .slideY(
-              begin: 0.0,
-              end: -1.2,
-              duration: 480.ms,
-              curve: Curves.easeInOut,
-            )
-            .fadeIn(begin: 0.45, duration: 480.ms, curve: Curves.easeInOut);
+        );
       }),
     );
   }

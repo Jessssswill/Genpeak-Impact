@@ -46,7 +46,6 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Header ──
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
               child: Row(
@@ -80,9 +79,9 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.10),
+                      color: AppColors.primary.withOpacity(0.10),
                       borderRadius: BorderRadius.circular(11),
-                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.22)),
+                      border: Border.all(color: AppColors.primary.withOpacity(0.22)),
                     ),
                     child: const Icon(Icons.storefront_rounded, color: AppColors.primary, size: 19),
                   ),
@@ -91,7 +90,6 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
             ),
             const SizedBox(height: 18),
 
-            // ── Search bar ──
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GlassmorphicContainer(
@@ -100,7 +98,7 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
                 padding: EdgeInsets.zero,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.15),
+                    color: Colors.black.withOpacity(0.15),
                     blurRadius: 12,
                     offset: const Offset(0, 3),
                   ),
@@ -115,7 +113,7 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
                     hintStyle: TextStyle(color: AppColors.textMuted, fontSize: 13),
                     prefixIcon: Icon(
                       Icons.search_rounded,
-                      color: AppColors.textMuted.withValues(alpha: 0.7),
+                      color: AppColors.textMuted.withOpacity(0.7),
                       size: 19,
                     ),
                     suffixIcon: _searchCtrl.text.isNotEmpty
@@ -135,7 +133,6 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
             ),
             const SizedBox(height: 12),
 
-            // ── Tab bar ──
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: GlassmorphicContainer(
@@ -145,9 +142,9 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
                 child: TabBar(
                   controller: _tabCtrl,
                   indicator: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.18),
+                    color: AppColors.primary.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(9),
-                    border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+                    border: Border.all(color: AppColors.primary.withOpacity(0.25)),
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
                   dividerHeight: 0,
@@ -177,7 +174,6 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
             ),
             const SizedBox(height: 10),
 
-            // ── Element filter chips ──
             SizedBox(
               height: 34,
               child: ListView.separated(
@@ -200,12 +196,11 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
             ),
             const SizedBox(height: 10),
 
-            // ── Results count ──
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
-                  Container(width: 2.5, height: 11, color: AppColors.primary.withValues(alpha: 0.6)),
+                  Container(width: 2.5, height: 11, color: AppColors.primary.withOpacity(0.6)),
                   const SizedBox(width: 7),
                   Text(
                     '${shop.selectedCategory == 'artifacts' ? shop.artifactSets.length : shop.currentItems.length}'
@@ -222,7 +217,7 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
                       child: Text(
                         'Clear all',
                         style: TextStyle(
-                          color: AppColors.primary.withValues(alpha: 0.8),
+                          color: AppColors.primary.withOpacity(0.8),
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                         ),
@@ -233,7 +228,6 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
             ),
             const SizedBox(height: 6),
 
-            // ── Grid — animated between loading / error / content ──
             Expanded(
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 280),
@@ -246,8 +240,6 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
       ),
     );
   }
-
-  // ── Content router ──────────────────────────────────────────────────────
 
   Widget _buildContent(ShopProvider shop) {
     if (shop.isLoading) return _buildShimmerGrid(key: const ValueKey('shimmer'));
@@ -325,14 +317,12 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
       slivers: [
         const SliverToBoxAdapter(child: SizedBox(height: 4)),
         for (final elementId in orderedIds) ...[
-          // ── Element section header ──
           SliverToBoxAdapter(
             child: _ElementSectionHeader(
               element: elementFor(elementId),
               count: groups[elementId]!.length,
             ),
           ),
-          // ── Set cards grid ──
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
             sliver: SliverGrid(
@@ -400,7 +390,7 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
   Widget _buildEmpty(ShopProvider shop) {
     return Center(
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Icon(Icons.search_off_rounded, size: 38, color: AppColors.textMuted.withValues(alpha: 0.4)),
+        Icon(Icons.search_off_rounded, size: 38, color: AppColors.textMuted.withOpacity(0.4)),
         const SizedBox(height: 12),
         Text('No items found', style: TextStyle(color: AppColors.textMuted, fontSize: 14)),
         const SizedBox(height: 10),
@@ -421,7 +411,7 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
       child: Padding(
         padding: const EdgeInsets.all(32),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(Icons.error_outline_rounded, size: 38, color: AppColors.danger.withValues(alpha: 0.8)),
+          Icon(Icons.error_outline_rounded, size: 38, color: AppColors.danger.withOpacity(0.8)),
           const SizedBox(height: 12),
           Text('Error Loading Items',
               style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.w600)),
@@ -446,8 +436,6 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
   }
 }
 
-// ── Element filter chip ────────────────────────────────────────────────────
-
 class _ElementChip extends StatelessWidget {
   final String label;
   final Color color;
@@ -471,17 +459,17 @@ class _ElementChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: isSelected
-              ? color.withValues(alpha: 0.18)
-              : AppColors.surface.withValues(alpha: 0.7),
+              ? color.withOpacity(0.18)
+              : AppColors.surface.withOpacity(0.7),
           borderRadius: BorderRadius.circular(9),
           border: Border.all(
             color: isSelected
-                ? color.withValues(alpha: 0.45)
-                : Colors.white.withValues(alpha: 0.08),
+                ? color.withOpacity(0.45)
+                : Colors.white.withOpacity(0.08),
             width: isSelected ? 1.2 : 1.0,
           ),
           boxShadow: isSelected
-              ? [BoxShadow(color: color.withValues(alpha: 0.18), blurRadius: 8, offset: const Offset(0, 2))]
+              ? [BoxShadow(color: color.withOpacity(0.18), blurRadius: 8, offset: const Offset(0, 2))]
               : null,
         ),
         child: Row(
@@ -509,8 +497,6 @@ class _ElementChip extends StatelessWidget {
   }
 }
 
-// ── Element section header (artifacts tab) ────────────────────────────────
-
 class _ElementSectionHeader extends StatelessWidget {
   final ElementModel element;
   final int count;
@@ -531,7 +517,7 @@ class _ElementSectionHeader extends StatelessWidget {
               color: color,
               borderRadius: BorderRadius.circular(2),
               boxShadow: [
-                BoxShadow(color: color.withValues(alpha: 0.45), blurRadius: 6),
+                BoxShadow(color: color.withOpacity(0.45), blurRadius: 6),
               ],
             ),
           ),
@@ -558,9 +544,9 @@ class _ElementSectionHeader extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.12),
+              color: color.withOpacity(0.12),
               borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: color.withValues(alpha: 0.22)),
+              border: Border.all(color: color.withOpacity(0.22)),
             ),
             child: Text(
               '$count set${count == 1 ? '' : 's'}',
@@ -576,8 +562,6 @@ class _ElementSectionHeader extends StatelessWidget {
     );
   }
 }
-
-// ── Shimmer skeleton card ──────────────────────────────────────────────────
 
 class _ShimmerCard extends StatefulWidget {
   const _ShimmerCard();
@@ -630,7 +614,7 @@ class _ShimmerCardState extends State<_ShimmerCard> with SingleTickerProviderSta
                       width: 56, height: 56,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.surfaceLight.withValues(alpha: 0.4 + t * 0.4),
+                        color: AppColors.surfaceLight.withOpacity(0.4 + t * 0.4),
                       ),
                     ),
                   ),
@@ -644,7 +628,7 @@ class _ShimmerCardState extends State<_ShimmerCard> with SingleTickerProviderSta
                       Container(
                         height: 9, width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceLight.withValues(alpha: 0.5 + t * 0.4),
+                          color: AppColors.surfaceLight.withOpacity(0.5 + t * 0.4),
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
@@ -652,7 +636,7 @@ class _ShimmerCardState extends State<_ShimmerCard> with SingleTickerProviderSta
                       Container(
                         height: 8, width: 55,
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceLight.withValues(alpha: 0.35 + t * 0.3),
+                          color: AppColors.surfaceLight.withOpacity(0.35 + t * 0.3),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),

@@ -68,8 +68,6 @@ class _ItemDetailPageState extends State<ItemDetailPage>
     );
   }
 
-  // ── Purchase flow ─────────────────────────────────────────────────────────
-
   void _handlePurchase(ShopItem item) {
     final stats = context.read<AuthProvider>().playerStats;
 
@@ -87,7 +85,7 @@ class _ItemDetailPageState extends State<ItemDetailPage>
 
     showDialog(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.65),
+      barrierColor: Colors.black.withOpacity(0.65),
       builder: (ctx) => _PurchaseDialog(
         item: item,
         remaining: stats.money - item.price,
@@ -145,8 +143,6 @@ class _ItemDetailPageState extends State<ItemDetailPage>
     ));
   }
 
-  // ── Build ─────────────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     final item = ModalRoute.of(context)!.settings.arguments as ShopItem;
@@ -165,8 +161,8 @@ class _ItemDetailPageState extends State<ItemDetailPage>
             end: Alignment.bottomCenter,
             stops: const [0.0, 0.45, 1.0],
             colors: [
-              elementColor.withValues(alpha: 0.12),
-              AppColors.background.withValues(alpha: 0.97),
+              elementColor.withOpacity(0.12),
+              AppColors.background.withOpacity(0.97),
               AppColors.background,
             ],
           ),
@@ -174,7 +170,6 @@ class _ItemDetailPageState extends State<ItemDetailPage>
         child: SafeArea(
           child: Column(
             children: [
-              // ── App bar ──
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Row(children: [
@@ -189,14 +184,12 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                 ]),
               ),
 
-              // ── Scrollable body ──
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 32),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // ── Hero image — fade in from above + continuous float ──
                       _fadeSlide(
                         AnimatedBuilder(
                           animation: _floatCtrl,
@@ -212,8 +205,8 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                                 shape: BoxShape.circle,
                                 gradient: RadialGradient(
                                   colors: [
-                                    elementColor.withValues(alpha: 0.20),
-                                    elementColor.withValues(alpha: 0.05),
+                                    elementColor.withOpacity(0.20),
+                                    elementColor.withOpacity(0.05),
                                     Colors.transparent,
                                   ],
                                   stops: const [0.0, 0.55, 1.0],
@@ -229,7 +222,7 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                                         errorBuilder: (_, _, _) => Icon(
                                           isWeapon ? Icons.gavel_rounded : Icons.diamond_rounded,
                                           size: 68,
-                                          color: elementColor.withValues(alpha: 0.6),
+                                          color: elementColor.withOpacity(0.6),
                                         ),
                                         loadingBuilder: (context, child, progress) {
                                           if (progress == null) return child;
@@ -237,7 +230,7 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                                             width: 28, height: 28,
                                             child: CircularProgressIndicator(
                                               strokeWidth: 2,
-                                              color: elementColor.withValues(alpha: 0.5),
+                                              color: elementColor.withOpacity(0.5),
                                             ),
                                           );
                                         },
@@ -245,7 +238,7 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                                     : Icon(
                                         isWeapon ? Icons.gavel_rounded : Icons.diamond_rounded,
                                         size: 68,
-                                        color: elementColor.withValues(alpha: 0.6),
+                                        color: elementColor.withOpacity(0.6),
                                       ),
                               ),
                             ),
@@ -257,7 +250,6 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                       ),
                       const SizedBox(height: 18),
 
-                      // ── Name & type ──
                       _fadeSlide(
                         Center(
                           child: Column(children: [
@@ -275,7 +267,7 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                             Text(
                               item.type.toUpperCase(),
                               style: TextStyle(
-                                color: elementColor.withValues(alpha: 0.8),
+                                color: elementColor.withOpacity(0.8),
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 1.8,
@@ -288,7 +280,6 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                       ),
                       const SizedBox(height: 20),
 
-                      // ── Price & stock row ──
                       _fadeSlide(
                         Center(
                           child: Container(
@@ -342,17 +333,16 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                       ),
                       const SizedBox(height: 28),
 
-                      // ── Stats card ──
                       _fadeSlide(
                         GlassmorphicContainer(
                           tier: GlassTier.subtle,
                           borderRadius: 16,
                           tintColor: elementColor,
-                          borderColor: elementColor.withValues(alpha: 0.2),
+                          borderColor: elementColor.withOpacity(0.2),
                           padding: const EdgeInsets.fromLTRB(20, 22, 20, 22),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.22),
+                              color: Colors.black.withOpacity(0.22),
                               blurRadius: 20,
                               offset: const Offset(0, 6),
                             ),
@@ -370,7 +360,6 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                       ),
                       const SizedBox(height: 28),
 
-                      // ── Description ──
                       _fadeSlide(
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -396,7 +385,6 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                       ),
                       const SizedBox(height: 32),
 
-                      // ── Purchase CTA ──
                       _fadeSlide(
                         Column(
                           children: [
@@ -432,8 +420,6 @@ class _ItemDetailPageState extends State<ItemDetailPage>
   }
 }
 
-// ── Stats sub-widgets ──────────────────────────────────────────────────────
-
 class _WeaponStats extends StatelessWidget {
   final WeaponModel item;
   final Color elementColor;
@@ -453,7 +439,7 @@ class _WeaponStats extends StatelessWidget {
                 Text(
                   'BASE ATK',
                   style: TextStyle(
-                    color: elementColor.withValues(alpha: 0.85),
+                    color: elementColor.withOpacity(0.85),
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.5,
@@ -485,9 +471,9 @@ class _WeaponStats extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.3),
+                    color: Colors.black.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                    border: Border.all(color: Colors.white.withOpacity(0.08)),
                   ),
                   child: Text(
                     'Lv. 1 / 20',
@@ -545,7 +531,7 @@ class _ArtifactStats extends StatelessWidget {
                 Text(
                   _mainStatLabel().toUpperCase(),
                   style: TextStyle(
-                    color: elementColor.withValues(alpha: 0.85),
+                    color: elementColor.withOpacity(0.85),
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.5,
@@ -577,9 +563,9 @@ class _ArtifactStats extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.3),
+                    color: Colors.black.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                    border: Border.all(color: Colors.white.withOpacity(0.08)),
                   ),
                   child: Text(
                     '+0',
@@ -592,11 +578,11 @@ class _ArtifactStats extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 18),
-          child: Container(height: 1, color: Colors.white.withValues(alpha: 0.08)),
+          child: Container(height: 1, color: Colors.white.withOpacity(0.08)),
         ),
         Row(
           children: [
-            Container(width: 3, height: 14, color: elementColor.withValues(alpha: 0.6)),
+            Container(width: 3, height: 14, color: elementColor.withOpacity(0.6)),
             const SizedBox(width: 10),
             Text(_secondaryStatLabel(), style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
             const SizedBox(width: 10),
@@ -611,7 +597,7 @@ class _ArtifactStats extends StatelessWidget {
         Text(
           item.setName,
           style: TextStyle(
-            color: elementColor.withValues(alpha: 0.9),
+            color: elementColor.withOpacity(0.9),
             fontSize: 13,
             fontWeight: FontWeight.w700,
           ),
@@ -629,8 +615,6 @@ class _ArtifactStats extends StatelessWidget {
     );
   }
 }
-
-// ── Purchase dialog — spring-animated entry ────────────────────────────────
 
 class _PurchaseDialog extends StatefulWidget {
   final ShopItem item;
@@ -685,16 +669,16 @@ class _PurchaseDialogState extends State<_PurchaseDialog>
               tier: GlassTier.prominent,
               borderRadius: 20,
               tintColor: AppColors.primary,
-              borderColor: Colors.white.withValues(alpha: 0.18),
+              borderColor: Colors.white.withOpacity(0.18),
               padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withValues(alpha: 0.15),
+                  color: AppColors.primary.withOpacity(0.15),
                   blurRadius: 40,
                   offset: const Offset(0, 12),
                 ),
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.4),
+                  color: Colors.black.withOpacity(0.4),
                   blurRadius: 24,
                   offset: const Offset(0, 8),
                 ),
@@ -709,9 +693,9 @@ class _PurchaseDialogState extends State<_PurchaseDialog>
                       width: 48,
                       height: 48,
                       decoration: BoxDecoration(
-                        color: AppColors.secondary.withValues(alpha: 0.12),
+                        color: AppColors.secondary.withOpacity(0.12),
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.secondary.withValues(alpha: 0.3)),
+                        border: Border.all(color: AppColors.secondary.withOpacity(0.3)),
                       ),
                       child: const Icon(Icons.shopping_bag_outlined,
                           color: AppColors.secondary, size: 22),
@@ -783,7 +767,7 @@ class _PurchaseDialogState extends State<_PurchaseDialog>
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.secondary.withValues(alpha: 0.25),
+                                color: AppColors.secondary.withOpacity(0.25),
                                 blurRadius: 12,
                                 offset: const Offset(0, 4),
                               ),

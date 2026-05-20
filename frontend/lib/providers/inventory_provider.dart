@@ -105,7 +105,6 @@ class InventoryProvider extends ChangeNotifier {
   int countCopies(ShopItem item) =>
       _ownedItems.where((i) => i.id == item.id && i.itemCategory == item.itemCategory).length;
 
-  // ─── Artifact upgrade (+1 level, 3 000 Mora) ───────────────────────────────
   Future<double?> upgradeArtifact(int inventoryId) async {
     if (_isUpgrading) return null;
     _isUpgrading = true;
@@ -147,7 +146,6 @@ class InventoryProvider extends ChangeNotifier {
     }
   }
 
-  // ─── Weapon upgrade (+1 level, scaled cost) ────────────────────────────────
   Future<double?> upgradeWeapon(int inventoryId) async {
     if (_isUpgrading) return null;
     _isUpgrading = true;
@@ -182,7 +180,6 @@ class InventoryProvider extends ChangeNotifier {
     }
   }
 
-  // ─── Reinforce (consume 2 copies → +tier, +25% stat) ──────────────────────
   Future<bool> reinforceItem(int inventoryId) async {
     final index = _ownedItems.indexWhere((i) => i.inventoryId == inventoryId);
     if (index == -1) return false;

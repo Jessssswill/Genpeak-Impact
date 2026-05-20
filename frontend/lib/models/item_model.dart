@@ -338,7 +338,6 @@ class ArtifactModel implements ShopItem {
   }
 }
 
-// ─── Dummy Elements ───
 final List<ElementModel> dummyElements = [
   ElementModel(id: 1, name: 'Pyro', type: 'Pyro', imageUrl: ''),
   ElementModel(id: 2, name: 'Hydro', type: 'Hydro', imageUrl: ''),
@@ -349,7 +348,6 @@ final List<ElementModel> dummyElements = [
   ElementModel(id: 7, name: 'Geo', type: 'Geo', imageUrl: ''),
 ];
 
-// ─── Dummy Weapons ───
 final List<WeaponModel> dummyWeapons = [
   WeaponModel(
     id: 1,
@@ -449,7 +447,6 @@ final List<WeaponModel> dummyWeapons = [
   ),
 ];
 
-// ─── Dummy Artifacts ───
 final List<ArtifactModel> dummyArtifacts = [
   ArtifactModel(
     id: 1,

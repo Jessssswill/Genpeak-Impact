@@ -81,11 +81,11 @@ class _LoginPageState extends State<LoginPage> {
                   width: 70, height: 70,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: AppColors.primary.withValues(alpha: 0.12),
-                    border: Border.all(color: AppColors.primary.withValues(alpha: 0.25), width: 2),
+                    color: AppColors.primary.withOpacity(0.12),
+                    border: Border.all(color: AppColors.primary.withOpacity(0.25), width: 2),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.15),
+                        color: AppColors.primary.withOpacity(0.15),
                         blurRadius: 24,
                         spreadRadius: 2,
                       ),
@@ -159,9 +159,9 @@ class _LoginPageState extends State<LoginPage> {
                                 padding: const EdgeInsets.all(10),
                                 margin: const EdgeInsets.only(top: 8),
                                 decoration: BoxDecoration(
-                                  color: AppColors.danger.withValues(alpha: 0.1),
+                                  color: AppColors.danger.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: AppColors.danger.withValues(alpha: 0.2)),
+                                  border: Border.all(color: AppColors.danger.withOpacity(0.2)),
                                 ),
                                 child: Row(
                                   children: [
@@ -186,10 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                )
-                    .animate(delay: 300.ms)
-                    .fadeIn(duration: 500.ms)
-                    .slideY(begin: 0.28, duration: 500.ms, curve: Curves.easeOutCubic),
+                ),
                 const SizedBox(height: 20),
 
                 // Divider + OAuth + Demo buttons
@@ -249,7 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                             label: const Text('Demo User', style: TextStyle(fontSize: 12)),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.primary,
-                              side: BorderSide(color: AppColors.primary.withValues(alpha: 0.3)),
+                              side: BorderSide(color: AppColors.primary.withOpacity(0.3)),
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
                             ),
@@ -263,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
                             label: const Text('Demo Admin', style: TextStyle(fontSize: 12)),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.secondary,
-                              side: BorderSide(color: AppColors.secondary.withValues(alpha: 0.3)),
+                              side: BorderSide(color: AppColors.secondary.withOpacity(0.3)),
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
                             ),
@@ -272,10 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ],
-                )
-                    .animate(delay: 520.ms)
-                    .fadeIn(duration: 400.ms)
-                    .slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+                ),
                 const SizedBox(height: 24),
 
                 // Register link
@@ -288,9 +282,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text('Sign Up', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600, fontSize: 13)),
                     ),
                   ],
-                )
-                    .animate(delay: 700.ms)
-                    .fadeIn(duration: 400.ms),
+                ),
                 const SizedBox(height: 24),
               ],
             ),

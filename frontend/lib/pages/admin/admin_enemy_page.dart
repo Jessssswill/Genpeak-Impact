@@ -47,7 +47,7 @@ class _AdminEnemyPageState extends State<AdminEnemyPage> {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(color: AppColors.secondary.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(color: AppColors.secondary.withOpacity(0.15), borderRadius: BorderRadius.circular(8)),
                   child: Text('${battle.enemies.length} enemies', style: const TextStyle(color: AppColors.secondary, fontSize: 12, fontWeight: FontWeight.w600)),
                 ),
               ]),
@@ -64,7 +64,7 @@ class _AdminEnemyPageState extends State<AdminEnemyPage> {
                   label: const Text('Add Enemy'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.secondary,
-                    side: BorderSide(color: AppColors.secondary.withValues(alpha: 0.4)),
+                    side: BorderSide(color: AppColors.secondary.withOpacity(0.4)),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
                   ),
@@ -95,7 +95,7 @@ class _AdminEnemyPageState extends State<AdminEnemyPage> {
                             Container(
                               width: 44, height: 44,
                               decoration: BoxDecoration(
-                                color: elementColor.withValues(alpha: 0.12),
+                                color: elementColor.withOpacity(0.12),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: enemy.imageUrl.isNotEmpty
@@ -177,8 +177,6 @@ class _AdminEnemyPageState extends State<AdminEnemyPage> {
     );
   }
 }
-
-// ─── Enemy Create/Edit Form ───────────────────────────────────────────────────
 
 class EnemyFormPage extends StatefulWidget {
   final EnemyModel? existingEnemy;
@@ -311,7 +309,7 @@ class _EnemyFormPageState extends State<EnemyFormPage> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: selected ? color.withValues(alpha: 0.2) : AppColors.surface,
+                              color: selected ? color.withOpacity(0.2) : AppColors.surface,
                               borderRadius: BorderRadius.circular(AppRadius.badge),
                               border: Border.all(color: selected ? color : AppColors.divider, width: selected ? 1.5 : 1),
                             ),
@@ -385,7 +383,7 @@ class _EnemyPickerPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Icon(Icons.add_photo_alternate_outlined, size: 32, color: AppColors.textMuted.withValues(alpha: 0.5)),
+      Icon(Icons.add_photo_alternate_outlined, size: 32, color: AppColors.textMuted.withOpacity(0.5)),
       const SizedBox(height: 6),
       Text('Choose Image', style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
     ]);

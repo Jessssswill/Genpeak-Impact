@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: AppColors.secondary.withValues(alpha: 0.12),
+                            color: AppColors.secondary.withOpacity(0.12),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: const Text('ADMIN',
@@ -107,69 +107,58 @@ class _HomePageState extends State<HomePage> {
               Row(
                 children: [
                   Expanded(
-                    child: _StatCard(icon: Icons.gavel_rounded, value: '${inventory.weaponCount}', label: 'Weapons', color: AppColors.primary)
-                        .animate(delay: 260.ms).fadeIn(duration: 400.ms).slideY(begin: 0.3, duration: 400.ms, curve: Curves.easeOutCubic),
+                    child: _StatCard(icon: Icons.gavel_rounded, value: '${inventory.weaponCount}', label: 'Weapons', color: AppColors.primary),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: _StatCard(icon: Icons.diamond_rounded, value: '${inventory.artifactCount}', label: 'Artifacts', color: AppColors.electro)
-                        .animate(delay: 320.ms).fadeIn(duration: 400.ms).slideY(begin: 0.3, duration: 400.ms, curve: Curves.easeOutCubic),
+                    child: _StatCard(icon: Icons.diamond_rounded, value: '${inventory.artifactCount}', label: 'Artifacts', color: AppColors.electro),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: _StatCard(icon: Icons.shield_rounded, value: '${battles.battleHistory.length}', label: 'Battles', color: AppColors.pyro)
-                        .animate(delay: 380.ms).fadeIn(duration: 400.ms).slideY(begin: 0.3, duration: 400.ms, curve: Curves.easeOutCubic),
+                    child: _StatCard(icon: Icons.shield_rounded, value: '${battles.battleHistory.length}', label: 'Battles', color: AppColors.pyro),
                   ),
                 ],
               ),
               const SizedBox(height: 24),
 
-              // Character card (user only)
               if (!auth.isAdmin) ...[
-                SectionTitle(title: 'Character', icon: Icons.person_rounded, color: AppColors.secondary)
-                    .animate(delay: 440.ms).fadeIn(duration: 400.ms),
+                SectionTitle(title: 'Character', icon: Icons.person_rounded, color: AppColors.secondary),
                 const SizedBox(height: 12),
                 _CharacterCard(
                   onManage: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const EquipmentPage()),
                   ),
-                ).animate(delay: 500.ms).fadeIn(duration: 400.ms).slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+                ),
                 const SizedBox(height: 24),
               ],
 
               // Quick Actions
-              SectionTitle(title: 'Quick Actions', icon: Icons.apps_rounded)
-                  .animate(delay: 460.ms).fadeIn(duration: 400.ms),
+              SectionTitle(title: 'Quick Actions', icon: Icons.apps_rounded),
               const SizedBox(height: 12),
               if (auth.isAdmin) ...[
                 Row(
                   children: [
                     Expanded(
-                      child: _ActionCard(icon: Icons.inventory_2_rounded, label: 'Manage Items', subtitle: 'Add, edit, delete', color: AppColors.secondary, onTap: () => _navigateToTab(1))
-                          .animate(delay: 520.ms).fadeIn(duration: 400.ms).slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+                      child: _ActionCard(icon: Icons.inventory_2_rounded, label: 'Manage Items', subtitle: 'Add, edit, delete', color: AppColors.secondary, onTap: () => _navigateToTab(1)),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: _ActionCard(icon: Icons.pest_control_rounded, label: 'Manage Enemies', subtitle: 'Add, edit, delete', color: AppColors.pyro, onTap: () => _navigateToTab(2))
-                          .animate(delay: 580.ms).fadeIn(duration: 400.ms).slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+                      child: _ActionCard(icon: Icons.pest_control_rounded, label: 'Manage Enemies', subtitle: 'Add, edit, delete', color: AppColors.pyro, onTap: () => _navigateToTab(2)),
                     ),
                   ],
                 ),
                 const SizedBox(height: 10),
-                _ActionCard(icon: Icons.person_rounded, label: 'Profile', subtitle: 'Settings & theme', color: AppColors.primary, onTap: () => _navigateToTab(3))
-                    .animate(delay: 620.ms).fadeIn(duration: 400.ms).slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+                _ActionCard(icon: Icons.person_rounded, label: 'Profile', subtitle: 'Settings & theme', color: AppColors.primary, onTap: () => _navigateToTab(3)),
               ] else ...[
                 Row(
                   children: [
                     Expanded(
-                      child: _ActionCard(icon: Icons.store_rounded, label: 'Shop', subtitle: 'Browse items', color: AppColors.primary, onTap: () => _navigateToTab(1))
-                          .animate(delay: 520.ms).fadeIn(duration: 400.ms).slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+                      child: _ActionCard(icon: Icons.store_rounded, label: 'Shop', subtitle: 'Browse items', color: AppColors.primary, onTap: () => _navigateToTab(1)),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: _ActionCard(icon: Icons.shield_rounded, label: 'Battle', subtitle: 'Earn Mora', color: AppColors.pyro, onTap: () => _navigateToTab(3))
-                          .animate(delay: 580.ms).fadeIn(duration: 400.ms).slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+                      child: _ActionCard(icon: Icons.shield_rounded, label: 'Battle', subtitle: 'Earn Mora', color: AppColors.pyro, onTap: () => _navigateToTab(3)),
                     ),
                   ],
                 ),
@@ -177,13 +166,11 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   children: [
                     Expanded(
-                      child: _ActionCard(icon: Icons.inventory_2_rounded, label: 'Inventory', subtitle: '${inventory.totalItems} items', color: AppColors.electro, onTap: () => _navigateToTab(2))
-                          .animate(delay: 620.ms).fadeIn(duration: 400.ms).slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+                      child: _ActionCard(icon: Icons.inventory_2_rounded, label: 'Inventory', subtitle: '${inventory.totalItems} items', color: AppColors.electro, onTap: () => _navigateToTab(2)),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: _ActionCard(icon: Icons.person_rounded, label: 'Profile', subtitle: 'Settings & theme', color: AppColors.secondary, onTap: () => _navigateToTab(4))
-                          .animate(delay: 680.ms).fadeIn(duration: 400.ms).slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+                      child: _ActionCard(icon: Icons.person_rounded, label: 'Profile', subtitle: 'Settings & theme', color: AppColors.secondary, onTap: () => _navigateToTab(4)),
                     ),
                   ],
                 ),
@@ -200,8 +187,6 @@ class _HomePageState extends State<HomePage> {
     Navigator.pushReplacementNamed(context, '/main', arguments: index);
   }
 }
-
-// ── Character card ─────────────────────────────────────────────────────────────
 
 class _CharacterCard extends StatefulWidget {
   final VoidCallback onManage;
@@ -304,7 +289,7 @@ class _CharacterCardState extends State<_CharacterCard>
                         onPressed: widget.onManage,
                         style: OutlinedButton.styleFrom(
                           foregroundColor: AppColors.secondary,
-                          side: BorderSide(color: AppColors.secondary.withValues(alpha: 0.45)),
+                          side: BorderSide(color: AppColors.secondary.withOpacity(0.45)),
                           padding: const EdgeInsets.symmetric(vertical: 6),
                           minimumSize: Size.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -343,7 +328,7 @@ class _EquipRow extends StatelessWidget {
           label,
           style: TextStyle(
             color: isEmpty
-                ? AppColors.textMuted.withValues(alpha: 0.5)
+                ? AppColors.textMuted.withOpacity(0.5)
                 : AppColors.textPrimary,
             fontSize: 12,
             fontWeight: FontWeight.w500,
@@ -372,8 +357,6 @@ class _MiniStat extends StatelessWidget {
   }
 }
 
-// ── Mini character painter ─────────────────────────────────────────────────────
-
 class _MiniCharacterPainter extends CustomPainter {
   final Color glow;
   final double breathe;
@@ -391,11 +374,11 @@ class _MiniCharacterPainter extends CustomPainter {
     canvas.translate(0, -breathY);
 
     final glowP = Paint()
-      ..color = glow.withValues(alpha: 0.2)
+      ..color = glow.withOpacity(0.2)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14);
     final fillP = Paint()..color = const Color(0xFF0D1520);
     final edgeP = Paint()
-      ..color = glow.withValues(alpha: 0.45)
+      ..color = glow.withOpacity(0.45)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
 
@@ -406,7 +389,7 @@ class _MiniCharacterPainter extends CustomPainter {
 
     // Glowing eyes
     final eyeP = Paint()
-      ..color = glow.withValues(alpha: 0.8)
+      ..color = glow.withOpacity(0.8)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2);
     final hcy = size.height * 0.118;
     for (final ex in [-7.5 * s, 7.5 * s]) {
@@ -509,8 +492,6 @@ class _MiniCharacterPainter extends CustomPainter {
       old.glow != glow || old.breathe != breathe || old.hasWeapon != hasWeapon;
 }
 
-// ── Stat card ──────────────────────────────────────────────────────────────────
-
 class _StatCard extends StatelessWidget {
   final IconData icon;
   final String value, label;
@@ -531,8 +512,6 @@ class _StatCard extends StatelessWidget {
     );
   }
 }
-
-// ── Action card ────────────────────────────────────────────────────────────────
 
 class _ActionCard extends StatelessWidget {
   final IconData icon;
@@ -555,7 +534,7 @@ class _ActionCard extends StatelessWidget {
         child: Row(children: [
           Container(
             width: 36, height: 36,
-            decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
             child: Icon(icon, color: color, size: 18),
           ),
           const SizedBox(width: 10),
@@ -565,7 +544,7 @@ class _ActionCard extends StatelessWidget {
               Text(subtitle, style: TextStyle(color: AppColors.textMuted, fontSize: 11)),
             ]),
           ),
-          Icon(Icons.chevron_right_rounded, color: AppColors.textMuted.withValues(alpha: 0.5), size: 18),
+          Icon(Icons.chevron_right_rounded, color: AppColors.textMuted.withOpacity(0.5), size: 18),
         ]),
       ),
     );

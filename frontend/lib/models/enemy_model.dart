@@ -90,7 +90,6 @@ class BattleResultModel {
   }
 }
 
-// ─── Dummy Enemies ───
 final List<EnemyModel> dummyEnemies = [
   EnemyModel(
     id: 1,

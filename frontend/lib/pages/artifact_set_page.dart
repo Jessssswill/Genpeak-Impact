@@ -56,7 +56,6 @@ class _ArtifactSetPageState extends State<ArtifactSetPage>
       body: SafeArea(
         child: Column(
           children: [
-            // ── Header — slides in from top with element gradient ──
             FadeTransition(
               opacity: headerAnim,
               child: SlideTransition(
@@ -71,7 +70,7 @@ class _ArtifactSetPageState extends State<ArtifactSetPage>
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        elementColor.withValues(alpha: 0.14),
+                        elementColor.withOpacity(0.14),
                         Colors.transparent,
                       ],
                     ),
@@ -124,10 +123,10 @@ class _ArtifactSetPageState extends State<ArtifactSetPage>
                         height: 8,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: elementColor.withValues(alpha: 0.7),
+                          color: elementColor.withOpacity(0.7),
                           boxShadow: [
                             BoxShadow(
-                              color: elementColor.withValues(alpha: 0.4),
+                              color: elementColor.withOpacity(0.4),
                               blurRadius: 6,
                             ),
                           ],
@@ -139,7 +138,6 @@ class _ArtifactSetPageState extends State<ArtifactSetPage>
               ),
             ),
 
-            // ── Pieces list — staggered entry ──
             Expanded(
               child: pieces.isEmpty
                   ? Center(
@@ -181,8 +179,6 @@ class _ArtifactSetPageState extends State<ArtifactSetPage>
   }
 }
 
-// ── Individual piece card ──────────────────────────────────────────────────
-
 class _PieceCard extends StatefulWidget {
   final ShopItem piece;
   final Color elementColor;
@@ -221,14 +217,14 @@ class _PieceCardState extends State<_PieceCard> {
             borderRadius: BorderRadius.circular(AppRadius.card),
             border: Border.all(
               color: _pressed
-                  ? widget.elementColor.withValues(alpha: 0.32)
+                  ? widget.elementColor.withOpacity(0.32)
                   : AppColors.cardBorder,
             ),
             boxShadow: _pressed
                 ? []
                 : [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.18),
+                      color: Colors.black.withOpacity(0.18),
                       blurRadius: 10,
                       offset: const Offset(0, 3),
                     ),
@@ -242,9 +238,9 @@ class _PieceCardState extends State<_PieceCard> {
                 height: 70,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: widget.elementColor.withValues(alpha: 0.08),
+                  color: widget.elementColor.withOpacity(0.08),
                   border: Border.all(
-                    color: widget.elementColor.withValues(alpha: 0.16),
+                    color: widget.elementColor.withOpacity(0.16),
                   ),
                 ),
                 child: widget.piece.imageUrl.isNotEmpty
@@ -256,7 +252,7 @@ class _PieceCardState extends State<_PieceCard> {
                           errorBuilder: (_, _, _) => Icon(
                             Icons.diamond_rounded,
                             size: 30,
-                            color: widget.elementColor.withValues(alpha: 0.4),
+                            color: widget.elementColor.withOpacity(0.4),
                           ),
                           loadingBuilder: (_, child, p) {
                             if (p == null) return child;
@@ -273,7 +269,7 @@ class _PieceCardState extends State<_PieceCard> {
                         ),
                       )
                     : Icon(Icons.diamond_rounded, size: 30,
-                        color: widget.elementColor.withValues(alpha: 0.4)),
+                        color: widget.elementColor.withOpacity(0.4)),
               ),
               const SizedBox(width: 12),
 
@@ -305,7 +301,7 @@ class _PieceCardState extends State<_PieceCard> {
                     const SizedBox(height: 6),
                     Row(children: [
                       Icon(Icons.monetization_on_rounded,
-                          size: 13, color: AppColors.secondary.withValues(alpha: 0.8)),
+                          size: 13, color: AppColors.secondary.withOpacity(0.8)),
                       const SizedBox(width: 3),
                       Text(
                         _formatPrice(widget.piece.price),
@@ -333,7 +329,7 @@ class _PieceCardState extends State<_PieceCard> {
               const SizedBox(width: 6),
               Icon(
                 Icons.chevron_right_rounded,
-                color: widget.elementColor.withValues(alpha: 0.4),
+                color: widget.elementColor.withOpacity(0.4),
                 size: 18,
               ),
             ],

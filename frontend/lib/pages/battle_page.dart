@@ -11,9 +11,7 @@ import '../providers/shop_provider.dart';
 import '../widgets/element_badge.dart';
 import '../widgets/shared_ui.dart';
 
-// ════════════════════════════════════════════════════════════════════════════
-// Enemy selection screen
-// ════════════════════════════════════════════════════════════════════════════
+// halaman pilih musuh
 
 class BattlePage extends StatelessWidget {
   const BattlePage({super.key});
@@ -24,7 +22,7 @@ class BattlePage extends StatelessWidget {
     final auth   = context.watch<AuthProvider>();
     final shop   = context.watch<ShopProvider>();
 
-    // Resolve player element from equipped weapon
+    // ambil element player dari senjata yang dipake
     final weapon   = auth.equippedWeapon;
     final weaponEl = weapon != null ? shop.getElement(weapon.elementId) : null;
     final playerElement = weaponEl?.type;
@@ -35,7 +33,6 @@ class BattlePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Header ───────────────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
               child: Row(children: [
@@ -55,24 +52,16 @@ class BattlePage extends StatelessWidget {
                   child: const Icon(Icons.local_fire_department_rounded, color: AppColors.pyro, size: 18),
                 ),
               ]),
-            )
-                .animate()
-                .fadeIn(duration: 400.ms)
-                .slideY(begin: -0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+            ),
 
             const SizedBox(height: 14),
 
-            // ── Player power panel ────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _PlayerPowerPanel(auth: auth, playerElement: playerElement)
-                  .animate(delay: 80.ms)
-                  .fadeIn(duration: 400.ms)
-                  .slideY(begin: 0.2, duration: 400.ms, curve: Curves.easeOutCubic),
+              child: _PlayerPowerPanel(auth: auth, playerElement: playerElement),
             ),
             const SizedBox(height: 14),
 
-            // ── Session stats bar ─────────────────────────────────────────
             if (battle.battleHistory.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -101,7 +90,6 @@ class BattlePage extends StatelessWidget {
               ),
             if (battle.battleHistory.isNotEmpty) const SizedBox(height: 14),
 
-            // ── Enemy list header ─────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SectionTitle(
@@ -112,7 +100,6 @@ class BattlePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
-            // ── Enemy list ────────────────────────────────────────────────
             Expanded(
               child: battle.isLoading
                   ? const Center(child: CircularProgressIndicator(strokeWidth: 2))
@@ -142,7 +129,6 @@ class BattlePage extends StatelessWidget {
                     ),
             ),
 
-            // ── Recent battle history ─────────────────────────────────────
             if (battle.battleHistory.isNotEmpty) ...[
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
@@ -179,8 +165,6 @@ class BattlePage extends StatelessWidget {
     return v.toStringAsFixed(0);
   }
 }
-
-// ── Player power panel ─────────────────────────────────────────────────────────
 
 class _PlayerPowerPanel extends StatelessWidget {
   final AuthProvider auth;
@@ -272,10 +256,10 @@ class _EquipBadge extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         decoration: BoxDecoration(
-          color: equipped ? color.withValues(alpha: 0.1) : AppColors.surface.withValues(alpha: 0.5),
+          color: equipped ? color.withOpacity(0.1) : AppColors.surface.withOpacity(0.5),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: equipped ? color.withValues(alpha: 0.3) : AppColors.divider,
+            color: equipped ? color.withOpacity(0.3) : AppColors.divider,
           ),
         ),
         child: Row(children: [
@@ -298,8 +282,6 @@ class _EquipBadge extends StatelessWidget {
     );
   }
 }
-
-// ── Enemy card ─────────────────────────────────────────────────────────────────
 
 class _EnemyCard extends StatelessWidget {
   final EnemyModel enemy;
@@ -364,18 +346,17 @@ class _EnemyCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.card),
           border: Border.all(
             color: hasAdvantage
-                ? AppColors.success.withValues(alpha: 0.35)
+                ? AppColors.success.withOpacity(0.35)
                 : hasDisadvantage
-                    ? AppColors.warning.withValues(alpha: 0.35)
+                    ? AppColors.warning.withOpacity(0.35)
                     : AppColors.cardBorder,
             width: (hasAdvantage || hasDisadvantage) ? 1.5 : 1.0,
           ),
           boxShadow: hasAdvantage
-              ? [BoxShadow(color: AppColors.success.withValues(alpha: 0.08), blurRadius: 8)]
+              ? [BoxShadow(color: AppColors.success.withOpacity(0.08), blurRadius: 8)]
               : null,
         ),
         child: Column(children: [
-          // ── Main row ──────────────────────────────────────────────────
           Padding(
             padding: const EdgeInsets.fromLTRB(14, 14, 12, 10),
             child: Row(children: [
@@ -384,7 +365,7 @@ class _EnemyCard extends StatelessWidget {
                 Container(
                   width: 52, height: 52,
                   decoration: BoxDecoration(
-                    color: elementColor.withValues(alpha: 0.12),
+                    color: elementColor.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: enemy.imageUrl.isNotEmpty
@@ -430,9 +411,9 @@ class _EnemyCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                     decoration: BoxDecoration(
-                      color: matchup.color.withValues(alpha: 0.14),
+                      color: matchup.color.withOpacity(0.14),
                       borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: matchup.color.withValues(alpha: 0.35)),
+                      border: Border.all(color: matchup.color.withOpacity(0.35)),
                     ),
                     child: Text(matchup.label,
                         style: TextStyle(
@@ -461,7 +442,7 @@ class _EnemyCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     decoration: BoxDecoration(
-                      color: _diffColor(enemy.difficulty).withValues(alpha: 0.1),
+                      color: _diffColor(enemy.difficulty).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(enemy.difficulty,
@@ -482,11 +463,10 @@ class _EnemyCard extends StatelessWidget {
               ])),
 
               const SizedBox(width: 8),
-              Icon(Icons.play_arrow_rounded, color: elementColor.withValues(alpha: 0.7), size: 22),
+              Icon(Icons.play_arrow_rounded, color: elementColor.withOpacity(0.7), size: 22),
             ]),
           ),
 
-          // ── Matchup bar section ───────────────────────────────────────
           Container(
             margin: const EdgeInsets.fromLTRB(14, 0, 14, 12),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -565,8 +545,6 @@ class _Matchup {
   });
 }
 
-// ── Battle stat chip ───────────────────────────────────────────────────────────
-
 class _BattleStat extends StatelessWidget {
   final String label, value;
   final IconData icon;
@@ -584,8 +562,6 @@ class _BattleStat extends StatelessWidget {
   }
 }
 
-// ── History chip ───────────────────────────────────────────────────────────────
-
 class _HistoryChip extends StatelessWidget {
   final BattleResultModel result;
   const _HistoryChip({required this.result});
@@ -596,9 +572,9 @@ class _HistoryChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
+        color: color.withOpacity(0.08),
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: color.withValues(alpha: 0.25)),
+        border: Border.all(color: color.withOpacity(0.25)),
       ),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(mainAxisSize: MainAxisSize.min, children: [
@@ -619,9 +595,7 @@ class _HistoryChip extends StatelessWidget {
   }
 }
 
-// ════════════════════════════════════════════════════════════════════════════
-// Battle Arena Page
-// ════════════════════════════════════════════════════════════════════════════
+// arena pertarungan
 
 enum _BattlePhase { idle, playerAttack, enemyAttack, result }
 
@@ -849,17 +823,14 @@ class _BattleArenaPageState extends State<BattleArenaPage>
     try {
       final res = await ApiService.post('/inventory/battle-reward', {'amount': amount});
       if (res.success && res.data != null) {
-        // Server confirmed the reward — use server's canonical total so local
-        // and server are always identical after a successful battle.
+        // pakai total dari server biar sinkron
         final serverMoney = (res.data['money'] as num).toDouble();
         auth.setMoney(serverMoney);
       } else {
-        // Server rejected (shouldn't happen in normal flow) — add locally.
         auth.addMoney(amount);
       }
     } catch (_) {
-      // Network error: add locally as optimistic fallback.
-      // Balance reconciles with server on next loadPlayerStats (login / app start).
+      // error network - tambah local dulu, rekonsiliasi next login
       auth.addMoney(amount);
     }
   }
@@ -903,7 +874,7 @@ class _BattleArenaPageState extends State<BattleArenaPage>
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [elementColor.withValues(alpha: 0.14), AppColors.background],
+                colors: [elementColor.withOpacity(0.14), AppColors.background],
               ),
             ),
           ),
@@ -911,7 +882,6 @@ class _BattleArenaPageState extends State<BattleArenaPage>
 
         SafeArea(
           child: Column(children: [
-            // ── Top bar ──────────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 8, 16, 0),
               child: Row(children: [
@@ -943,7 +913,7 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
-                      color: _diffColor(widget.enemy.difficulty).withValues(alpha: 0.12),
+                      color: _diffColor(widget.enemy.difficulty).withOpacity(0.12),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(widget.enemy.difficulty,
@@ -958,7 +928,6 @@ class _BattleArenaPageState extends State<BattleArenaPage>
 
             const SizedBox(height: 10),
 
-            // ── Enemy HP bar ─────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -987,7 +956,6 @@ class _BattleArenaPageState extends State<BattleArenaPage>
 
             const SizedBox(height: 16),
 
-            // ── Enemy sprite ─────────────────────────────────────────────
             Expanded(
               flex: 3,
               child: AnimatedBuilder(
@@ -1006,7 +974,7 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                         alignment: Alignment.center,
                         children: [
                           child!,
-                          // Hit flash — clipped to the circle, not filling the whole Expanded
+                          // hit flash dibatasi ke lingkaran
                           if (_flash.value > 0)
                             Opacity(
                               opacity: (1 - _flash.value) * 0.42,
@@ -1024,7 +992,6 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          // ── Outer radial glow ─────────────────────
                           Container(
                             width: 210,
                             height: 210,
@@ -1032,40 +999,37 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                               shape: BoxShape.circle,
                               gradient: RadialGradient(
                                 colors: [
-                                  elementColor.withValues(alpha: 0.26),
-                                  elementColor.withValues(alpha: 0.08),
+                                  elementColor.withOpacity(0.26),
+                                  elementColor.withOpacity(0.08),
                                   Colors.transparent,
                                 ],
                                 stops: const [0.0, 0.52, 1.0],
                               ),
                             ),
                           ),
-                          // ── Decorative outer ring ─────────────────
                           Container(
                             width: 170,
                             height: 170,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: elementColor.withValues(alpha: 0.20),
+                                color: elementColor.withOpacity(0.20),
                                 width: 1.0,
                               ),
                             ),
                           ),
-                          // ── Stage circle ──────────────────────────
                           Container(
                             width: 152,
                             height: 152,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: AppColors.surfaceCard.withValues(alpha: 0.35),
+                              color: AppColors.surfaceCard.withOpacity(0.35),
                               border: Border.all(
-                                color: elementColor.withValues(alpha: 0.50),
+                                color: elementColor.withOpacity(0.50),
                                 width: 2.0,
                               ),
                             ),
                           ),
-                          // ── Element watermark (very subtle) ───────
                           if (enemyElement != null)
                             Opacity(
                               opacity: 0.07,
@@ -1079,7 +1043,6 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                                 ),
                               ),
                             ),
-                          // ── Enemy image ───────────────────────────
                           if (widget.enemy.imageUrl.isNotEmpty)
                             ClipOval(
                               child: EnemyImageWidget(
@@ -1094,7 +1057,6 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                           else
                             Icon(Icons.pest_control_rounded,
                                 color: elementColor, size: 60),
-                          // ── Floating damage number ────────────────
                           if (_lastPlayerDmg != null)
                             Positioned(
                               top: 8, right: 8,
@@ -1102,12 +1064,7 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                                 value: _lastPlayerDmg!,
                                 isCrit: _lastPlayerCrit,
                                 color: AppColors.danger,
-                              )
-                                  .animate(key: ValueKey('pd_$_turnCount'))
-                                  .fadeIn(duration: 150.ms)
-                                  .slideY(begin: 0, end: -0.7, duration: 700.ms)
-                                  .then()
-                                  .fadeOut(),
+                              ),
                             ),
                         ],
                       ),
@@ -1117,12 +1074,11 @@ class _BattleArenaPageState extends State<BattleArenaPage>
               ),
             ),
 
-            // ── Battle log ───────────────────────────────────────────────
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
               decoration: BoxDecoration(
-                color: AppColors.surfaceCard.withValues(alpha: 0.85),
+                color: AppColors.surfaceCard.withOpacity(0.85),
                 borderRadius: BorderRadius.circular(AppRadius.card),
                 border: Border.all(color: AppColors.cardBorder),
               ),
@@ -1132,9 +1088,8 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                       fontSize: 12,
                       fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center),
-            ).animate(key: ValueKey(_lastLog)).fadeIn(duration: 180.ms),
+            ),
 
-            // ── Player zone ──────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(children: [
@@ -1183,20 +1138,14 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                   Align(
                     alignment: Alignment.centerLeft,
                     child: _DamageNumber(
-                        value: _lastEnemyDmg!, isCrit: _lastEnemyCrit, color: AppColors.danger)
-                        .animate(key: ValueKey('ed_$_turnCount'))
-                        .fadeIn(duration: 150.ms)
-                        .slideY(begin: 0, end: -0.5, duration: 600.ms)
-                        .then()
-                        .fadeOut(),
+                        value: _lastEnemyDmg!, isCrit: _lastEnemyCrit, color: AppColors.danger),
                   ),
 
-                // ── Ability stats strip ──────────────────────────────
                 const SizedBox(height: 6),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                   decoration: BoxDecoration(
-                    color: AppColors.surface.withValues(alpha: 0.6),
+                    color: AppColors.surface.withOpacity(0.6),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppColors.divider),
                   ),
@@ -1226,7 +1175,6 @@ class _BattleArenaPageState extends State<BattleArenaPage>
 
             const SizedBox(height: 10),
 
-            // ── Action buttons ────────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 18),
               child: Row(children: [
@@ -1245,7 +1193,7 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                         borderRadius: BorderRadius.circular(AppRadius.button),
                         boxShadow: _phase == _BattlePhase.idle
                             ? [BoxShadow(
-                                color: playerElementColor.withValues(alpha: 0.4),
+                                color: playerElementColor.withOpacity(0.4),
                                 blurRadius: 14, offset: const Offset(0, 4))]
                             : null,
                       ),
@@ -1264,7 +1212,7 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                                 ]),
                                 Text('~${auth.effectiveDamage} dmg',
                                     style: TextStyle(
-                                        color: Colors.white.withValues(alpha: 0.7), fontSize: 9)),
+                                        color: Colors.white.withOpacity(0.7), fontSize: 9)),
                               ])
                             : Row(mainAxisSize: MainAxisSize.min, children: [
                                 SizedBox(
@@ -1306,12 +1254,12 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                         borderRadius: BorderRadius.circular(AppRadius.button),
                         border: Border.all(
                           color: heavyReady
-                              ? AppColors.pyro.withValues(alpha: 0.6)
+                              ? AppColors.pyro.withOpacity(0.6)
                               : AppColors.cardBorder,
                         ),
                         boxShadow: heavyReady && _phase == _BattlePhase.idle
                             ? [BoxShadow(
-                                color: AppColors.pyro.withValues(alpha: 0.4),
+                                color: AppColors.pyro.withOpacity(0.4),
                                 blurRadius: 14, offset: const Offset(0, 4))]
                             : null,
                       ),
@@ -1338,12 +1286,12 @@ class _BattleArenaPageState extends State<BattleArenaPage>
                                         color: (_phase == _BattlePhase.idle
                                                 ? Colors.white
                                                 : AppColors.textMuted)
-                                            .withValues(alpha: 0.7),
+                                            .withOpacity(0.7),
                                         fontSize: 9)),
                               ])
                             : Column(mainAxisSize: MainAxisSize.min, children: [
                                 Icon(Icons.hourglass_top_rounded,
-                                    color: AppColors.textMuted.withValues(alpha: 0.5), size: 16),
+                                    color: AppColors.textMuted.withOpacity(0.5), size: 16),
                                 const SizedBox(height: 2),
                                 Text('CD: $_heavyCooldown',
                                     style: TextStyle(
@@ -1372,8 +1320,6 @@ class _BattleArenaPageState extends State<BattleArenaPage>
   }
 }
 
-// ── Ability stat strip ─────────────────────────────────────────────────────────
-
 class _StatStrip extends StatelessWidget {
   final String label, value;
   final Color color;
@@ -1395,8 +1341,6 @@ class _StatStrip extends StatelessWidget {
   }
 }
 
-// ── Floating damage number ─────────────────────────────────────────────────────
-
 class _DamageNumber extends StatelessWidget {
   final int value;
   final bool isCrit;
@@ -1411,15 +1355,13 @@ class _DamageNumber extends StatelessWidget {
         color: isCrit ? AppColors.secondary : color,
         fontSize: isCrit ? 20 : 15,
         fontWeight: FontWeight.w800,
-        shadows: [Shadow(color: Colors.black.withValues(alpha: 0.6), blurRadius: 5)],
+        shadows: [Shadow(color: Colors.black.withOpacity(0.6), blurRadius: 5)],
       ),
     );
   }
 }
 
-// ════════════════════════════════════════════════════════════════════════════
-// Result screen
-// ════════════════════════════════════════════════════════════════════════════
+// layar hasil battle
 
 class _ResultScreen extends StatelessWidget {
   final TurnBattleResult result;
@@ -1441,7 +1383,7 @@ class _ResultScreen extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [color.withValues(alpha: 0.15), AppColors.background],
+                colors: [color.withOpacity(0.15), AppColors.background],
               ),
             ),
           ),
@@ -1454,9 +1396,9 @@ class _ResultScreen extends StatelessWidget {
               Container(
                 width: 90, height: 90,
                 decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.12),
+                  color: color.withOpacity(0.12),
                   shape: BoxShape.circle,
-                  border: Border.all(color: color.withValues(alpha: 0.3), width: 2),
+                  border: Border.all(color: color.withOpacity(0.3), width: 2),
                 ),
                 child: Icon(won ? Icons.emoji_events_rounded : Icons.close_rounded,
                     size: 44, color: color),
@@ -1466,11 +1408,9 @@ class _ResultScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               Text(won ? 'Victory!' : 'Defeat',
-                  style: TextStyle(color: color, fontSize: 32, fontWeight: FontWeight.w800))
-                  .animate(delay: 200.ms).fadeIn(duration: 400.ms).slideY(begin: 0.3),
+                  style: TextStyle(color: color, fontSize: 32, fontWeight: FontWeight.w800)),
               const SizedBox(height: 6),
-              Text('vs ${enemy.name}', style: TextStyle(color: AppColors.textMuted, fontSize: 13))
-                  .animate(delay: 300.ms).fadeIn(),
+              Text('vs ${enemy.name}', style: TextStyle(color: AppColors.textMuted, fontSize: 13)),
               const SizedBox(height: 32),
 
               // Battle summary
@@ -1524,10 +1464,7 @@ class _ResultScreen extends StatelessWidget {
                     ]),
                   ],
                 ]),
-              )
-                  .animate(delay: 400.ms)
-                  .fadeIn(duration: 400.ms)
-                  .slideY(begin: 0.2),
+              ),
 
               const SizedBox(height: 28),
 
@@ -1545,7 +1482,7 @@ class _ResultScreen extends StatelessWidget {
                   child: Text(won ? 'Continue' : 'Try Again',
                       style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
                 ),
-              ).animate(delay: 600.ms).fadeIn(),
+              ),
             ]),
           ),
         ),

@@ -51,8 +51,6 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
     super.dispose();
   }
 
-  // ── Upgrade flow ────────────────────────────────────────────────────────────
-
   Future<void> _handleUpgrade() async {
     if (_upgrading) return;
     if (widget.item.inventoryId == null) {
@@ -205,8 +203,6 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
     }
   }
 
-  // ── Burst helpers ────────────────────────────────────────────────────────────
-
   double _getImageScale() {
     final t = _burstCtrl.value;
     if (t <= 0.25) {
@@ -224,12 +220,12 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
     final intensity = sin(t * pi); // peaks at t=0.5 then fades
     return [
       BoxShadow(
-        color: AppColors.secondary.withValues(alpha: intensity * 0.55),
+        color: AppColors.secondary.withOpacity(intensity * 0.55),
         blurRadius: 28 * intensity,
         spreadRadius: 8 * intensity,
       ),
       BoxShadow(
-        color: color.withValues(alpha: intensity * 0.25),
+        color: color.withOpacity(intensity * 0.25),
         blurRadius: 48 * intensity,
         spreadRadius: 4 * intensity,
       ),
@@ -274,8 +270,6 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
     });
   }
 
-  // ── Build ────────────────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     final inventory = context.watch<InventoryProvider>();
@@ -297,7 +291,6 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
-          // ── Main content ────────────────────────────────────────────────
           SafeArea(
             child: Column(
               children: [
@@ -322,7 +315,6 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // ── Hero image with burst animation ──────────────
                         Center(
                           child: SizedBox(
                             width: 200,
@@ -339,7 +331,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                                       height: 150,
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: elementColor.withValues(alpha: 0.08),
+                                        color: elementColor.withOpacity(0.08),
                                         boxShadow: _getGlowShadow(elementColor),
                                       ),
                                       child: item.imageUrl.isNotEmpty
@@ -352,7 +344,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                                                     : Icons.diamond_rounded,
                                                 size: 56,
                                                 color: elementColor
-                                                    .withValues(alpha: 0.5),
+                                                    .withOpacity(0.5),
                                               ),
                                             )
                                           : Icon(
@@ -361,7 +353,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                                                   : Icons.diamond_rounded,
                                               size: 56,
                                               color: elementColor
-                                                  .withValues(alpha: 0.5),
+                                                  .withOpacity(0.5),
                                             ),
                                     ),
                                   ),
@@ -409,7 +401,6 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                         ),
                         const SizedBox(height: 20),
 
-                        // ── Stats card ────────────────────────────────────
                         if (!isWeapon) ...[
                           Container(
                             padding: const EdgeInsets.all(18),
@@ -459,7 +450,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                                               delay: 150.ms,
                                               duration: 700.ms,
                                               color: AppColors.secondary
-                                                  .withValues(alpha: 0.7),
+                                                  .withOpacity(0.7),
                                             ),
                                       ],
                                     ),
@@ -484,16 +475,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                     ),
-                                  )
-                                      .animate(
-                                        key: ValueKey('lvl_$_upgradeKey'),
-                                      )
-                                      .shimmer(
-                                        delay: 80.ms,
-                                        duration: 600.ms,
-                                        color: AppColors.secondary
-                                            .withValues(alpha: 0.8),
-                                      ),
+                                  ),
                                   if (item.reinforceLevel > 0) ...[
                                     const SizedBox(width: 8),
                                     ...List.generate(
@@ -548,7 +530,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                                   '2-Piece: Elemental Mastery +80\n4-Piece: Increases damage by 40%.',
                                   style: TextStyle(
                                     color: AppColors.success
-                                        .withValues(alpha: 0.7),
+                                        .withOpacity(0.7),
                                     fontSize: 11,
                                     height: 1.5,
                                   ),
@@ -587,16 +569,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                                               color: AppColors.textPrimary,
                                               fontSize: 28,
                                               fontWeight: FontWeight.w700),
-                                        )
-                                            .animate(
-                                              key: ValueKey('watk_$_upgradeKey'),
-                                            )
-                                            .shimmer(
-                                              delay: 150.ms,
-                                              duration: 700.ms,
-                                              color: AppColors.secondary
-                                                  .withValues(alpha: 0.7),
-                                            ),
+                                        ),
                                       ],
                                     ),
                                     const Spacer(),
@@ -667,7 +640,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                             label: Text(equipped ? 'Unequip' : 'Equip'),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: equipped ? AppColors.textMuted : AppColors.primary,
-                              side: BorderSide(color: equipped ? AppColors.textMuted.withValues(alpha: 0.3) : AppColors.primary.withValues(alpha: 0.4)),
+                              side: BorderSide(color: equipped ? AppColors.textMuted.withOpacity(0.3) : AppColors.primary.withOpacity(0.4)),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
                             ),
                           ),
@@ -713,7 +686,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                               label: const Text('Reinforce  (+25% mainStat · uses 2 copies)'),
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: AppColors.secondary,
-                                side: BorderSide(color: AppColors.secondary.withValues(alpha: 0.4)),
+                                side: BorderSide(color: AppColors.secondary.withOpacity(0.4)),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.button)),
                               ),
                             ),
@@ -727,12 +700,11 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
             ),
           ),
 
-          // ── Golden screen flash on enhance success ───────────────────────
           if (_showFlash)
             Positioned.fill(
               child: IgnorePointer(
                 child: Container(
-                  color: AppColors.secondary.withValues(alpha: 0.22),
+                  color: AppColors.secondary.withOpacity(0.22),
                 )
                     .animate(
                       onComplete: (_) =>

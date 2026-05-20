@@ -76,8 +76,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       width: 60, height: 60,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppColors.secondary.withValues(alpha: 0.12),
-                        border: Border.all(color: AppColors.secondary.withValues(alpha: 0.25), width: 2),
+                        color: AppColors.secondary.withOpacity(0.12),
+                        border: Border.all(color: AppColors.secondary.withOpacity(0.25), width: 2),
                       ),
                       child: const Icon(Icons.person_add_rounded, size: 26, color: AppColors.secondary),
                     ),
@@ -151,9 +151,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                   return Container(
                                     width: double.infinity, padding: const EdgeInsets.all(10), margin: const EdgeInsets.only(top: 8),
                                     decoration: BoxDecoration(
-                                      color: AppColors.danger.withValues(alpha: 0.1),
+                                      color: AppColors.danger.withOpacity(0.1),
                                       borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: AppColors.danger.withValues(alpha: 0.2)),
+                                      border: Border.all(color: AppColors.danger.withOpacity(0.2)),
                                     ),
                                     child: Row(children: [
                                       const Icon(Icons.error_outline, color: AppColors.danger, size: 16),

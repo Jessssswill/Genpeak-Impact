@@ -8,8 +8,6 @@ import '../providers/inventory_provider.dart';
 import '../providers/shop_provider.dart';
 import '../widgets/element_badge.dart';
 
-// ── Slot metadata ─────────────────────────────────────────────────────────────
-
 class _SlotInfo {
   final String type;
   final IconData icon;
@@ -25,8 +23,6 @@ const _artifactSlots = [
   _SlotInfo('Goblet',  Icons.wine_bar_rounded),
   _SlotInfo('Circlet', Icons.hdr_strong_rounded),
 ];
-
-// ── Main page ─────────────────────────────────────────────────────────────────
 
 class EquipmentPage extends StatefulWidget {
   const EquipmentPage({super.key});
@@ -114,7 +110,6 @@ class _EquipmentPageState extends State<EquipmentPage>
         child: SafeArea(
           child: Column(
             children: [
-              // ── App bar ───────────────────────────────────────────────────
               Padding(
                 padding: const EdgeInsets.fromLTRB(4, 6, 20, 0),
                 child: Row(children: [
@@ -131,7 +126,7 @@ class _EquipmentPageState extends State<EquipmentPage>
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: AppColors.secondary.withValues(alpha: 0.12),
+                      color: AppColors.secondary.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
@@ -145,7 +140,6 @@ class _EquipmentPageState extends State<EquipmentPage>
                 ]),
               ),
 
-              // ── Main equipment area ───────────────────────────────────────
               Expanded(
                 child: Stack(
                   alignment: Alignment.center,
@@ -211,7 +205,6 @@ class _EquipmentPageState extends State<EquipmentPage>
                       ),
                     ),
 
-                    // ── Weapon slot (LEFT) ────────────────────────────────
                     Positioned(
                       left: 8,
                       top: 0,
@@ -226,7 +219,6 @@ class _EquipmentPageState extends State<EquipmentPage>
                       ),
                     ),
 
-                    // ── Artifact slots (RIGHT) ────────────────────────────
                     Positioned(
                       right: 6,
                       top: 0,
@@ -251,13 +243,12 @@ class _EquipmentPageState extends State<EquipmentPage>
                 ),
               ),
 
-              // ── Stats bar ─────────────────────────────────────────────────
               Container(
                 margin: const EdgeInsets.fromLTRB(14, 0, 14, 10),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 decoration: BoxDecoration(
-                  color: AppColors.surface.withValues(alpha: 0.92),
+                  color: AppColors.surface.withOpacity(0.92),
                   borderRadius: BorderRadius.circular(AppRadius.card),
                   border: Border.all(color: AppColors.divider),
                 ),
@@ -295,8 +286,6 @@ class _EquipmentPageState extends State<EquipmentPage>
       Container(width: 1, height: 30, color: AppColors.divider);
 }
 
-// ── Equipment slot button ─────────────────────────────────────────────────────
-
 class _SlotButton extends StatelessWidget {
   final _SlotInfo slot;
   final ShopItem? item;
@@ -319,15 +308,15 @@ class _SlotButton extends StatelessWidget {
         height: 68,
         decoration: BoxDecoration(
           color: equipped
-              ? elColor.withValues(alpha: 0.14)
-              : AppColors.surface.withValues(alpha: 0.55),
+              ? elColor.withOpacity(0.14)
+              : AppColors.surface.withOpacity(0.55),
           borderRadius: BorderRadius.circular(AppRadius.card),
           border: Border.all(
-            color: equipped ? elColor.withValues(alpha: 0.55) : AppColors.divider,
+            color: equipped ? elColor.withOpacity(0.55) : AppColors.divider,
             width: equipped ? 1.5 : 1,
           ),
           boxShadow: equipped
-              ? [BoxShadow(color: elColor.withValues(alpha: 0.3), blurRadius: 10)]
+              ? [BoxShadow(color: elColor.withOpacity(0.3), blurRadius: 10)]
               : null,
         ),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -347,7 +336,7 @@ class _SlotButton extends StatelessWidget {
               size: 24,
               color: equipped
                   ? elColor
-                  : AppColors.textMuted.withValues(alpha: 0.35),
+                  : AppColors.textMuted.withOpacity(0.35),
             ),
           const SizedBox(height: 4),
           if (equipped && element != null)
@@ -360,7 +349,7 @@ class _SlotButton extends StatelessWidget {
             Text(
               slot.type,
               style: TextStyle(
-                color: AppColors.textMuted.withValues(alpha: equipped ? 0.7 : 0.35),
+                color: AppColors.textMuted.withOpacity(equipped ? 0.7 : 0.35),
                 fontSize: 7.5,
                 fontWeight: FontWeight.w500,
               ),
@@ -371,8 +360,6 @@ class _SlotButton extends StatelessWidget {
     );
   }
 }
-
-// ── Stat display ──────────────────────────────────────────────────────────────
 
 class _StatItem extends StatelessWidget {
   final String label, value;
@@ -394,8 +381,6 @@ class _StatItem extends StatelessWidget {
     ]);
   }
 }
-
-// ── Item picker bottom sheet ───────────────────────────────────────────────────
 
 class _ItemPickerSheet extends StatelessWidget {
   final _SlotInfo slot;
@@ -466,7 +451,7 @@ class _ItemPickerSheet extends StatelessWidget {
                       children: [
                     Icon(Icons.inventory_2_outlined,
                         size: 36,
-                        color: AppColors.textMuted.withValues(alpha: 0.3)),
+                        color: AppColors.textMuted.withOpacity(0.3)),
                     const SizedBox(height: 10),
                     Text(
                       slot.isWeapon
@@ -478,7 +463,7 @@ class _ItemPickerSheet extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text('Buy from the Shop first',
                         style: TextStyle(
-                            color: AppColors.textMuted.withValues(alpha: 0.6),
+                            color: AppColors.textMuted.withOpacity(0.6),
                             fontSize: 11)),
                   ]))
               : ListView.separated(
@@ -500,13 +485,13 @@ class _ItemPickerSheet extends StatelessWidget {
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: isCurrent
-                              ? elColor.withValues(alpha: 0.1)
+                              ? elColor.withOpacity(0.1)
                               : AppColors.surfaceCard,
                           borderRadius:
                               BorderRadius.circular(AppRadius.card),
                           border: Border.all(
                             color: isCurrent
-                                ? elColor.withValues(alpha: 0.45)
+                                ? elColor.withOpacity(0.45)
                                 : AppColors.cardBorder,
                             width: isCurrent ? 1.5 : 1,
                           ),
@@ -515,7 +500,7 @@ class _ItemPickerSheet extends StatelessWidget {
                           Container(
                             width: 46, height: 46,
                             decoration: BoxDecoration(
-                              color: elColor.withValues(alpha: 0.1),
+                              color: elColor.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: item.imageUrl.isNotEmpty
@@ -572,7 +557,7 @@ class _ItemPickerSheet extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 6, vertical: 3),
                               decoration: BoxDecoration(
-                                color: elColor.withValues(alpha: 0.14),
+                                color: elColor.withOpacity(0.14),
                                 borderRadius: BorderRadius.circular(5),
                               ),
                               child: Text('Equipped',
@@ -584,7 +569,7 @@ class _ItemPickerSheet extends StatelessWidget {
                           else
                             Icon(Icons.add_circle_outline_rounded,
                                 size: 20,
-                                color: AppColors.textMuted.withValues(alpha: 0.4)),
+                                color: AppColors.textMuted.withOpacity(0.4)),
                         ]),
                       ),
                     );
@@ -606,8 +591,6 @@ class _ItemPickerSheet extends StatelessWidget {
     }
   }
 }
-
-// ── Character CustomPainter ───────────────────────────────────────────────────
 
 class _CharacterPainter extends CustomPainter {
   final double rotation;
@@ -647,7 +630,7 @@ class _CharacterPainter extends CustomPainter {
   void _drawGroundShadow(Canvas canvas, double cx, double h) {
     final paint = Paint()
       ..shader = RadialGradient(colors: [
-        glow.withValues(alpha: 0.22),
+        glow.withOpacity(0.22),
         Colors.transparent,
       ]).createShader(Rect.fromCenter(
           center: Offset(cx, h * 0.96), width: 100, height: 28));
@@ -659,11 +642,11 @@ class _CharacterPainter extends CustomPainter {
   void _drawWeapon(Canvas canvas, double cx, double h) {
     final s = h / 340.0;
     final glowP = Paint()
-      ..color = weaponGlow.withValues(alpha: 0.4)
+      ..color = weaponGlow.withOpacity(0.4)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 7);
     final darkP = Paint()..color = const Color(0xFF1A2535);
     final edgeP = Paint()
-      ..color = weaponGlow.withValues(alpha: 0.5)
+      ..color = weaponGlow.withOpacity(0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
 
@@ -708,7 +691,7 @@ class _CharacterPainter extends CustomPainter {
 
     // Outer glow
     final glowP = Paint()
-      ..color = glow.withValues(alpha: 0.22)
+      ..color = glow.withOpacity(0.22)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 18);
 
     // Fill silhouette
@@ -716,7 +699,7 @@ class _CharacterPainter extends CustomPainter {
 
     // Edge highlight
     final edgeP = Paint()
-      ..color = glow.withValues(alpha: 0.35)
+      ..color = glow.withOpacity(0.35)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.4
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2);
@@ -732,7 +715,6 @@ class _CharacterPainter extends CustomPainter {
   Path _buildPath(double cx, double h, double s) {
     final path = Path();
 
-    // ── Hair / head ───────────────────────────────────────────────────────────
     final hcy = h * 0.118; // head center Y
     final hr = 21 * s;     // head radius
 
@@ -756,7 +738,6 @@ class _CharacterPainter extends CustomPainter {
         Rect.fromLTWH(cx - 5.5 * s, hcy + hr - 5 * s, 11 * s, 14 * s),
         Radius.circular(3 * s)));
 
-    // ── Torso ─────────────────────────────────────────────────────────────────
     final ct = hcy + hr + 7 * s; // chest top
     final cb = ct + 52 * s;      // chest bottom
 
@@ -767,7 +748,6 @@ class _CharacterPainter extends CustomPainter {
     path.quadraticBezierTo(cx + 30 * s, ct + 28 * s, cx + 26 * s, ct);
     path.close();
 
-    // ── Arms ──────────────────────────────────────────────────────────────────
     // Left arm
     path.moveTo(cx - 26 * s, ct + 3 * s);
     path.quadraticBezierTo(
@@ -792,12 +772,10 @@ class _CharacterPainter extends CustomPainter {
         center: Offset(cx + 34 * s, ct + 53 * s),
         width: 12 * s, height: 10 * s));
 
-    // ── Belt ──────────────────────────────────────────────────────────────────
     path.addRRect(RRect.fromRectAndRadius(
         Rect.fromLTWH(cx - 16 * s, cb - 2 * s, 32 * s, 9 * s),
         Radius.circular(4 * s)));
 
-    // ── Lower garment ─────────────────────────────────────────────────────────
     final st = cb + 6 * s;
     path.moveTo(cx - 16 * s, st);
     path.lineTo(cx + 16 * s, st);
@@ -808,7 +786,6 @@ class _CharacterPainter extends CustomPainter {
         cx - 28 * s, st + 22 * s, cx - 16 * s, st);
     path.close();
 
-    // ── Legs ─────────────────────────────────────────────────────────────────
     final lt = st + 46 * s;
     // Left
     path.addRRect(RRect.fromRectAndRadius(
@@ -835,7 +812,7 @@ class _CharacterPainter extends CustomPainter {
 
     // Eyes — glowing dots
     final eyeP = Paint()
-      ..color = glow.withValues(alpha: 0.75)
+      ..color = glow.withOpacity(0.75)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
     final pupilP = Paint()..color = glow;
 
@@ -853,8 +830,6 @@ class _CharacterPainter extends CustomPainter {
       old.hasWeapon != hasWeapon;
 }
 
-// ── Background glow ───────────────────────────────────────────────────────────
-
 class _BackgroundGlowPainter extends CustomPainter {
   final Color color;
   final double intensity;
@@ -867,7 +842,7 @@ class _BackgroundGlowPainter extends CustomPainter {
     final alpha = 0.04 + intensity * 0.07;
     final paint = Paint()
       ..shader = RadialGradient(
-              colors: [color.withValues(alpha: alpha), Colors.transparent])
+              colors: [color.withOpacity(alpha), Colors.transparent])
           .createShader(Rect.fromCenter(
               center: Offset(cx, cy),
               width: size.width * 1.4,

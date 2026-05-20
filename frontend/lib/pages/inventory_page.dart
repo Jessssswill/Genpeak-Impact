@@ -111,10 +111,10 @@ class _InventoryPageState extends State<InventoryPage> {
                         duration: const Duration(milliseconds: 180),
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                         decoration: BoxDecoration(
-                          color: isSelected ? color.withValues(alpha: 0.18) : AppColors.surfaceCard,
+                          color: isSelected ? color.withOpacity(0.18) : AppColors.surfaceCard,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: isSelected ? color.withValues(alpha: 0.5) : AppColors.cardBorder,
+                            color: isSelected ? color.withOpacity(0.5) : AppColors.cardBorder,
                             width: isSelected ? 1.5 : 1,
                           ),
                         ),
@@ -168,7 +168,7 @@ class _InventoryPageState extends State<InventoryPage> {
               child: inventory.ownedItems.isEmpty
                   ? Center(
                       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        Icon(Icons.inventory_2_outlined, size: 40, color: AppColors.textMuted.withValues(alpha: 0.4)),
+                        Icon(Icons.inventory_2_outlined, size: 40, color: AppColors.textMuted.withOpacity(0.4)),
                         const SizedBox(height: 12),
                         Text('No items yet', style: TextStyle(color: AppColors.textMuted, fontSize: 15, fontWeight: FontWeight.w500)),
                         const SizedBox(height: 4),
@@ -196,7 +196,7 @@ class _InventoryPageState extends State<InventoryPage> {
                             alignment: Alignment.centerRight,
                             padding: const EdgeInsets.only(right: 20),
                             decoration: BoxDecoration(
-                              color: AppColors.danger.withValues(alpha: 0.15),
+                              color: AppColors.danger.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(AppRadius.card),
                             ),
                             child: const Icon(Icons.delete_outline_rounded, color: AppColors.danger, size: 22),
@@ -239,7 +239,7 @@ class _InventoryPageState extends State<InventoryPage> {
                                 color: AppColors.surfaceCard,
                                 borderRadius: BorderRadius.circular(AppRadius.card),
                                 border: Border.all(
-                                  color: canReinforce ? AppColors.secondary.withValues(alpha: 0.5) : AppColors.cardBorder,
+                                  color: canReinforce ? AppColors.secondary.withOpacity(0.5) : AppColors.cardBorder,
                                   width: canReinforce ? 1.5 : 1,
                                 ),
                               ),
@@ -248,7 +248,7 @@ class _InventoryPageState extends State<InventoryPage> {
                                   Container(
                                     width: 46, height: 46,
                                     decoration: BoxDecoration(
-                                      color: elementColor.withValues(alpha: 0.08),
+                                      color: elementColor.withOpacity(0.08),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: item.imageUrl.isNotEmpty
@@ -280,7 +280,7 @@ class _InventoryPageState extends State<InventoryPage> {
                                       if (canReinforce)
                                         Container(
                                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                                          decoration: BoxDecoration(color: AppColors.secondary.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(4)),
+                                          decoration: BoxDecoration(color: AppColors.secondary.withOpacity(0.15), borderRadius: BorderRadius.circular(4)),
                                           child: const Text('REINFORCE', style: TextStyle(color: AppColors.secondary, fontSize: 7, fontWeight: FontWeight.w700, letterSpacing: 0.5)),
                                         ),
                                     ]),
@@ -339,10 +339,10 @@ class _FilterChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
         decoration: BoxDecoration(
-          color: isSelected ? color.withValues(alpha: 0.1) : AppColors.surfaceCard,
+          color: isSelected ? color.withOpacity(0.1) : AppColors.surfaceCard,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? color.withValues(alpha: 0.35) : AppColors.cardBorder,
+            color: isSelected ? color.withOpacity(0.35) : AppColors.cardBorder,
           ),
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [

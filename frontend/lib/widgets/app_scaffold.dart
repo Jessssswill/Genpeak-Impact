@@ -24,7 +24,6 @@ class AppScaffold extends StatefulWidget {
 class _AppScaffoldState extends State<AppScaffold> {
   late int _currentIndex;
 
-  // ── Nav items (static const — only data, not widgets) ────────────────────
   static const _userNavItems = <_NavItem>[
     _NavItem(icon: Icons.home_outlined,         selectedIcon: Icons.home_rounded,          label: 'Home'),
     _NavItem(icon: Icons.store_outlined,         selectedIcon: Icons.store_rounded,          label: 'Shop'),
@@ -100,16 +99,12 @@ class _AppScaffoldState extends State<AppScaffold> {
   }
 }
 
-// ── Nav item data ─────────────────────────────────────────────────────────────
-
 class _NavItem {
   final IconData icon;
   final IconData selectedIcon;
   final String label;
   const _NavItem({required this.icon, required this.selectedIcon, required this.label});
 }
-
-// ── Animated nav bar ──────────────────────────────────────────────────────────
 
 class _AnimatedNavBar extends StatelessWidget {
   final int currentIndex;
@@ -149,8 +144,6 @@ class _AnimatedNavBar extends StatelessWidget {
     );
   }
 }
-
-// ── Individual nav button ─────────────────────────────────────────────────────
 
 class _NavBarButton extends StatefulWidget {
   final _NavItem item;
@@ -226,7 +219,7 @@ class _NavBarButtonState extends State<_NavBarButton>
                     width: widget.isSelected ? 44 : 0,
                     height: widget.isSelected ? 26 : 0,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.12),
+                      color: AppColors.primary.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(13),
                     ),
                   ),
