@@ -41,3 +41,18 @@ There are 2 roles in the application:
 
 ### 6. External Documentation
 - Must include external documentation explaining feature details and the creativity involved in the application.
+
+---
+
+## 📝 Asset Disclaimer
+
+Artifact images located in `artifacts/` and `backend/public/images/artifacts/`
+are **Genshin Impact-inspired references** used during academic prototyping.
+These assets are placeholders to help iterate on game mechanics & UI quickly.
+
+This project is for **academic purposes only** (Mobile Hybrid Solution course
+at BINUS University) and is **not affiliated with Hoyoverse or Genshin Impact**.
+Original artwork will replace these placeholders in any production release.
+
+If you're cloning this repo for educational purposes, please respect
+intellectual property and don't redistribute these assets commercially.
