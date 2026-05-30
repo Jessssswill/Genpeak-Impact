@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
@@ -25,17 +26,17 @@ class _AppScaffoldState extends State<AppScaffold> {
   late int _currentIndex;
 
   static const _userNavItems = <_NavItem>[
-    _NavItem(icon: Icons.home_outlined,         selectedIcon: Icons.home_rounded,          label: 'Home'),
-    _NavItem(icon: Icons.store_outlined,         selectedIcon: Icons.store_rounded,          label: 'Shop'),
-    _NavItem(icon: Icons.inventory_2_outlined,   selectedIcon: Icons.inventory_2_rounded,    label: 'Inventory'),
-    _NavItem(icon: Icons.shield_outlined,        selectedIcon: Icons.shield_rounded,         label: 'Battle'),
-    _NavItem(icon: Icons.person_outline_rounded, selectedIcon: Icons.person_rounded,         label: 'Profile'),
+    _NavItem(icon: CupertinoIcons.house,                selectedIcon: CupertinoIcons.house_fill,              label: 'Home'),
+    _NavItem(icon: CupertinoIcons.bag,                  selectedIcon: CupertinoIcons.bag_fill,                label: 'Shop'),
+    _NavItem(icon: CupertinoIcons.archivebox,           selectedIcon: CupertinoIcons.archivebox_fill,         label: 'Inventory'),
+    _NavItem(icon: CupertinoIcons.shield,               selectedIcon: CupertinoIcons.shield_fill,             label: 'Battle'),
+    _NavItem(icon: CupertinoIcons.person_crop_circle,   selectedIcon: CupertinoIcons.person_crop_circle_fill, label: 'Profile'),
   ];
 
   static const _adminNavItems = <_NavItem>[
-    _NavItem(icon: Icons.inventory_2_outlined,      selectedIcon: Icons.inventory_2_rounded,       label: 'Items'),
-    _NavItem(icon: Icons.pest_control_outlined,     selectedIcon: Icons.pest_control_rounded,      label: 'Enemies'),
-    _NavItem(icon: Icons.person_outline_rounded,    selectedIcon: Icons.person_rounded,            label: 'Profile'),
+    _NavItem(icon: CupertinoIcons.cube_box,             selectedIcon: CupertinoIcons.cube_box_fill,           label: 'Items'),
+    _NavItem(icon: CupertinoIcons.flame,                selectedIcon: CupertinoIcons.flame_fill,              label: 'Enemies'),
+    _NavItem(icon: CupertinoIcons.person_crop_circle,   selectedIcon: CupertinoIcons.person_crop_circle_fill, label: 'Profile'),
   ];
 
   @override

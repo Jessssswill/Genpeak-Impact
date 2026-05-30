@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "YOUR_PROJECT_NUMBER",
-    "project_id": "YOUR_PROJECT_ID",
-    "storage_bucket": "YOUR_PROJECT_ID.appspot.com"
+    "project_number": "184692010949",
+    "project_id": "genpeak-impact",
+    "storage_bucket": "genpeak-impact.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:YOUR_PROJECT_NUMBER:android:YOUR_APP_HASH",
+        "mobilesdk_app_id": "1:184692010949:android:f814f0445bc8afd764a5ac",
         "android_client_info": {
           "package_name": "com.example.frontend"
         }
       },
       "oauth_client": [
         {
-          "client_id": "YOUR_ANDROID_CLIENT_ID.apps.googleusercontent.com",
+          "client_id": "184692010949-h7gjpkis3q7i3roo47s90nu8ovm44lhp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.frontend",
-            "certificate_hash": "YOUR_SHA1_CERTIFICATE_HASH"
+            "certificate_hash": "8f0f3803574886da24287cbd7467ee978ed0e8fe"
           }
         },
         {
-          "client_id": "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com",
+          "client_id": "184692010949-2vnfqds7tavkjrismm5f5bbgphm0lr3k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "YOUR_API_KEY"
+          "current_key": "AIzaSyDecyc56TBcYNU5MfL-vHJFNNgRLSvXrbM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com",
+              "client_id": "184692010949-2vnfqds7tavkjrismm5f5bbgphm0lr3k.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

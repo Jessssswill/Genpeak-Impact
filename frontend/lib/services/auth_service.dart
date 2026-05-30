@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../models/user_model.dart';
@@ -5,7 +6,7 @@ import 'api_service.dart';
 
 // Replace with your Web Client ID from Google Cloud Console
 // (APIs & Services → Credentials → OAuth 2.0 Client IDs → Web client)
-const _kGoogleWebClientId = 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com';
+const _kGoogleWebClientId = '184692010949-2vnfqds7tavkjrismm5f5bbgphm0lr3k.apps.googleusercontent.com';
 
 class AuthService {
   /// Login with email and password
@@ -93,7 +94,7 @@ class AuthService {
   static Future<AuthResult> loginWithGoogle() async {
     final googleSignIn = GoogleSignIn(
       clientId: _kGoogleWebClientId,
-      serverClientId: _kGoogleWebClientId,
+      serverClientId: kIsWeb ? null : _kGoogleWebClientId,
     );
     try {
       final account = await googleSignIn.signIn();
@@ -103,13 +104,18 @@ class AuthService {
 
       final googleAuth = await account.authentication;
       final idToken = googleAuth.idToken;
-      if (idToken == null) {
-        return AuthResult(success: false, user: null, message: 'Failed to get Google ID token');
+      final accessToken = googleAuth.accessToken;
+      if (idToken == null && accessToken == null) {
+        return AuthResult(success: false, user: null, message: 'Failed to get Google token');
       }
+
+      final Map<String, dynamic> body = idToken != null
+          ? {'idToken': idToken}
+          : {'accessToken': accessToken};
 
       final response = await ApiService.post(
         '/auth/google',
-        {'idToken': idToken},
+        body,
         auth: false,
       );
 
