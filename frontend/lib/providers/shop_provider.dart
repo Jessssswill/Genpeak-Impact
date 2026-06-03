@@ -109,11 +109,9 @@ class ShopProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      debugPrint('[ShopProvider] Loading items from API: ${ApiService.baseUrl}/shop');
       
       final shopRes = await ApiService.get('/shop', auth: true);
 
-      debugPrint('[ShopProvider] Shop: success=${shopRes.success}, status=${shopRes.statusCode}');
 
       if (shopRes.success && shopRes.data != null) {
         final List items = shopRes.data;
@@ -168,13 +166,10 @@ class ShopProvider extends ChangeNotifier {
         throw Exception(shopRes.message);
       }
 
-      debugPrint('[ShopProvider] Loaded: ${_elements.length} elements, ${_weapons.length} weapons, ${_artifacts.length} artifacts');
-      if (_artifacts.isNotEmpty) debugPrint('[ShopProvider] First artifact imageUrl: ${_artifacts.first.imageUrl}');
 
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      debugPrint('[ShopProvider] API FAILED: $e');
       _error = 'Failed to load items. Please try logging in again. ($e)';
       _isLoading = false;
       notifyListeners();

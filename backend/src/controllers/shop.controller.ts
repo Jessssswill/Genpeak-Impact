@@ -17,7 +17,7 @@ class ShopController {
 
         } catch (error) {
             const err = handleError(error);
-            console.log('Error fetching shop items: ', err);
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Failed to fetch shop items',
@@ -62,7 +62,7 @@ class ShopController {
 
         } catch (error) {
             const err = handleError(error);
-            console.log('Error purchasing item: ', err);
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Failed to purchase item',

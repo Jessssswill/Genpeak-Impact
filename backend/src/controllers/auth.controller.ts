@@ -43,7 +43,7 @@ class AuthController{
             
         } catch (error) {
             const err = handleError(error)
-            console.log('Error logging in user: ', err)
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Failed to login user',
@@ -89,7 +89,7 @@ class AuthController{
             
         } catch (error) {
             const err = handleError(error)
-            console.log('Error registering user: ', err)
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Failed to register user',
@@ -101,12 +101,12 @@ class AuthController{
 
     async googleLogin(req: Request, res: Response): Promise<any> {
         try {
-            const { idToken } = req.body;
-            if (!idToken) {
-                return res.status(400).json({ status: 'fail', message: 'idToken is required', data: null, error: null });
+            const { idToken, accessToken } = req.body;
+            if (!idToken && !accessToken) {
+                return res.status(400).json({ status: 'fail', message: 'idToken or accessToken is required', data: null, error: null });
             }
 
-            const result = await authService.googleLogin(idToken);
+            const result = await authService.googleLogin(idToken, accessToken);
 
             if (!result.data) {
                 return res.status(401).json({ status: 'fail', message: result.message, data: null, error: null });

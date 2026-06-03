@@ -47,7 +47,7 @@ class InventoryController {
 
         } catch (error) {
             const err = handleError(error);
-            console.log('Error fetching inventory: ', err);
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Failed to fetch inventory',

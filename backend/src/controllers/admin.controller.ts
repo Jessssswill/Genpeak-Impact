@@ -17,7 +17,7 @@ class AdminController {
 
         } catch (error) {
             const err = handleError(error);
-            console.log('Error fetching admin shop items: ', err);
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Failed to fetch shop items',
@@ -52,7 +52,7 @@ class AdminController {
 
         } catch (error) {
             const err = handleError(error);
-            console.log('Error creating item: ', err);
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Failed to create item',
@@ -97,7 +97,7 @@ class AdminController {
 
         } catch (error) {
             const err = handleError(error);
-            console.log('Error updating item: ', err);
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Failed to update item',
@@ -190,7 +190,7 @@ class AdminController {
 
         } catch (error) {
             const err = handleError(error);
-            console.log('Error deleting item: ', err);
+            
             res.status(500).json({
                 status: 'error',
                 message: 'Failed to delete item',

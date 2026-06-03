@@ -86,28 +86,50 @@ class AuthService {
         }
     }
 
-    async googleLogin(idToken: string): Promise<{
+    async googleLogin(idToken?: string, accessToken?: string): Promise<{
         data: AuthUser | null,
         message: string,
         token: string | null
     }> {
         try {
-            const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-            const ticket = await client.verifyIdToken({
-                idToken,
-                audience: process.env.GOOGLE_CLIENT_ID,
-            });
-            const payload = ticket.getPayload();
-            if (!payload || !payload.email) {
-                return { data: null, message: 'Invalid Google token', token: null };
+            let email: string;
+            let name: string | undefined;
+
+            if (idToken) {
+                const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+                const ticket = await client.verifyIdToken({
+                    idToken,
+                    audience: process.env.GOOGLE_CLIENT_ID,
+                });
+                const payload = ticket.getPayload();
+                if (!payload || !payload.email) {
+                    return { data: null, message: 'Invalid Google token', token: null };
+                }
+                email = payload.email;
+                name = payload.name;
+            } else if (accessToken) {
+                const resp = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+                    headers: { Authorization: `Bearer ${accessToken}` },
+                });
+                if (!resp.ok) {
+                    return { data: null, message: 'Invalid Google access token', token: null };
+                }
+                const info = await resp.json() as { email?: string; name?: string };
+                if (!info.email) {
+                    return { data: null, message: 'Could not retrieve email from Google', token: null };
+                }
+                email = info.email;
+                name = info.name;
+            } else {
+                return { data: null, message: 'No token provided', token: null };
             }
 
-            let user = await UserRepository.findUser(payload.email);
+            let user = await UserRepository.findUser(email);
             if (!user) {
                 const randomPassword = await bcrypt.hash(crypto.randomUUID(), 10);
                 const newUser = await UserRepository.createUser({
-                    email: payload.email,
-                    name: payload.name ?? payload.email.split('@')[0],
+                    email,
+                    name: name ?? email.split('@')[0],
                     password: randomPassword,
                 });
                 if (newUser) {

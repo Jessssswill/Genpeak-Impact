@@ -281,7 +281,6 @@ class AuthProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      debugPrint('loadPlayerStats error: $e');
     }
   }
 

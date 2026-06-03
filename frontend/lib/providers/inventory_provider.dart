@@ -85,7 +85,6 @@ class InventoryProvider extends ChangeNotifier {
         }
       }
     } catch (e) {
-      debugPrint('Error loading inventory: $e');
     } finally {
       _isLoading = false;
       notifyListeners();

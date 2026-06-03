@@ -30,7 +30,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
         next();
     } catch (error) {
         const err = handleError(error)
-        console.log('Error registering user: ', err)
+        
         res.status(401).json({
             status: 'fail',
             message: 'Invalid or expired token',
