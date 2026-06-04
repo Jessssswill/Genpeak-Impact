@@ -110,8 +110,8 @@ class ShopService {
 
         const purchase = await PurchaseRepository.createPurchase({ userId, itemId, itemType, money: price, createdBy: userId });
 
-        let initialSubstats = null;
-        let initialMainStat = null;
+        let initialSubstats: any = undefined;
+        let initialMainStat: number | undefined = undefined;
         if (itemType === 'Artifact') {
             initialSubstats = generateInitialSubstats(item.type);
             initialMainStat = Number(item.primaryStat);
