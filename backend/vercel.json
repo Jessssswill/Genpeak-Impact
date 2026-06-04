@@ -2,18 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/index.ts",
+      "src": "api/index.ts",
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/images/(.*)",
-      "dest": "/public/images/$1"
+      "source": "/images/(.*)",
+      "destination": "/public/images/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "src/index.ts"
+      "source": "/api/(.*)",
+      "destination": "/api/index.ts"
     }
   ]
 }
