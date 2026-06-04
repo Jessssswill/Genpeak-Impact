@@ -5,8 +5,8 @@
       "destination": "/public/images/$1"
     },
     {
-      "source": "/api/(.*)",
-      "destination": "/api"
+      "source": "/(.*)",
+      "destination": "/api/index.ts"
     }
   ]
 }
