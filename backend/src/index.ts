@@ -46,6 +46,10 @@ app.use('/api/shop', authenticate, shopRoutes);
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.listen(port, () => {
-    console.log(`listening on port ${port}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log(`listening on port ${port}`);
+    });
+}
+
+export default app;

@@ -11,7 +11,8 @@
     "prisma:generate": "npx prisma generate",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:push": "npx prisma db push",
-    "prisma:seed": "npx prisma db seed"
+    "prisma:seed": "npx prisma db seed",
+    "postinstall": "npx prisma generate"
   },
   "keywords": [],
   "author": "",
