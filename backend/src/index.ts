@@ -26,8 +26,10 @@ app.use(express.json({ limit: '10mb' }));
 const publicImagesPath = path.join(process.cwd(), 'public', 'images');
 app.use('/images', express.static(publicImagesPath));
 
+const apiPrefix = process.env.VERCEL === '1' ? '' : '/api';
+
 // Public endpoint — no auth required (game data for all users)
-app.get('/api/items/enemies', async (_req, res) => {
+app.get(`${apiPrefix}/items/enemies`, async (_req, res) => {
     try {
         const enemies = await adminService.getAllEnemies();
         res.json({ status: 'success', message: 'Enemies fetched', data: enemies, error: null });
@@ -36,12 +38,12 @@ app.get('/api/items/enemies', async (_req, res) => {
     }
 });
 
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', authenticate, authorizeAdmin, adminRoutes);
-app.use('/api/inventory', authenticate, inventoryRoutes);
-app.use('/api/shop', authenticate, shopRoutes);
+app.use(`${apiPrefix}/auth`, authRoutes);
+app.use(`${apiPrefix}/admin`, authenticate, authorizeAdmin, adminRoutes);
+app.use(`${apiPrefix}/inventory`, authenticate, inventoryRoutes);
+app.use(`${apiPrefix}/shop`, authenticate, shopRoutes);
 
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(`${apiPrefix}/docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 if (process.env.NODE_ENV !== 'production') {
     app.listen(port, () => {
