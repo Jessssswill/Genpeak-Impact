@@ -35,12 +35,12 @@ class ApiService {
   // Android emulator uses 10.0.2.2 to reach host localhost
   // iOS simulator and desktop use localhost directly
   static String get baseUrl {
-    return 'https://ripe-waves-drive.loca.lt/api';
+    return 'https://moody-bat-91.loca.lt/api';
   }
 
   /// Image base URL (without /api)
   static String get imageBaseUrl {
-    return 'https://ripe-waves-drive.loca.lt';
+    return 'https://moody-bat-91.loca.lt';
   }
 
   /// Normalizes image URLs from backend for current runtime.
