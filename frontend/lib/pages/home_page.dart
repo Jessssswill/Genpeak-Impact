@@ -460,6 +460,7 @@ class _ItemCard extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       child: CachedNetworkImage(
                         imageUrl: item.imageUrl,
+                        httpHeaders: const {'Bypass-Tunnel-Reminder': 'true'},
                         fit: BoxFit.contain,
                         errorWidget: (_, _, _) =>
                             Icon(CupertinoIcons.cube, size: 30, color: accent.withOpacity(0.5)),

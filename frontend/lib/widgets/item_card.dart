@@ -86,6 +86,7 @@ class _ItemCardState extends State<ItemCard> {
                                     padding: const EdgeInsets.all(14),
                                     child: CachedNetworkImage(
                                       imageUrl: widget.item.imageUrl,
+                                      httpHeaders: const {'Bypass-Tunnel-Reminder': 'true'},
                                       fit: BoxFit.contain,
                                       errorWidget: (_, _, _) => Icon(fallbackIcon,
                                           size: 32, color: accent.withOpacity(0.4)),

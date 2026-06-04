@@ -95,6 +95,7 @@ class ApiService {
     final headers = <String, String>{
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      'Bypass-Tunnel-Reminder': 'true',
     };
     if (auth) {
       final token = await _getToken();
