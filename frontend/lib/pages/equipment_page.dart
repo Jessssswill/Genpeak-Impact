@@ -30,25 +30,8 @@ class EquipmentPage extends StatefulWidget {
   State<EquipmentPage> createState() => _EquipmentPageState();
 }
 
-class _EquipmentPageState extends State<EquipmentPage>
-    with SingleTickerProviderStateMixin {
+class _EquipmentPageState extends State<EquipmentPage> {
   double _rotation = 0.0;
-  late final AnimationController _breatheCtrl;
-
-  @override
-  void initState() {
-    super.initState();
-    _breatheCtrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 3200),
-    )..repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _breatheCtrl.dispose();
-    super.dispose();
-  }
 
   void _openPicker(BuildContext context, _SlotInfo slot) {
     final auth = context.read<AuthProvider>();
@@ -144,15 +127,12 @@ class _EquipmentPageState extends State<EquipmentPage>
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    // Background particle glow
+                    // Background glow (static)
                     Positioned.fill(
-                      child: AnimatedBuilder(
-                        animation: _breatheCtrl,
-                        builder: (_, __) => CustomPaint(
-                          painter: _BackgroundGlowPainter(
-                            color: glowColor,
-                            intensity: _breatheCtrl.value,
-                          ),
+                      child: CustomPaint(
+                        painter: _BackgroundGlowPainter(
+                          color: glowColor,
+                          intensity: 0.5,
                         ),
                       ),
                     ),
@@ -171,18 +151,15 @@ class _EquipmentPageState extends State<EquipmentPage>
                             _rotation = _rotation.clamp(-pi / 2.8, pi / 2.8);
                           });
                         },
-                        child: AnimatedBuilder(
-                          animation: _breatheCtrl,
-                          builder: (_, __) => CustomPaint(
-                            painter: _CharacterPainter(
-                              rotation: _rotation,
-                              glow: glowColor,
-                              breathe: _breatheCtrl.value,
-                              hasWeapon: weapon != null,
-                              weaponGlow: weaponEl != null
-                                  ? AppColors.getElementColor(weaponEl.type)
-                                  : AppColors.primary,
-                            ),
+                        child: CustomPaint(
+                          painter: _CharacterPainter(
+                            rotation: _rotation,
+                            glow: glowColor,
+                            breathe: 0.5,
+                            hasWeapon: weapon != null,
+                            weaponGlow: weaponEl != null
+                                ? AppColors.getElementColor(weaponEl.type)
+                                : AppColors.primary,
                           ),
                         ),
                       ),

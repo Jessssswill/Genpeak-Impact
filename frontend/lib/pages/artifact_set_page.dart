@@ -149,25 +149,12 @@ class _ArtifactSetPageState extends State<ArtifactSetPage>
                       itemCount: pieces.length,
                       itemBuilder: (context, index) {
                         final piece = pieces[index];
-                        final n = index.clamp(0, 8);
-                        return TweenAnimationBuilder<double>(
+                        return _PieceCard(
                           key: ValueKey('piece_${piece.id}'),
-                          tween: Tween(begin: 0.0, end: 1.0),
-                          duration: Duration(milliseconds: 340 + n * 60),
-                          curve: Curves.easeOutCubic,
-                          builder: (ctx, v, child) => Opacity(
-                            opacity: v,
-                            child: Transform.translate(
-                              offset: Offset(0, 18 * (1 - v)),
-                              child: child,
-                            ),
-                          ),
-                          child: _PieceCard(
-                            piece: piece,
-                            elementColor: elementColor,
-                            onTap: () => Navigator.pushNamed(
-                                context, '/item-detail', arguments: piece),
-                          ),
+                          piece: piece,
+                          elementColor: elementColor,
+                          onTap: () => Navigator.pushNamed(
+                              context, '/item-detail', arguments: piece),
                         );
                       },
                     ),
@@ -185,6 +172,7 @@ class _PieceCard extends StatefulWidget {
   final VoidCallback onTap;
 
   const _PieceCard({
+    super.key,
     required this.piece,
     required this.elementColor,
     required this.onTap,

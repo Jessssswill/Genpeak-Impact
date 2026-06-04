@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                   center: const Alignment(0, -0.4),
                   radius: 0.75,
                   colors: [
-                    AppColors.primary.withOpacity(0.07),
+                    AppColors.primary.withOpacity(0.10),
                     Colors.transparent,
                   ],
                 ),
@@ -102,54 +102,29 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                   children: [
                     const SizedBox(height: 16),
 
-                    // Animated multi-ring logo
+                    // Animated glowing logo
                     AnimatedBuilder(
                       animation: _pulse,
                       builder: (_, _) {
                         final t = _pulse.value;
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              width: 102, height: 102,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: AppColors.primary.withOpacity(0.07 + 0.05 * t),
-                                  width: 1,
-                                ),
+                        return Container(
+                          width: 80, height: 80,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withOpacity(0.3 + 0.3 * t),
+                                blurRadius: 30 + 20 * t,
+                                spreadRadius: 4 + 6 * t,
                               ),
+                            ],
+                          ),
+                          child: ClipOval(
+                            child: Image.asset(
+                              'assets/images/paimon.jpg',
+                              fit: BoxFit.cover,
                             ),
-                            Container(
-                              width: 86, height: 86,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: AppColors.primary.withOpacity(0.1 + 0.07 * t),
-                                  width: 1,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 68, height: 68,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.primary.withOpacity(0.09 + 0.04 * t),
-                                border: Border.all(
-                                  color: AppColors.primary.withOpacity(0.25 + 0.12 * t),
-                                  width: 1.5,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.primary.withOpacity(0.18 + 0.1 * t),
-                                    blurRadius: 18 + 10 * t,
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
-                              child: const Icon(Icons.diamond_rounded, size: 30, color: AppColors.primary),
-                            ),
-                          ],
+                          ),
                         );
                       },
                     )
@@ -165,7 +140,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                         Text(
                           'GENSHIN IMPORT',
                           style: TextStyle(
-                            color: AppColors.primary.withOpacity(0.65),
+                            color: AppColors.primary.withOpacity(0.75),
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 2.8,
@@ -340,10 +315,14 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                   : Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Image.asset(
-                                          'assets/images/google_logo.png',
-                                          width: 18, height: 18,
-                                          errorBuilder: (_, _, _) => Icon(CupertinoIcons.arrow_right_to_line, size: 18, color: AppColors.textSecondary),
+                                        Container(
+                                          width: 20, height: 20,
+                                          alignment: Alignment.center,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: const Text('G', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900, fontSize: 13)),
                                         ),
                                         const SizedBox(width: 10),
                                         Text(

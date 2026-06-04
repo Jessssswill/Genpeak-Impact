@@ -122,9 +122,7 @@ class BattlePage extends StatelessWidget {
                           playerHp: auth.effectiveHp,
                           reaction: reaction,
                           onFight: () => _startBattle(context, enemy, element?.type),
-                        ).animate(delay: (index * 40).ms)
-                            .fadeIn(duration: 350.ms)
-                            .slideY(begin: 0.15, duration: 350.ms, curve: Curves.easeOutCubic);
+                        );
                       },
                     ),
             ),

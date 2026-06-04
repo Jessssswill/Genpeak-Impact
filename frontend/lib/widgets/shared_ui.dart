@@ -21,7 +21,6 @@ class GlassCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.surfaceCard,
         borderRadius: BorderRadius.circular(borderRadius),
@@ -30,13 +29,39 @@ class GlassCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: child,
+      child: Stack(
+        children: [
+          // Subtle top edge gradient highlight
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 1,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white.withOpacity(0.06),
+                    Colors.transparent,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: padding ?? const EdgeInsets.all(16),
+            child: child,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -89,18 +114,26 @@ class MoraBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Make gold badge richer
+    final goldColor = AppColors.secondary;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.secondary.withOpacity(0.1),
+        color: goldColor.withOpacity(0.15),
         borderRadius: BorderRadius.circular(AppRadius.badge),
-        border: Border.all(color: AppColors.secondary.withOpacity(0.25)),
+        border: Border.all(color: goldColor.withOpacity(0.35)),
+        boxShadow: [
+          BoxShadow(
+            color: goldColor.withOpacity(0.05),
+            blurRadius: 8,
+          ),
+        ],
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
         Image.asset('assets/images/currency/Item_Mora.webp', width: 18, height: 18, fit: BoxFit.contain,
-            errorBuilder: (_, _, _) => const Icon(Icons.monetization_on_rounded, size: 16, color: AppColors.secondary)),
+            errorBuilder: (_, _, _) => Icon(Icons.monetization_on_rounded, size: 16, color: goldColor)),
         const SizedBox(width: 5),
-        Text(amount, style: TextStyle(color: AppColors.secondary, fontSize: fontSize, fontWeight: FontWeight.w600)),
+        Text(amount, style: TextStyle(color: goldColor, fontSize: fontSize, fontWeight: FontWeight.w700)),
       ]),
     );
   }

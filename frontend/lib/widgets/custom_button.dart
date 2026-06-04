@@ -1,5 +1,6 @@
 import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../theme/app_theme.dart';
 
 /// Primary action button
@@ -28,15 +29,27 @@ class PrimaryButton extends StatelessWidget {
       width: isExpanded ? double.infinity : null,
       height: 48,
       child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
+        onPressed: isLoading ? null : () {
+          if (onPressed != null) {
+            HapticFeedback.lightImpact();
+            onPressed!();
+          }
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: btnColor,
           foregroundColor: Colors.white,
           disabledBackgroundColor: btnColor.withOpacity(0.4),
           elevation: 0,
+          shadowColor: btnColor.withOpacity(0.5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.button),
           ),
+        ).copyWith(
+          elevation: WidgetStateProperty.resolveWith<double>((states) {
+            if (states.contains(WidgetState.disabled)) return 0;
+            if (states.contains(WidgetState.pressed)) return 2;
+            return 8; // subtle default shadow
+          }),
         ),
         child: isLoading
             ? const SizedBox(
@@ -82,7 +95,10 @@ class SecondaryButton extends StatelessWidget {
     return SizedBox(
       width: isExpanded ? double.infinity : null,
       child: OutlinedButton(
-        onPressed: onPressed,
+        onPressed: onPressed != null ? () {
+          HapticFeedback.lightImpact();
+          onPressed!();
+        } : null,
         style: OutlinedButton.styleFrom(
           foregroundColor: btnColor,
           side: BorderSide(color: btnColor.withOpacity(0.5)),
@@ -150,7 +166,10 @@ class _GoldButtonState extends State<GoldButton> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _enabled ? widget.onPressed : null,
+      onTap: _enabled ? () {
+        HapticFeedback.lightImpact();
+        widget.onPressed!();
+      } : null,
       onTapDown: (_) { if (_enabled) setState(() => _pressed = true); },
       onTapUp: (_) => setState(() => _pressed = false),
       onTapCancel: () => setState(() => _pressed = false),
@@ -184,10 +203,10 @@ class _GoldButtonState extends State<GoldButton> with SingleTickerProviderStateM
                 boxShadow: _enabled && !_pressed
                     ? [
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.14 + glow * 0.24),
-                          blurRadius: 12 + glow * 16,
-                          offset: Offset(0, 4 + glow * 2),
-                          spreadRadius: glow * 2.5,
+                          color: AppColors.primary.withOpacity(0.25 + glow * 0.35),
+                          blurRadius: 16 + glow * 24,
+                          offset: Offset(0, 4 + glow * 4),
+                          spreadRadius: glow * 4,
                         ),
                       ]
                     : [],
@@ -294,7 +313,10 @@ class _GlassButtonState extends State<GlassButton> with SingleTickerProviderStat
     final btnColor = widget.color ?? AppColors.primary;
 
     return GestureDetector(
-      onTap: _enabled ? widget.onPressed : null,
+      onTap: _enabled ? () {
+        HapticFeedback.lightImpact();
+        widget.onPressed!();
+      } : null,
       onTapDown: (_) { if (_enabled) setState(() => _pressed = true); },
       onTapUp: (_) => setState(() => _pressed = false),
       onTapCancel: () => setState(() => _pressed = false),
@@ -337,15 +359,15 @@ class _GlassButtonState extends State<GlassButton> with SingleTickerProviderStat
                     boxShadow: _enabled && !_pressed
                         ? [
                             BoxShadow(
-                              color: btnColor.withOpacity(0.18 + glow * 0.22),
-                              blurRadius: 16 + glow * 14,
-                              spreadRadius: glow * 2,
-                              offset: const Offset(0, 4),
+                              color: btnColor.withOpacity(0.25 + glow * 0.30),
+                              blurRadius: 20 + glow * 20,
+                              spreadRadius: glow * 4,
+                              offset: const Offset(0, 6),
                             ),
                             BoxShadow(
-                              color: btnColor.withOpacity(0.06),
+                              color: btnColor.withOpacity(0.10),
                               blurRadius: 40,
-                              spreadRadius: 4,
+                              spreadRadius: 6,
                             ),
                           ]
                         : [],

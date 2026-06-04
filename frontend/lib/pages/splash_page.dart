@@ -81,28 +81,32 @@ class _SplashPageState extends State<SplashPage> {
                       shape: BoxShape.circle,
                       gradient: RadialGradient(
                         colors: [
-                          AppColors.primary.withOpacity(0.22),
-                          AppColors.primary.withOpacity(0.07),
+                          AppColors.primary.withOpacity(0.30),
+                          AppColors.primary.withOpacity(0.10),
                           Colors.transparent,
                         ],
                         stops: const [0.0, 0.6, 1.0],
                       ),
                       border: Border.all(
-                        color: AppColors.primary.withOpacity(0.38),
-                        width: 1.5,
+                        color: AppColors.primary.withOpacity(0.45),
+                        width: 2,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.18),
-                          blurRadius: 32,
-                          spreadRadius: 4,
+                          color: AppColors.primary.withOpacity(0.25),
+                          blurRadius: 40,
+                          spreadRadius: 8,
                         ),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.diamond_rounded,
-                      size: 40,
-                      color: AppColors.primary,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/paimon.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   )
                       .animate()
@@ -197,8 +201,8 @@ class _GlowOrb extends StatelessWidget {
           shape: BoxShape.circle,
           gradient: RadialGradient(
             colors: [
-              color.withOpacity(0.13),
-              color.withOpacity(0.04),
+              color.withOpacity(0.18),
+              color.withOpacity(0.06),
               Colors.transparent,
             ],
             stops: const [0.0, 0.55, 1.0],

@@ -217,11 +217,14 @@ class _NavBarButtonState extends State<_NavBarButton>
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 220),
                     curve: Curves.easeInOut,
-                    width: widget.isSelected ? 44 : 0,
-                    height: widget.isSelected ? 26 : 0,
+                    width: widget.isSelected ? 48 : 0,
+                    height: widget.isSelected ? 28 : 0,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(13),
+                      color: AppColors.primary.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: widget.isSelected
+                          ? [BoxShadow(color: AppColors.primary.withOpacity(0.3), blurRadius: 12)]
+                          : [],
                     ),
                   ),
                   Transform.scale(

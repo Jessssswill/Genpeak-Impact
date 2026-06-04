@@ -1,15 +1,14 @@
-import 'dart:math';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
+import '../models/item_model.dart';
 import '../providers/auth_provider.dart';
 import '../providers/shop_provider.dart';
 import '../providers/inventory_provider.dart';
 import '../providers/battle_provider.dart';
-import '../widgets/stat_bar.dart';
-import '../widgets/shared_ui.dart';
 import 'equipment_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,250 +27,499 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _goToTab(int index) =>
+      Navigator.pushReplacementNamed(context, '/main', arguments: index);
+
+  void _openItem(ShopItem item) =>
+      Navigator.pushNamed(context, '/item-detail', arguments: item);
+
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
     final stats = auth.playerStats;
     final inventory = context.watch<InventoryProvider>();
     final battles = context.watch<BattleProvider>();
+    final shop = context.watch<ShopProvider>();
+    final isAdmin = auth.isAdmin;
+
+    final weapons = shop.allWeapons.take(8).toList();
+    final artifacts = shop.allArtifacts.take(8).toList();
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Welcome banner — gradient card
-              _WelcomeBanner(
+        bottom: false,
+        child: ListView(
+          padding: const EdgeInsets.only(bottom: 28),
+          children: [
+            // ── Hero ─────────────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
+              child: _Hero(
                 name: auth.user?.name ?? 'Traveler',
-                isAdmin: auth.isAdmin,
+                isAdmin: isAdmin,
                 mora: stats.formattedMoney,
-              )
-                  .animate()
-                  .fadeIn(duration: 500.ms)
-                  .slideY(begin: -0.15, duration: 500.ms, curve: Curves.easeOutCubic),
-              const SizedBox(height: 20),
+                onBrowse: () => _goToTab(1),
+              ),
+            ),
 
-              // Player Stats
-              GlassCard(
-                padding: const EdgeInsets.all(18),
+            const SizedBox(height: 24),
+
+            if (!isAdmin) ...[
+              // ── Featured weapons ──────────────────────────────────
+              if (weapons.isNotEmpty) ...[
+                _Header('Featured Weapons', onSeeAll: () {
+                  shop.setCategory('weapons');
+                  _goToTab(1);
+                }),
+                const SizedBox(height: 12),
+                _ItemCarousel(
+                  items: weapons,
+                  shop: shop,
+                  onTap: _openItem,
+                ),
+                const SizedBox(height: 24),
+              ],
+
+              // ── Popular artifacts ─────────────────────────────────
+              if (artifacts.isNotEmpty) ...[
+                _Header('Popular Artifacts', onSeeAll: () {
+                  shop.setCategory('artifacts');
+                  _goToTab(1);
+                }),
+                const SizedBox(height: 12),
+                _ItemCarousel(
+                  items: artifacts,
+                  shop: shop,
+                  onTap: _openItem,
+                ),
+                const SizedBox(height: 24),
+              ],
+
+              // ── Character ─────────────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SectionTitle(title: 'Player Stats', icon: CupertinoIcons.chart_bar, color: AppColors.primary),
-                    const SizedBox(height: 16),
-                    StatBar(label: 'HP', value: '${auth.effectiveHp}', progress: (auth.effectiveHp / 50000).clamp(0.0, 1.0), color: AppColors.success, icon: CupertinoIcons.heart_fill),
+                    _Header('Your Character'),
                     const SizedBox(height: 12),
-                    StatBar(label: 'ATK', value: '${auth.effectiveDamage}', progress: (auth.effectiveDamage / 10000).clamp(0.0, 1.0), color: AppColors.danger, icon: CupertinoIcons.bolt),
-                    const SizedBox(height: 12),
-                    StatBar(label: 'CRIT Rate', value: '${auth.effectiveCritRate.toStringAsFixed(1)}%', progress: (auth.effectiveCritRate / 100).clamp(0.0, 1.0), color: AppColors.info, icon: CupertinoIcons.scope),
-                    const SizedBox(height: 12),
-                    StatBar(label: 'CRIT DMG', value: '${auth.effectiveCritDmg.toStringAsFixed(0)}%', progress: (auth.effectiveCritDmg / 500).clamp(0.0, 1.0), color: AppColors.electro, icon: CupertinoIcons.bolt_fill),
+                    _CharacterCard(
+                      onManage: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const EquipmentPage()),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    _CountsCard(
+                      weapons: inventory.weaponCount,
+                      artifacts: inventory.artifactCount,
+                      battles: battles.battleHistory.length,
+                    ),
                   ],
                 ),
-              )
-                  .animate(delay: 100.ms)
-                  .fadeIn(duration: 500.ms)
-                  .slideY(begin: 0.2, duration: 500.ms, curve: Curves.easeOutCubic),
-              const SizedBox(height: 14),
-
-              // Quick Stats row — colored gradient cards
-              Row(
-                children: [
-                  Expanded(child: _StatCard(icon: CupertinoIcons.hammer, value: '${inventory.weaponCount}', label: 'Weapons', color: AppColors.primary)),
-                  const SizedBox(width: 10),
-                  Expanded(child: _StatCard(icon: CupertinoIcons.star_fill, value: '${inventory.artifactCount}', label: 'Artifacts', color: AppColors.electro)),
-                  const SizedBox(width: 10),
-                  Expanded(child: _StatCard(icon: CupertinoIcons.shield, value: '${battles.battleHistory.length}', label: 'Battles', color: AppColors.pyro)),
-                ],
-              )
-                  .animate(delay: 180.ms)
-                  .fadeIn(duration: 500.ms)
-                  .slideY(begin: 0.2, duration: 500.ms, curve: Curves.easeOutCubic),
-              const SizedBox(height: 22),
-
-              if (!auth.isAdmin) ...[
-                SectionTitle(title: 'Character', icon: CupertinoIcons.person, color: AppColors.secondary),
-                const SizedBox(height: 12),
-                _CharacterCard(
-                  onManage: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const EquipmentPage()),
-                  ),
-                )
-                    .animate(delay: 240.ms)
-                    .fadeIn(duration: 500.ms)
-                    .slideY(begin: 0.2, duration: 500.ms, curve: Curves.easeOutCubic),
-                const SizedBox(height: 22),
-              ],
-
-              // Quick Actions
-              SectionTitle(title: 'Quick Actions', icon: CupertinoIcons.square_grid_2x2),
-              const SizedBox(height: 12),
-              if (auth.isAdmin) ...[
-                Row(
-                  children: [
-                    Expanded(child: _ActionCard(icon: CupertinoIcons.cube_box, label: 'Manage Items', subtitle: 'Add, edit, delete', color: AppColors.secondary, onTap: () => _navigateToTab(1))),
-                    const SizedBox(width: 10),
-                    Expanded(child: _ActionCard(icon: CupertinoIcons.flame, label: 'Manage Enemies', subtitle: 'Add, edit, delete', color: AppColors.pyro, onTap: () => _navigateToTab(2))),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                _ActionCard(icon: CupertinoIcons.person_crop_circle, label: 'Profile', subtitle: 'Settings & theme', color: AppColors.primary, onTap: () => _navigateToTab(3)),
-              ] else ...[
-                Row(
-                  children: [
-                    Expanded(child: _ActionCard(icon: CupertinoIcons.bag, label: 'Shop', subtitle: 'Browse items', color: AppColors.primary, onTap: () => _navigateToTab(1))),
-                    const SizedBox(width: 10),
-                    Expanded(child: _ActionCard(icon: CupertinoIcons.shield, label: 'Battle', subtitle: 'Earn Mora', color: AppColors.pyro, onTap: () => _navigateToTab(3))),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(child: _ActionCard(icon: CupertinoIcons.archivebox, label: 'Inventory', subtitle: '${inventory.totalItems} items', color: AppColors.electro, onTap: () => _navigateToTab(2))),
-                    const SizedBox(width: 10),
-                    Expanded(child: _ActionCard(icon: CupertinoIcons.person_crop_circle, label: 'Profile', subtitle: 'Settings & theme', color: AppColors.secondary, onTap: () => _navigateToTab(4))),
-                  ],
-                ),
-              ],
-              const SizedBox(height: 20),
+              ),
+              const SizedBox(height: 24),
             ],
-          ),
-        ),
+
+            // ── Quick actions ─────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _Header('Quick Actions'),
+                  const SizedBox(height: 12),
+                  if (isAdmin)
+                    _ActionGrid(actions: [
+                      _ActionData(CupertinoIcons.cube_box, 'Manage Items',
+                          'Add, edit, delete', AppColors.secondary, () => _goToTab(1)),
+                      _ActionData(CupertinoIcons.flame, 'Manage Enemies',
+                          'Add, edit, delete', AppColors.pyro, () => _goToTab(2)),
+                      _ActionData(CupertinoIcons.person_crop_circle, 'Profile',
+                          'Settings & theme', AppColors.primary, () => _goToTab(3)),
+                    ])
+                  else
+                    _ActionGrid(actions: [
+                      _ActionData(CupertinoIcons.bag, 'Shop', 'Browse items',
+                          AppColors.primary, () => _goToTab(1)),
+                      _ActionData(CupertinoIcons.shield, 'Battle', 'Earn Mora',
+                          AppColors.pyro, () => _goToTab(3)),
+                      _ActionData(CupertinoIcons.archivebox, 'Inventory',
+                          '${inventory.totalItems} items', AppColors.electro,
+                          () => _goToTab(2)),
+                      _ActionData(CupertinoIcons.person_crop_circle, 'Profile',
+                          'Settings & theme', AppColors.secondary, () => _goToTab(4)),
+                    ]),
+                ],
+              ),
+            ),
+          ],
+        )
+            .animate()
+            .fadeIn(duration: 350.ms)
+            .slideY(begin: 0.02, duration: 350.ms, curve: Curves.easeOut),
       ),
     );
   }
-
-  void _navigateToTab(int index) {
-    Navigator.pushReplacementNamed(context, '/main', arguments: index);
-  }
 }
 
-// Premium gradient welcome banner
-class _WelcomeBanner extends StatelessWidget {
+// ─── Hero ─────────────────────────────────────────────────────────────────────
+
+class _Hero extends StatelessWidget {
   final String name;
   final bool isAdmin;
   final String mora;
-  const _WelcomeBanner({required this.name, required this.isAdmin, required this.mora});
+  final VoidCallback onBrowse;
+  const _Hero({
+    required this.name,
+    required this.isAdmin,
+    required this.mora,
+    required this.onBrowse,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.primary.withOpacity(0.18),
-            AppColors.secondary.withOpacity(0.10),
-            AppColors.surfaceCard,
-          ],
+        gradient: const LinearGradient(
+          colors: [Color(0xFF0E3D3A), Color(0xFF091428)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withOpacity(0.25)),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.primary.withOpacity(0.22)),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
+          BoxShadow(color: AppColors.primary.withOpacity(0.08), blurRadius: 30, spreadRadius: -5),
         ],
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
         children: [
-          Expanded(
+          // Decorative diamonds, top-right (subtle)
+          Positioned(
+            right: -16, top: -16,
+            child: Transform.rotate(
+              angle: 0.785398, // 45°
+              child: Container(
+                width: 96, height: 96,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.white.withOpacity(0.07), width: 1.5),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 40, top: 22,
+            child: Transform.rotate(
+              angle: 0.785398,
+              child: Container(
+                width: 26, height: 26,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  color: AppColors.primary.withOpacity(0.14),
+                ),
+              ),
+            ),
+          ),
+          // Content
+          Padding(
+            padding: const EdgeInsets.all(18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  'Welcome back,',
-                  style: TextStyle(color: AppColors.textMuted, fontSize: 12, fontWeight: FontWeight.w400),
-                ),
-                const SizedBox(height: 3),
-                Row(children: [
-                  Flexible(
-                    child: ShaderMask(
-                      shaderCallback: (bounds) => LinearGradient(
-                        colors: [AppColors.textPrimary, AppColors.primaryLight],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ).createShader(bounds),
-                      child: Text(
-                        name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.3,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Welcome back',
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.55), fontSize: 12)),
+                          const SizedBox(height: 3),
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  name,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: -0.4,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              if (isAdmin) ...[
+                                const SizedBox(width: 8),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 7, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.secondary.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: const Text('ADMIN',
+                                      style: TextStyle(
+                                          color: AppColors.secondaryLight,
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.w700,
+                                          letterSpacing: 0.8)),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  if (isAdmin) ...[
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 10),
+                    // Mora chip
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                       decoration: BoxDecoration(
-                        color: AppColors.secondary.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: AppColors.secondary.withOpacity(0.3)),
+                        color: Colors.black.withOpacity(0.25),
+                        borderRadius: BorderRadius.circular(AppRadius.full),
+                        border: Border.all(color: AppColors.secondary.withOpacity(0.35)),
                       ),
-                      child: const Text(
-                        'ADMIN',
-                        style: TextStyle(color: AppColors.secondary, fontSize: 9, fontWeight: FontWeight.w700, letterSpacing: 0.8),
-                      ),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        Image.asset('assets/images/currency/Item_Mora.webp',
+                            width: 15, height: 15,
+                            errorBuilder: (_, _, _) => const Icon(
+                                CupertinoIcons.money_dollar,
+                                size: 13, color: AppColors.secondary)),
+                        const SizedBox(width: 5),
+                        Text(mora,
+                            style: const TextStyle(
+                                color: AppColors.secondaryLight,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700)),
+                      ]),
                     ),
                   ],
-                ]),
-                const SizedBox(height: 6),
-                Row(children: [
-                  Icon(CupertinoIcons.location, size: 11, color: AppColors.primary.withOpacity(0.6)),
-                  const SizedBox(width: 3),
-                  Text(
-                    'Teyvat Marketplace',
-                    style: TextStyle(color: AppColors.primary.withOpacity(0.7), fontSize: 11, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 16),
+                // Tagline + CTA
+                Text(
+                  isAdmin
+                      ? 'Manage the Teyvat catalog'
+                      : 'Discover legendary weapons & artifacts',
+                  style: TextStyle(
+                      color: Colors.white.withOpacity(0.85),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 12),
+                if (!isAdmin)
+                  GestureDetector(
+                    onTap: onBrowse,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(AppRadius.full),
+                      ),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: const [
+                        Text('Browse Shop',
+                            style: TextStyle(
+                                color: Color(0xFF0E1A16),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700)),
+                        SizedBox(width: 5),
+                        Icon(CupertinoIcons.arrow_right,
+                            size: 14, color: Color(0xFF0E1A16)),
+                      ]),
+                    ),
                   ),
-                ]),
               ],
             ),
           ),
-          const SizedBox(width: 12),
-          MoraBadge(amount: mora),
         ],
       ),
     );
   }
 }
 
-class _CharacterCard extends StatefulWidget {
-  final VoidCallback onManage;
-  const _CharacterCard({required this.onManage});
+// ─── Section header ───────────────────────────────────────────────────────────
+
+class _Header extends StatelessWidget {
+  final String title;
+  final VoidCallback? onSeeAll;
+  const _Header(this.title, {this.onSeeAll});
+
   @override
-  State<_CharacterCard> createState() => _CharacterCardState();
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: onSeeAll == null ? 0 : 20),
+          child: Text(
+            title,
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.2,
+            ),
+          ),
+        ),
+        if (onSeeAll != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: GestureDetector(
+              onTap: onSeeAll,
+              child: Row(children: [
+                Text('See all',
+                    style: TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+                const SizedBox(width: 2),
+                Icon(CupertinoIcons.chevron_right, size: 12, color: AppColors.primary),
+              ]),
+            ),
+          ),
+      ],
+    );
+  }
 }
 
-class _CharacterCardState extends State<_CharacterCard> with SingleTickerProviderStateMixin {
-  late final AnimationController _breathe;
+// ─── Item carousel ────────────────────────────────────────────────────────────
+
+class _ItemCarousel extends StatelessWidget {
+  final List<ShopItem> items;
+  final ShopProvider shop;
+  final void Function(ShopItem) onTap;
+  const _ItemCarousel({required this.items, required this.shop, required this.onTap});
 
   @override
-  void initState() {
-    super.initState();
-    _breathe = AnimationController(vsync: this, duration: const Duration(milliseconds: 3200))..repeat(reverse: true);
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 178,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        itemCount: items.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 12),
+        itemBuilder: (_, i) {
+          final item = items[i];
+          final el = shop.getElement(item.elementId);
+          final accent = el != null
+              ? AppColors.getElementColor(el.type)
+              : AppColors.primary;
+          return _ItemCard(item: item, accent: accent, onTap: () => onTap(item));
+        },
+      ),
+    );
   }
+}
+
+class _ItemCard extends StatelessWidget {
+  final ShopItem item;
+  final Color accent;
+  final VoidCallback onTap;
+  const _ItemCard({required this.item, required this.accent, required this.onTap});
 
   @override
-  void dispose() {
-    _breathe.dispose();
-    super.dispose();
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 132,
+        decoration: BoxDecoration(
+          color: AppColors.surfaceCard,
+          borderRadius: BorderRadius.circular(AppRadius.card),
+          border: Border.all(color: AppColors.cardBorder),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 14, offset: Offset(0, 4)),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image area
+            Container(
+              height: 108,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [accent.withOpacity(0.20), accent.withOpacity(0.04)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.card)),
+              ),
+              child: item.imageUrl.isEmpty
+                  ? Icon(CupertinoIcons.cube, size: 30, color: accent.withOpacity(0.5))
+                  : Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: CachedNetworkImage(
+                        imageUrl: item.imageUrl,
+                        fit: BoxFit.contain,
+                        errorWidget: (_, _, _) =>
+                            Icon(CupertinoIcons.cube, size: 30, color: accent.withOpacity(0.5)),
+                        placeholder: (_, _) => const SizedBox.shrink(),
+                      ),
+                    ),
+            ),
+            // Info
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.name,
+                    style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        height: 1.2),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 5),
+                  Row(children: [
+                    Image.asset('assets/images/currency/Item_Mora.webp',
+                        width: 13, height: 13,
+                        errorBuilder: (_, _, _) => Icon(CupertinoIcons.money_dollar,
+                            size: 12, color: AppColors.secondary)),
+                    const SizedBox(width: 4),
+                    Text(
+                      _formatPrice(item.price),
+                      style: const TextStyle(
+                          color: AppColors.secondary,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ]),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
+
+  String _formatPrice(num price) {
+    if (price >= 1000) {
+      return '${(price / 1000).toStringAsFixed(price % 1000 == 0 ? 0 : 1)}K';
+    }
+    return '${price.toInt()}';
+  }
+}
+
+// ─── Character card ───────────────────────────────────────────────────────────
+
+class _CharacterCard extends StatelessWidget {
+  final VoidCallback onManage;
+  const _CharacterCard({required this.onManage});
 
   @override
   Widget build(BuildContext context) {
@@ -279,95 +527,80 @@ class _CharacterCardState extends State<_CharacterCard> with SingleTickerProvide
     final shop = context.watch<ShopProvider>();
     final weapon = auth.equippedWeapon;
     final weaponEl = weapon != null ? shop.getElement(weapon.elementId) : null;
-    final glowColor = weaponEl != null ? AppColors.getElementColor(weaponEl.type) : AppColors.primary;
+    final accent =
+        weaponEl != null ? AppColors.getElementColor(weaponEl.type) : AppColors.primary;
 
     return GestureDetector(
-      onTap: widget.onManage,
-      child: GlassCard(
-        padding: EdgeInsets.zero,
-        child: SizedBox(
-          height: 158,
-          child: Row(children: [
-            SizedBox(
-              width: 110,
-              child: AnimatedBuilder(
-                animation: _breathe,
-                builder: (_, _) => CustomPaint(
-                  painter: _MiniCharacterPainter(glow: glowColor, breathe: _breathe.value, hasWeapon: weapon != null),
+      onTap: onManage,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceCard,
+          borderRadius: BorderRadius.circular(AppRadius.card),
+          border: Border.all(color: AppColors.cardBorder),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 54, height: 54,
+                  decoration: BoxDecoration(
+                    color: accent.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Icon(
+                    weapon != null ? CupertinoIcons.bolt_fill : CupertinoIcons.person,
+                    color: accent, size: 24,
+                  ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 16, 16, 14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('CHARACTER', style: TextStyle(color: AppColors.textMuted, fontSize: 9, fontWeight: FontWeight.w600, letterSpacing: 1.0)),
-                    const SizedBox(height: 10),
-                    _EquipRow(icon: CupertinoIcons.hammer, label: weapon?.name ?? 'No weapon', color: weapon != null ? AppColors.primary : AppColors.textMuted, isEmpty: weapon == null),
-                    const SizedBox(height: 7),
-                    _EquipRow(icon: CupertinoIcons.star_fill, label: '${auth.equippedArtifactCount}/5 Artifacts', color: auth.equippedArtifactCount > 0 ? AppColors.electro : AppColors.textMuted, isEmpty: auth.equippedArtifactCount == 0),
-                    const Spacer(),
-                    Row(children: [
-                      _MiniStat('HP', '${auth.effectiveHp}', AppColors.success),
-                      const SizedBox(width: 12),
-                      _MiniStat('ATK', '${auth.effectiveDamage}', AppColors.danger),
-                      const SizedBox(width: 12),
-                      _MiniStat('CR', '${auth.effectiveCritRate.toStringAsFixed(0)}%', AppColors.info),
-                    ]),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: widget.onManage,
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.secondary,
-                          side: BorderSide(color: AppColors.secondary.withOpacity(0.45)),
-                          padding: const EdgeInsets.symmetric(vertical: 6),
-                          minimumSize: Size.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        weapon?.name ?? 'No weapon equipped',
+                        style: TextStyle(
+                          color: weapon != null ? AppColors.textPrimary : AppColors.textMuted,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
                         ),
-                        child: const Text('Manage Equipment', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 3),
+                      Text('${auth.equippedArtifactCount}/5 artifacts equipped',
+                          style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ]),
+            const SizedBox(height: 14),
+            Divider(color: AppColors.divider, height: 1),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                _MiniStat('HP', '${auth.effectiveHp}', AppColors.success),
+                _MiniStat('ATK', '${auth.effectiveDamage}', AppColors.danger),
+                _MiniStat('CRIT', '${auth.effectiveCritRate.toStringAsFixed(0)}%',
+                    AppColors.info),
+                const Spacer(),
+                Row(children: [
+                  Text('Manage',
+                      style: TextStyle(
+                          color: accent, fontSize: 12, fontWeight: FontWeight.w600)),
+                  const SizedBox(width: 3),
+                  Icon(CupertinoIcons.chevron_right, size: 13, color: accent),
+                ]),
+              ],
+            ),
+          ],
         ),
       ),
     );
-  }
-}
-
-class _EquipRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final Color color;
-  final bool isEmpty;
-  const _EquipRow({required this.icon, required this.label, required this.color, required this.isEmpty});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(children: [
-      Icon(icon, size: 12, color: color),
-      const SizedBox(width: 5),
-      Expanded(
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isEmpty ? AppColors.textMuted.withOpacity(0.5) : AppColors.textPrimary,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    ]);
   }
 }
 
@@ -378,216 +611,144 @@ class _MiniStat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      Text(value, style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w700)),
-      Text(label, style: TextStyle(color: AppColors.textMuted, fontSize: 9)),
-    ]);
+    return Padding(
+      padding: const EdgeInsets.only(right: 18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(value, style: TextStyle(color: color, fontSize: 13, fontWeight: FontWeight.w700)),
+          Text(label, style: TextStyle(color: AppColors.textMuted, fontSize: 9.5)),
+        ],
+      ),
+    );
   }
 }
 
-class _MiniCharacterPainter extends CustomPainter {
-  final Color glow;
-  final double breathe;
-  final bool hasWeapon;
-  const _MiniCharacterPainter({required this.glow, required this.breathe, this.hasWeapon = false});
+// ─── Collection counts ────────────────────────────────────────────────────────
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final cx = size.width / 2;
-    final s = size.height / 340.0;
-    final breathY = sin(breathe * pi) * 2.0;
-
-    canvas.save();
-    canvas.translate(0, -breathY);
-
-    final glowP = Paint()..color = glow.withOpacity(0.2)..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14);
-    final fillP = Paint()..color = const Color(0xFF0D1520);
-    final edgeP = Paint()..color = glow.withOpacity(0.45)..style = PaintingStyle.stroke..strokeWidth = 1.2;
-
-    final path = _buildPath(cx, size.height, s);
-    canvas.drawPath(path, glowP);
-    canvas.drawPath(path, fillP);
-    canvas.drawPath(path, edgeP);
-
-    final eyeP = Paint()..color = glow.withOpacity(0.8)..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2);
-    final hcy = size.height * 0.118;
-    for (final ex in [-7.5 * s, 7.5 * s]) {
-      canvas.drawCircle(Offset(cx + ex, hcy + 1 * s), 2.5 * s, eyeP);
-      canvas.drawCircle(Offset(cx + ex, hcy + 1 * s), 1.2 * s, Paint()..color = glow);
-    }
-
-    canvas.restore();
-  }
-
-  Path _buildPath(double cx, double h, double s) {
-    final path = Path();
-    final hcy = h * 0.118;
-    final hr = 21 * s;
-
-    path.moveTo(cx - 15 * s, hcy - hr + 4 * s);
-    path.quadraticBezierTo(cx - 13 * s, hcy - hr - 20 * s, cx - 3 * s, hcy - hr - 11 * s);
-    path.quadraticBezierTo(cx + 1 * s, hcy - hr - 28 * s, cx + 9 * s, hcy - hr - 12 * s);
-    path.quadraticBezierTo(cx + 16 * s, hcy - hr - 18 * s, cx + 17 * s, hcy - hr + 5 * s);
-    path.arcToPoint(Offset(cx - 15 * s, hcy - hr + 4 * s), radius: Radius.circular(hr * 1.1), clockwise: false);
-    path.close();
-
-    path.addOval(Rect.fromCircle(center: Offset(cx, hcy), radius: hr));
-    path.addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(cx - 5.5 * s, hcy + hr - 5 * s, 11 * s, 14 * s), Radius.circular(3 * s)));
-
-    final ct = hcy + hr + 7 * s;
-    final cb = ct + 52 * s;
-
-    path.moveTo(cx - 26 * s, ct);
-    path.quadraticBezierTo(cx - 32 * s, ct + 12 * s, cx - 30 * s, ct + 28 * s);
-    path.lineTo(cx - 19 * s, cb);
-    path.lineTo(cx + 19 * s, cb);
-    path.quadraticBezierTo(cx + 30 * s, ct + 28 * s, cx + 26 * s, ct);
-    path.close();
-
-    path.moveTo(cx - 26 * s, ct + 3 * s);
-    path.quadraticBezierTo(cx - 42 * s, ct + 24 * s, cx - 35 * s, ct + 52 * s);
-    path.lineTo(cx - 27 * s, ct + 50 * s);
-    path.quadraticBezierTo(cx - 32 * s, ct + 24 * s, cx - 18 * s, ct + 3 * s);
-    path.close();
-    path.addOval(Rect.fromCenter(center: Offset(cx - 31 * s, ct + 55 * s), width: 12 * s, height: 10 * s));
-
-    path.moveTo(cx + 26 * s, ct + 3 * s);
-    path.quadraticBezierTo(cx + 40 * s, ct + 22 * s, cx + 38 * s, ct + 50 * s);
-    path.lineTo(cx + 30 * s, ct + 48 * s);
-    path.quadraticBezierTo(cx + 30 * s, ct + 22 * s, cx + 18 * s, ct + 3 * s);
-    path.close();
-    path.addOval(Rect.fromCenter(center: Offset(cx + 34 * s, ct + 53 * s), width: 12 * s, height: 10 * s));
-
-    path.addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(cx - 16 * s, cb - 2 * s, 32 * s, 9 * s), Radius.circular(4 * s)));
-
-    final st = cb + 6 * s;
-    path.moveTo(cx - 16 * s, st);
-    path.lineTo(cx + 16 * s, st);
-    path.quadraticBezierTo(cx + 28 * s, st + 22 * s, cx + 25 * s, st + 50 * s);
-    path.lineTo(cx - 25 * s, st + 50 * s);
-    path.quadraticBezierTo(cx - 28 * s, st + 22 * s, cx - 16 * s, st);
-    path.close();
-
-    final lt = st + 46 * s;
-    path.addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(cx - 20 * s, lt, 15 * s, 58 * s), Radius.circular(6 * s)));
-    path.addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(cx + 5 * s, lt, 15 * s, 58 * s), Radius.circular(6 * s)));
-    path.addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(cx - 24 * s, lt + 52 * s, 20 * s, 10 * s), Radius.circular(5 * s)));
-    path.addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(cx + 4 * s, lt + 52 * s, 20 * s, 10 * s), Radius.circular(5 * s)));
-
-    return path;
-  }
-
-  @override
-  bool shouldRepaint(_MiniCharacterPainter old) => old.glow != glow || old.breathe != breathe || old.hasWeapon != hasWeapon;
-}
-
-// Stat card with gradient background
-class _StatCard extends StatelessWidget {
-  final IconData icon;
-  final String value, label;
-  final Color color;
-  const _StatCard({required this.icon, required this.value, required this.label, required this.color});
+class _CountsCard extends StatelessWidget {
+  final int weapons, artifacts, battles;
+  const _CountsCard(
+      {required this.weapons, required this.artifacts, required this.battles});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [color.withOpacity(0.14), color.withOpacity(0.06)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: AppColors.surfaceCard,
         borderRadius: BorderRadius.circular(AppRadius.card),
-        border: Border.all(color: color.withOpacity(0.30)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
+        border: Border.all(color: AppColors.cardBorder),
+      ),
+      child: Row(
+        children: [
+          _cell(CupertinoIcons.hammer, '$weapons', 'Weapons', AppColors.primary),
+          _divider(),
+          _cell(CupertinoIcons.star_fill, '$artifacts', 'Artifacts', AppColors.electro),
+          _divider(),
+          _cell(CupertinoIcons.shield_fill, '$battles', 'Battles', AppColors.pyro),
         ],
       ),
+    );
+  }
+
+  Widget _divider() => Container(width: 1, height: 36, color: AppColors.divider);
+
+  Widget _cell(IconData icon, String value, String label, Color color) {
+    return Expanded(
       child: Column(children: [
-        Container(
-          width: 32, height: 32,
-          decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(8)),
-          child: Icon(icon, color: color, size: 16),
-        ),
-        const SizedBox(height: 8),
-        ShaderMask(
-          shaderCallback: (bounds) => LinearGradient(
-            colors: [color, color.withOpacity(0.65)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ).createShader(bounds),
-          child: Text(value, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w800)),
-        ),
+        Icon(icon, size: 18, color: color),
+        const SizedBox(height: 7),
+        Text(value,
+            style: TextStyle(
+                color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w700)),
         const SizedBox(height: 2),
-        Text(label, style: TextStyle(color: AppColors.textMuted, fontSize: 10)),
+        Text(label, style: TextStyle(color: AppColors.textMuted, fontSize: 11)),
       ]),
     );
   }
 }
 
-// Action card with accent bar
-class _ActionCard extends StatelessWidget {
+// ─── Quick actions ────────────────────────────────────────────────────────────
+
+class _ActionData {
   final IconData icon;
   final String label, subtitle;
   final Color color;
   final VoidCallback onTap;
-  const _ActionCard({required this.icon, required this.label, required this.subtitle, required this.color, required this.onTap});
+  const _ActionData(this.icon, this.label, this.subtitle, this.color, this.onTap);
+}
+
+class _ActionGrid extends StatelessWidget {
+  final List<_ActionData> actions;
+  const _ActionGrid({required this.actions});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      childAspectRatio: 2.5,
+      children: actions.map((a) => _ActionCard(a)).toList(),
+    );
+  }
+}
+
+class _ActionCard extends StatelessWidget {
+  final _ActionData a;
+  const _ActionCard(this.a);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: a.onTap,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(0, 14, 14, 14),
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: AppColors.surfaceCard,
           borderRadius: BorderRadius.circular(AppRadius.card),
           border: Border.all(color: AppColors.cardBorder),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+            BoxShadow(color: Colors.black.withOpacity(0.12), blurRadius: 12, offset: Offset(0, 3)),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 38, height: 38,
+              decoration: BoxDecoration(
+                color: a.color.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(a.icon, color: a.color, size: 18),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(a.label,
+                      style: TextStyle(
+                          color: AppColors.textPrimary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis),
+                  const SizedBox(height: 1),
+                  Text(a.subtitle,
+                      style: TextStyle(color: AppColors.textMuted, fontSize: 11),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis),
+                ],
+              ),
             ),
           ],
         ),
-        child: Row(children: [
-          // Left accent bar
-          Container(
-            width: 3,
-            height: 38,
-            margin: const EdgeInsets.only(left: 0, right: 12),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [color, color.withOpacity(0.25)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(2),
-                bottomRight: Radius.circular(2),
-              ),
-            ),
-          ),
-          Container(
-            width: 36, height: 36,
-            decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
-            child: Icon(icon, color: color, size: 18),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(label, style: TextStyle(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.w600)),
-              Text(subtitle, style: TextStyle(color: AppColors.textMuted, fontSize: 11)),
-            ]),
-          ),
-          Icon(CupertinoIcons.arrow_right, color: AppColors.textMuted.withOpacity(0.35), size: 15),
-        ]),
       ),
     );
   }

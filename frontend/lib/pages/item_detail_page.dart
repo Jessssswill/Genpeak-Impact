@@ -1,4 +1,3 @@
-import 'dart:math' show sin, pi;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
@@ -18,9 +17,8 @@ class ItemDetailPage extends StatefulWidget {
 }
 
 class _ItemDetailPageState extends State<ItemDetailPage>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   late AnimationController _enterCtrl;
-  late AnimationController _floatCtrl;
   bool _purchasing = false;
 
   @override
@@ -28,12 +26,8 @@ class _ItemDetailPageState extends State<ItemDetailPage>
     super.initState();
     _enterCtrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 780),
+      duration: const Duration(milliseconds: 280),
     )..forward();
-    _floatCtrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 3200),
-    )..repeat();
     // Always sync balance from server when opening the purchase screen so the
     // displayed Mora and the pre-flight check always reflect what the server has.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -44,28 +38,17 @@ class _ItemDetailPageState extends State<ItemDetailPage>
   @override
   void dispose() {
     _enterCtrl.dispose();
-    _floatCtrl.dispose();
     super.dispose();
   }
 
-  // Staggered fade + slide helper — interval within the 780ms enter animation
+  // One gentle page fade — no staggered slide, no per-section motion.
   Widget _fadeSlide(
     Widget child, {
-    required double start,
-    required double end,
+    double start = 0,
+    double end = 1,
     Offset begin = const Offset(0, 0.12),
   }) {
-    final curve = CurvedAnimation(
-      parent: _enterCtrl,
-      curve: Interval(start, end, curve: Curves.easeOutCubic),
-    );
-    return FadeTransition(
-      opacity: curve,
-      child: SlideTransition(
-        position: Tween<Offset>(begin: begin, end: Offset.zero).animate(curve),
-        child: child,
-      ),
-    );
+    return FadeTransition(opacity: _enterCtrl, child: child);
   }
 
   void _handlePurchase(ShopItem item) {
@@ -191,28 +174,24 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _fadeSlide(
-                        AnimatedBuilder(
-                          animation: _floatCtrl,
-                          builder: (ctx, child) => Transform.translate(
-                            offset: Offset(0, sin(_floatCtrl.value * 2 * pi) * 5.5),
-                            child: child,
-                          ),
-                          child: Center(
-                            child: Container(
-                              width: 190,
-                              height: 190,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: RadialGradient(
-                                  colors: [
-                                    elementColor.withOpacity(0.20),
-                                    elementColor.withOpacity(0.05),
-                                    Colors.transparent,
-                                  ],
-                                  stops: const [0.0, 0.55, 1.0],
-                                ),
+                        Center(
+                          child: Container(
+                            width: 190,
+                            height: 190,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: RadialGradient(
+                                colors: [
+                                  elementColor.withOpacity(0.18),
+                                  elementColor.withOpacity(0.04),
+                                  Colors.transparent,
+                                ],
+                                stops: const [0.0, 0.55, 1.0],
                               ),
-                              child: Center(
+                            ),
+                            child: Center(
+                              child: Hero(
+                                tag: 'item_image_${item.id}',
                                 child: item.imageUrl.isNotEmpty
                                     ? Image.network(
                                         item.imageUrl,
@@ -224,16 +203,6 @@ class _ItemDetailPageState extends State<ItemDetailPage>
                                           size: 68,
                                           color: elementColor.withOpacity(0.6),
                                         ),
-                                        loadingBuilder: (context, child, progress) {
-                                          if (progress == null) return child;
-                                          return SizedBox(
-                                            width: 28, height: 28,
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2,
-                                              color: elementColor.withOpacity(0.5),
-                                            ),
-                                          );
-                                        },
                                       )
                                     : Icon(
                                         isWeapon ? Icons.gavel_rounded : Icons.diamond_rounded,

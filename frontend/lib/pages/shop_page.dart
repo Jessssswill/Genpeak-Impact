@@ -21,12 +21,14 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    _tabCtrl = TabController(length: 2, vsync: this);
-    _tabCtrl.addListener(() {
-      if (!_tabCtrl.indexIsChanging) {
-        context.read<ShopProvider>().setCategory(_tabCtrl.index == 0 ? 'weapons' : 'artifacts');
-      }
-    });
+    // Start on whichever tab matches the provider's current category, so
+    // navigating here from the Home "See all" links lands on the right tab.
+    final cat = context.read<ShopProvider>().selectedCategory;
+    _tabCtrl = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: cat == 'artifacts' ? 1 : 0,
+    );
   }
 
   @override
@@ -141,6 +143,7 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
                 padding: const EdgeInsets.all(3),
                 child: TabBar(
                   controller: _tabCtrl,
+                  onTap: (i) => shop.setCategory(i == 0 ? 'weapons' : 'artifacts'),
                   indicator: BoxDecoration(
                     color: AppColors.primary.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(9),
@@ -200,7 +203,7 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
-                  Container(width: 2.5, height: 11, color: AppColors.primary.withOpacity(0.6)),
+                  Container(width: 3.5, height: 11, color: AppColors.primary.withOpacity(0.7)),
                   const SizedBox(width: 7),
                   Text(
                     '${shop.selectedCategory == 'artifacts' ? shop.artifactSets.length : shop.currentItems.length}'
@@ -230,7 +233,7 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
 
             Expanded(
               child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 280),
+                duration: const Duration(milliseconds: 150),
                 transitionBuilder: (child, anim) => FadeTransition(opacity: anim, child: child),
                 child: _buildContent(shop),
               ),
@@ -266,21 +269,11 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
       itemBuilder: (context, index) {
         final item = items[index];
         final element = shop.getElement(item.elementId);
-        final n = index.clamp(0, 8);
-        return TweenAnimationBuilder<double>(
+        return ItemCard(
           key: ValueKey('w_${item.id}'),
-          tween: Tween(begin: 0.0, end: 1.0),
-          duration: Duration(milliseconds: 360 + n * 55),
-          curve: Curves.easeOutCubic,
-          builder: (ctx, v, child) => Opacity(
-            opacity: v,
-            child: Transform.translate(offset: Offset(0, 24 * (1 - v)), child: child),
-          ),
-          child: ItemCard(
-            item: item,
-            elementType: element?.type,
-            onTap: () => Navigator.pushNamed(context, '/item-detail', arguments: item),
-          ),
+          item: item,
+          elementType: element?.type,
+          onTap: () => Navigator.pushNamed(context, '/item-detail', arguments: item),
         );
       },
     );
@@ -335,28 +328,16 @@ class _ShopPageState extends State<ShopPage> with SingleTickerProviderStateMixin
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final set_ = groups[elementId]![index];
-                  final n = index.clamp(0, 8);
-                  return TweenAnimationBuilder<double>(
+                  return ItemCard(
                     key: ValueKey('a_${set_.id}'),
-                    tween: Tween(begin: 0.0, end: 1.0),
-                    duration: Duration(milliseconds: 360 + n * 55),
-                    curve: Curves.easeOutCubic,
-                    builder: (ctx, v, child) => Opacity(
-                      opacity: v,
-                      child: Transform.translate(
-                          offset: Offset(0, 24 * (1 - v)), child: child),
-                    ),
-                    child: ItemCard(
-                      item: set_,
-                      elementType: shop.getElement(set_.elementId)?.type,
-                      isSetCard: true,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ArtifactSetPage(
-                              setName: set_.setName,
-                              elementId: set_.elementId),
-                        ),
+                    item: set_,
+                    elementType: shop.getElement(set_.elementId)?.type,
+                    isSetCard: true,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ArtifactSetPage(
+                            setName: set_.setName, elementId: set_.elementId),
                       ),
                     ),
                   );
@@ -458,19 +439,12 @@ class _ElementChip extends StatelessWidget {
         curve: Curves.easeOut,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected
-              ? color.withOpacity(0.18)
-              : AppColors.surface.withOpacity(0.7),
+          color: isSelected ? color.withOpacity(0.14) : AppColors.surfaceCard,
           borderRadius: BorderRadius.circular(9),
           border: Border.all(
-            color: isSelected
-                ? color.withOpacity(0.45)
-                : Colors.white.withOpacity(0.08),
+            color: isSelected ? color.withOpacity(0.45) : AppColors.cardBorder,
             width: isSelected ? 1.2 : 1.0,
           ),
-          boxShadow: isSelected
-              ? [BoxShadow(color: color.withOpacity(0.18), blurRadius: 8, offset: const Offset(0, 2))]
-              : null,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -516,9 +490,6 @@ class _ElementSectionHeader extends StatelessWidget {
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(2),
-              boxShadow: [
-                BoxShadow(color: color.withOpacity(0.45), blurRadius: 6),
-              ],
             ),
           ),
           const SizedBox(width: 8),

@@ -14,6 +14,7 @@ import 'pages/register_page.dart';
 import 'pages/item_detail_page.dart';
 import 'pages/admin/admin_dashboard.dart';
 import 'widgets/app_scaffold.dart';
+import 'widgets/responsive_wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +52,7 @@ class GenshinImportApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: theme.themeData,
           initialRoute: '/',
+          builder: (context, child) => ResponsiveWrapper(child: child!),
           routes: {
             '/': (context) => const SplashPage(),
             '/login': (context) => const LoginPage(),

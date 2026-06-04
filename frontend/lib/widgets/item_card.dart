@@ -1,5 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../models/item_model.dart';
 import 'element_badge.dart';
@@ -28,9 +29,10 @@ class _ItemCardState extends State<ItemCard> {
   @override
   Widget build(BuildContext context) {
     final isWeapon = widget.item is WeaponModel;
-    final elementColor = widget.elementType != null
+    final accent = widget.elementType != null
         ? AppColors.getElementColor(widget.elementType!)
         : AppColors.primary;
+    final fallbackIcon = isWeapon ? CupertinoIcons.bolt_fill : CupertinoIcons.star_fill;
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -38,39 +40,28 @@ class _ItemCardState extends State<ItemCard> {
       onTapUp: (_) => setState(() => _pressed = false),
       onTapCancel: () => setState(() => _pressed = false),
       child: AnimatedScale(
-        scale: _pressed ? 0.96 : 1.0,
-        duration: const Duration(milliseconds: 140),
+        scale: _pressed ? 0.98 : 1.0,
+        duration: const Duration(milliseconds: 120),
         curve: Curves.easeOut,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 140),
+        child: Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: AppColors.surfaceCard,
             borderRadius: BorderRadius.circular(AppRadius.card),
-            border: Border.all(
-              color: _pressed
-                  ? elementColor.withOpacity(0.35)
-                  : elementColor.withOpacity(0.18),
-            ),
-            boxShadow: _pressed
-                ? []
-                : [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.28),
-                      blurRadius: 14,
-                      offset: const Offset(0, 5),
-                    ),
-                    BoxShadow(
-                      color: elementColor.withOpacity(0.06),
-                      blurRadius: 20,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
+            border: Border.all(color: AppColors.cardBorder),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.18),
+                blurRadius: 16,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(AppRadius.card),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // ── Image area ──────────────────────────────────────
                 Expanded(
                   flex: 3,
                   child: Container(
@@ -79,105 +70,67 @@ class _ItemCardState extends State<ItemCard> {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        stops: const [0.0, 1.0],
                         colors: [
-                          elementColor.withOpacity(0.14),
-                          AppColors.surface,
+                          accent.withOpacity(0.18),
+                          accent.withOpacity(0.04),
                         ],
                       ),
                     ),
                     child: Stack(
                       children: [
-                        // Image / fallback icon
                         Center(
-                          child: widget.item.imageUrl.isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Image.network(
-                                    widget.item.imageUrl,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (_, _, _) => Icon(
-                                      isWeapon
-                                          ? Icons.gavel_rounded
-                                          : Icons.diamond_rounded,
-                                      size: 34,
-                                      color: elementColor.withOpacity(0.45),
+                          child: Hero(
+                            tag: 'item_image_${widget.item.id}',
+                            child: widget.item.imageUrl.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(14),
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.item.imageUrl,
+                                      fit: BoxFit.contain,
+                                      errorWidget: (_, _, _) => Icon(fallbackIcon,
+                                          size: 32, color: accent.withOpacity(0.4)),
+                                      placeholder: (_, _) => const SizedBox.shrink(),
                                     ),
-                                    loadingBuilder:
-                                        (context, child, progress) {
-                                      if (progress == null) return child;
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 1.5,
-                                            color: elementColor
-                                                .withOpacity(0.4),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                              : Icon(
-                                  isWeapon
-                                      ? Icons.gavel_rounded
-                                      : Icons.diamond_rounded,
-                                  size: 34,
-                                  color: elementColor.withOpacity(0.45),
-                                ),
+                                  )
+                                : Icon(fallbackIcon,
+                                    size: 32, color: accent.withOpacity(0.4)),
+                          ),
                         ),
-
-                        // badge element kiri atas
                         if (widget.elementType != null)
                           Positioned(
-                            top: 7,
-                            left: 7,
+                            top: 8,
+                            left: 8,
                             child: ElementBadge(
                               elementType: widget.elementType!,
                               compact: true,
                               showLabel: false,
                             ),
                           ),
-
-                        // stok badge kanan atas
                         Positioned(
-                          top: 7,
-                          right: 7,
+                          top: 8,
+                          right: 8,
                           child: _StockPill(stock: widget.item.stock),
                         ),
                       ],
                     ),
-                  )
-                      .animate(
-                        onPlay: (c) => c.repeat(),
-                      )
-                      .shimmer(
-                        duration: 1400.ms,
-                        color: elementColor.withOpacity(0.18),
-                        angle: 0.4,
-                      )
-                      .then(delay: 2600.ms),
+                  ),
                 ),
 
+                // ── Info area ───────────────────────────────────────
                 Expanded(
                   flex: 2,
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                    padding: const EdgeInsets.fromLTRB(11, 9, 11, 9),
                     decoration: BoxDecoration(
                       border: Border(
-                        top: BorderSide(
-                          color: elementColor.withOpacity(0.12),
-                        ),
+                        top: BorderSide(color: AppColors.cardBorder),
                       ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Name + type
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -189,7 +142,6 @@ class _ItemCardState extends State<ItemCard> {
                                 color: AppColors.textPrimary,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                letterSpacing: 0.1,
                                 height: 1.2,
                               ),
                               maxLines: 1,
@@ -201,28 +153,32 @@ class _ItemCardState extends State<ItemCard> {
                               style: TextStyle(
                                 color: AppColors.textMuted,
                                 fontSize: 10,
-                                letterSpacing: 0.3,
+                                letterSpacing: 0.2,
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
-
-                        // Price
                         Row(
                           children: [
-                            Icon(
-                              Icons.monetization_on_rounded,
-                              size: 12,
-                              color: AppColors.secondary.withOpacity(0.85),
+                            Image.asset(
+                              'assets/images/currency/Item_Mora.webp',
+                              width: 13,
+                              height: 13,
+                              errorBuilder: (_, _, _) => Icon(
+                                CupertinoIcons.money_dollar,
+                                size: 12,
+                                color: AppColors.secondary,
+                              ),
                             ),
-                            const SizedBox(width: 3),
+                            const SizedBox(width: 4),
                             Text(
                               _formatPrice(widget.item.price),
                               style: const TextStyle(
                                 color: AppColors.secondary,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
-                                letterSpacing: 0.2,
                               ),
                             ),
                           ],
@@ -256,21 +212,22 @@ class _StockPill extends StatelessWidget {
     final inStock = stock > 0;
     final color = inStock ? AppColors.success : AppColors.danger;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.14),
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: color.withOpacity(0.28)),
+        color: color.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: color.withOpacity(0.5)),
       ),
       child: Text(
         inStock ? '×$stock' : 'Sold',
         style: TextStyle(
           color: color,
           fontSize: 9,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w800,
           letterSpacing: 0.2,
         ),
       ),
     );
   }
 }
+

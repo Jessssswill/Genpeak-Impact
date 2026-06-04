@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 enum GlassTier {
-  subtle,    // blur 8 — cards, chips
-  standard,  // blur 14 — search bars, containers
-  prominent, // blur 22 — dialogs, overlays
+  subtle,    // blur 10 — cards, chips
+  standard,  // blur 18 — search bars, containers
+  prominent, // blur 28 — dialogs, overlays
 }
 
 class GlassmorphicContainer extends StatelessWidget {
@@ -35,18 +35,18 @@ class GlassmorphicContainer extends StatelessWidget {
 
     switch (tier) {
       case GlassTier.subtle:
-        blur = 8;
-        fillAlpha = 0.05;
+        blur = 10;
+        fillAlpha = 0.07;
         borderAlpha = 0.10;
         break;
       case GlassTier.standard:
-        blur = 14;
-        fillAlpha = 0.08;
+        blur = 18;
+        fillAlpha = 0.10;
         borderAlpha = 0.16;
         break;
       case GlassTier.prominent:
-        blur = 22;
-        fillAlpha = 0.12;
+        blur = 28;
+        fillAlpha = 0.14;
         borderAlpha = 0.22;
         break;
     }
@@ -58,7 +58,6 @@ class GlassmorphicContainer extends StatelessWidget {
       child: BackdropFilter(
         filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
-          padding: padding,
           decoration: BoxDecoration(
             color: tint.withOpacity(fillAlpha),
             borderRadius: BorderRadius.circular(borderRadius),
@@ -67,7 +66,33 @@ class GlassmorphicContainer extends StatelessWidget {
             ),
             boxShadow: boxShadow,
           ),
-          child: child,
+          child: Stack(
+            children: [
+              // Top edge highlight gradient for depth
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 1,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white.withOpacity(0.08),
+                        Colors.transparent,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: padding,
+                child: child,
+              ),
+            ],
+          ),
         ),
       ),
     );

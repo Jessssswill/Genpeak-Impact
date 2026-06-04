@@ -1,6 +1,4 @@
-import 'dart:math' show sin, cos, pi;
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../models/item_model.dart';
@@ -18,37 +16,18 @@ class InventoryDetailPage extends StatefulWidget {
   State<InventoryDetailPage> createState() => _InventoryDetailPageState();
 }
 
-class _InventoryDetailPageState extends State<InventoryDetailPage>
-    with TickerProviderStateMixin {
+class _InventoryDetailPageState extends State<InventoryDetailPage> {
   bool _upgrading = false;
   bool _reinforcing = false;
-  bool _showFlash = false;
-
-  // Increments on each successful upgrade; used as a ValueKey to re-trigger
-  // flutter_animate effects on the stat number.
-  int _upgradeKey = 0;
-
-  // Drives the sparkle + scale burst effect
-  late final AnimationController _burstCtrl;
 
   @override
   void initState() {
     super.initState();
-    _burstCtrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 950),
-    );
     // Always sync balance from server so the displayed Mora and upgrade
     // checks reflect the actual DB value, not a potentially stale local copy.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) context.read<AuthProvider>().loadPlayerStats();
     });
-  }
-
-  @override
-  void dispose() {
-    _burstCtrl.dispose();
-    super.dispose();
   }
 
   Future<void> _handleUpgrade() async {
@@ -77,13 +56,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
         // Sync equipped reference so effective stats (ATK/HP/CR/CD) update live
         if (auth.isEquipped(updatedItem)) auth.equipItem(updatedItem);
 
-        setState(() {
-          _upgrading = false;
-          _upgradeKey++;
-          _showFlash = true;
-        });
-
-        _burstCtrl.forward(from: 0);
+        setState(() => _upgrading = false);
       } else {
         // Sync real server balance — UI may have been showing a stale amount
         context.read<AuthProvider>().loadPlayerStats();
@@ -123,13 +96,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
         // Sync equipped reference so effective ATK updates live
         if (auth.isEquipped(updatedItem)) auth.equipItem(updatedItem);
 
-        setState(() {
-          _upgrading = false;
-          _upgradeKey++;
-          _showFlash = true;
-        });
-
-        _burstCtrl.forward(from: 0);
+        setState(() => _upgrading = false);
       } else {
         context.read<AuthProvider>().loadPlayerStats();
         setState(() => _upgrading = false);
@@ -203,72 +170,6 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
     }
   }
 
-  double _getImageScale() {
-    final t = _burstCtrl.value;
-    if (t <= 0.25) {
-      // 0→0.25: scale up
-      return 1.0 + Curves.easeOut.transform(t / 0.25) * 0.18;
-    } else {
-      // 0.25→1.0: spring back
-      return 1.18 - Curves.elasticOut.transform((t - 0.25) / 0.75) * 0.18;
-    }
-  }
-
-  List<BoxShadow> _getGlowShadow(Color color) {
-    if (_burstCtrl.value == 0) return [];
-    final t = _burstCtrl.value;
-    final intensity = sin(t * pi); // peaks at t=0.5 then fades
-    return [
-      BoxShadow(
-        color: AppColors.secondary.withOpacity(intensity * 0.55),
-        blurRadius: 28 * intensity,
-        spreadRadius: 8 * intensity,
-      ),
-      BoxShadow(
-        color: color.withOpacity(intensity * 0.25),
-        blurRadius: 48 * intensity,
-        spreadRadius: 4 * intensity,
-      ),
-    ];
-  }
-
-  List<Widget> _buildSparkles(Color color) {
-    final t = _burstCtrl.value;
-    const int num = 8;
-    const double cx = 100; // center of the 200×200 SizedBox
-    const double cy = 100;
-    const double dist = 88.0;
-
-    final posT = Curves.easeOut.transform((t / 0.5).clamp(0.0, 1.0));
-    final fadeAlpha =
-        (1.0 - Curves.easeIn.transform(((t - 0.3) / 0.7).clamp(0.0, 1.0)))
-            .clamp(0.0, 1.0);
-
-    if (fadeAlpha <= 0) return [];
-
-    return List.generate(num, (i) {
-      final angle = i * 2 * pi / num - pi / 2; // 0° = top
-      final x = cx + cos(angle) * dist * posT;
-      final y = cy + sin(angle) * dist * posT;
-      final isEven = i.isEven;
-      final sz = isEven ? 13.0 : 9.0;
-      return Positioned(
-        left: x - sz / 2,
-        top: y - sz / 2,
-        child: Opacity(
-          opacity: fadeAlpha,
-          child: Transform.rotate(
-            angle: angle,
-            child: Icon(
-              isEven ? Icons.star_rounded : Icons.auto_awesome_rounded,
-              color: isEven ? AppColors.secondary : color,
-              size: sz,
-            ),
-          ),
-        ),
-      );
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -316,62 +217,34 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: SizedBox(
-                            width: 200,
-                            height: 200,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                AnimatedBuilder(
-                                  animation: _burstCtrl,
-                                  builder: (ctx, child) => Transform.scale(
-                                    scale: _getImageScale(),
-                                    child: Container(
-                                      width: 150,
-                                      height: 150,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: elementColor.withOpacity(0.08),
-                                        boxShadow: _getGlowShadow(elementColor),
+                          child: Container(
+                            width: 150,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: elementColor.withOpacity(0.08),
+                            ),
+                            child: Hero(
+                              tag: 'item_image_${item.id}',
+                              child: item.imageUrl.isNotEmpty
+                                  ? Image.network(
+                                      item.imageUrl,
+                                      fit: BoxFit.contain,
+                                      errorBuilder: (_, _, _) => Icon(
+                                        isWeapon
+                                            ? Icons.gavel_rounded
+                                            : Icons.diamond_rounded,
+                                        size: 56,
+                                        color: elementColor.withOpacity(0.5),
                                       ),
-                                      child: item.imageUrl.isNotEmpty
-                                          ? Image.network(
-                                              item.imageUrl,
-                                              fit: BoxFit.contain,
-                                              errorBuilder: (_, _, _) => Icon(
-                                                isWeapon
-                                                    ? Icons.gavel_rounded
-                                                    : Icons.diamond_rounded,
-                                                size: 56,
-                                                color: elementColor
-                                                    .withOpacity(0.5),
-                                              ),
-                                            )
-                                          : Icon(
-                                              isWeapon
-                                                  ? Icons.gavel_rounded
-                                                  : Icons.diamond_rounded,
-                                              size: 56,
-                                              color: elementColor
-                                                  .withOpacity(0.5),
-                                            ),
+                                    )
+                                  : Icon(
+                                      isWeapon
+                                          ? Icons.gavel_rounded
+                                          : Icons.diamond_rounded,
+                                      size: 56,
+                                      color: elementColor.withOpacity(0.5),
                                     ),
-                                  ),
-                                ),
-
-                                // Sparkles overlay
-                                AnimatedBuilder(
-                                  animation: _burstCtrl,
-                                  builder: (ctx, _) {
-                                    if (_burstCtrl.value == 0) {
-                                      return const SizedBox.shrink();
-                                    }
-                                    return Stack(
-                                      children: _buildSparkles(elementColor),
-                                    );
-                                  },
-                                ),
-                              ],
                             ),
                           ),
                         ),
@@ -441,17 +314,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
                                             fontSize: 28,
                                             fontWeight: FontWeight.w700,
                                           ),
-                                        )
-                                            .animate(
-                                              key: ValueKey(
-                                                  '${item.mainStatValue}_$_upgradeKey'),
-                                            )
-                                            .shimmer(
-                                              delay: 150.ms,
-                                              duration: 700.ms,
-                                              color: AppColors.secondary
-                                                  .withOpacity(0.7),
-                                            ),
+                                        ),
                                       ],
                                     ),
                                     const Spacer(),
@@ -700,21 +563,6 @@ class _InventoryDetailPageState extends State<InventoryDetailPage>
             ),
           ),
 
-          if (_showFlash)
-            Positioned.fill(
-              child: IgnorePointer(
-                child: Container(
-                  color: AppColors.secondary.withOpacity(0.22),
-                )
-                    .animate(
-                      onComplete: (_) =>
-                          setState(() => _showFlash = false),
-                    )
-                    .fadeIn(duration: 60.ms)
-                    .then()
-                    .fadeOut(duration: 480.ms),
-              ),
-            ),
         ],
       ),
     );

@@ -125,23 +125,28 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
                               ),
                             ),
                             Container(
-                              width: 58, height: 58,
+                              width: 60, height: 60,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: AppColors.secondary.withOpacity(0.09 + 0.04 * t),
                                 border: Border.all(
-                                  color: AppColors.secondary.withOpacity(0.25 + 0.12 * t),
-                                  width: 1.5,
+                                  color: AppColors.secondary.withOpacity(0.35 + 0.15 * t),
+                                  width: 2,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.secondary.withOpacity(0.15 + 0.1 * t),
+                                    color: AppColors.secondary.withOpacity(0.18 + 0.1 * t),
                                     blurRadius: 16 + 10 * t,
                                     spreadRadius: 0,
                                   ),
                                 ],
                               ),
-                              child: const Icon(CupertinoIcons.person_add_solid, size: 24, color: AppColors.secondary),
+                              child: ClipOval(
+                                child: Image.asset(
+                                  'assets/images/paimon.jpg',
+                                  width: 60, height: 60,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                           ],
                         );

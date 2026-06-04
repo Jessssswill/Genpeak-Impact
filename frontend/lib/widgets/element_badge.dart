@@ -31,9 +31,9 @@ class ElementBadge extends StatelessWidget {
         vertical: compact ? 2 : AppSpacing.xs,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.15),
+        color: color.withOpacity(0.18),
         borderRadius: BorderRadius.circular(AppRadius.badge),
-        border: Border.all(color: color.withOpacity(0.3), width: 1),
+        border: Border.all(color: color.withOpacity(0.4), width: 1.2),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -52,7 +52,7 @@ class ElementBadge extends StatelessWidget {
               style: TextStyle(
                 color: color,
                 fontSize: compact ? 10 : 12,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 letterSpacing: 0.3,
               ),
             ),
@@ -90,7 +90,7 @@ class ElementFilterChip extends StatelessWidget {
           vertical: AppSpacing.sm,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.2) : AppColors.surface,
+          color: isSelected ? color.withOpacity(0.25) : AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadius.badge),
           border: Border.all(
             color: isSelected ? color : AppColors.divider,
@@ -99,9 +99,9 @@ class ElementFilterChip extends StatelessWidget {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: color.withOpacity(0.2),
-                    blurRadius: 8,
-                    spreadRadius: -2,
+                    color: color.withOpacity(0.3),
+                    blurRadius: 10,
+                    spreadRadius: -1,
                   ),
                 ]
               : null,
@@ -122,7 +122,7 @@ class ElementFilterChip extends StatelessWidget {
               style: TextStyle(
                 color: isSelected ? color : AppColors.textSecondary,
                 fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
               ),
             ),
           ],
