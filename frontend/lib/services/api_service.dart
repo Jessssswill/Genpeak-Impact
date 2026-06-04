@@ -35,20 +35,12 @@ class ApiService {
   // Android emulator uses 10.0.2.2 to reach host localhost
   // iOS simulator and desktop use localhost directly
   static String get baseUrl {
-    if (kIsWeb) return 'http://localhost:5000/api';
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:5000/api';
-    }
-    return 'http://localhost:5000/api';
+    return 'http://192.168.1.3:5000/api';
   }
 
   /// Image base URL (without /api)
   static String get imageBaseUrl {
-    if (kIsWeb) return 'http://localhost:5000';
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:5000';
-    }
-    return 'http://localhost:5000';
+    return 'http://192.168.1.3:5000';
   }
 
   /// Normalizes image URLs from backend for current runtime.
