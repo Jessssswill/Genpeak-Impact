@@ -35,12 +35,12 @@ class ApiService {
   // Android emulator uses 10.0.2.2 to reach host localhost
   // iOS simulator and desktop use localhost directly
   static String get baseUrl {
-    return 'http://192.168.1.3:5000/api';
+    return 'https://genpeak-impact.vercel.app/api';
   }
 
   /// Image base URL (without /api)
   static String get imageBaseUrl {
-    return 'http://192.168.1.3:5000';
+    return 'https://genpeak-impact.vercel.app';
   }
 
   /// Normalizes image URLs from backend for current runtime.
