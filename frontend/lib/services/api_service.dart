@@ -96,6 +96,7 @@ class ApiService {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Bypass-Tunnel-Reminder': 'true',
+      'User-Agent': 'GenPeakImpact/1.0',
     };
     if (auth) {
       final token = await _getToken();
