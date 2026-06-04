@@ -1,4 +1,10 @@
 {
+  "builds": [
+    {
+      "src": "src/index.ts",
+      "use": "@vercel/node"
+    }
+  ],
   "rewrites": [
     {
       "source": "/images/(.*)",
@@ -6,7 +12,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/api/index.ts"
+      "destination": "/src/index.ts"
     }
   ]
 }
